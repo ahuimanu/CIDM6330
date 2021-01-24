@@ -1,5 +1,7 @@
 import unittest
 
+# pylance needs extra care to see modules within any project (annoying)
+# read here: https://askpythonquestions.com/2020/11/10/import-my_module-could-not-be-resolvedpylance-reportmissingimports-but-still-works-well/
 from product import Product
 
 """
