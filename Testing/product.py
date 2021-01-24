@@ -15,6 +15,9 @@ class Product:
         self.size = size
         self.color = color
 
+    def __str__(self) -> str:
+        return f"name: {self.name} size:{self.size} color:{self.color}"
+
     def transform_name_for_sku(self):
         return self.name.upper()
 
