@@ -9,7 +9,6 @@ class Product:
     A SKU is a unique, internal ID used by companies
     for pricing and inventory that often uses an all-uppercase format.
     """
-
     def __init__(self, name, size, color):
         self.name = name
         self.size = size

@@ -22,11 +22,14 @@ class ProductTestCase(unittest.TestCase):
         pass
 
     def test_transform_name_for_sku(self):
+        """
+        Test that the name transformation works
+        """
         #arrange
         small_black_shoes = Product('shoes', 'S', 'black')
         expected_value = 'SHOES'
         #act
         actual_value = small_black_shoes.transform_name_for_sku()
         #assert
-        self.assertEqual(expected_value, actual_value)    
+        self.assertEqual(expected_value, actual_value)
 

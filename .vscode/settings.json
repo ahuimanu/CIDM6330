@@ -10,5 +10,5 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.pythonPath": "C:\\Users\\jeff\\miniconda3\\envs\\cidm6330\\python.exe",
-    "python.analysis.extraPaths": ["./Testing", "/APP"]
+    "python.analysis.extraPaths": ["./Testing", "./APP"]
 }
