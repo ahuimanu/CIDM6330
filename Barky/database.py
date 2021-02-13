@@ -54,7 +54,7 @@ class DatabaseManager:
         '''
         columns_with_types = [
             f'{column_name} {data_type}'
-            for column_name, data_type in columns.items #this loop reads all column information
+            for column_name, data_type in columns.items() #this loop reads all column information
         ]
 
         self._execute(
