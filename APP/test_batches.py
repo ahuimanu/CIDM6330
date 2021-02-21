@@ -19,7 +19,6 @@ def make_batch_and_line(sku, batch_qty, line_qty):
         OrderLine("order-123", sku, line_qty)
     )
 
-
 def test_can_allocate_if_available_greater_than_required():
     large_batch, small_line = make_batch_and_line("ELEGANT-LAMP", 20, 2)
     assert large_batch.can_allocate(small_line)
