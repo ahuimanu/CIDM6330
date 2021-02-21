@@ -21,6 +21,10 @@ def allocate(line: OrderLine, batches: List[Batch]) -> str:
 
 @dataclass(frozen=True)
 class OrderLine:
+    """
+    Data classes are both type hinted/annotated and resemble classic struct datatypes
+    https://docs.python.org/3/library/dataclasses.html
+    """
     orderid: str
     sku: str
     qty: int
@@ -62,6 +66,7 @@ class Batch:
         if line in self._allocations:
             self._allocations.remove(line)
 
+    # python properties: https://docs.python.org/3.9/library/functions.html#property
     @property
     def allocated_quantity(self) -> int:
         return sum(line.qty for line in self._allocations)

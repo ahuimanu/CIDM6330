@@ -50,3 +50,20 @@ Then, test dicsovery is [pretty automagic](https://docs.pytest.org/en/stable/con
 `python -m pytest` 
 
 in your project directory.  Of course, [there's much more to using pytest](https://docs.pytest.org/en/stable/contents.html), but that is a good basic start.
+
+Key files at this stage:
+
+* tests for allocate and batches
+* domain model classes/functions
+
+## Chapter 2 - Repository Pattern
+
+This chapter introduces the use of SQLAlchemy and the basics of a [Repository Pattern](https://codewithshadman.com/repository-pattern-csharp/) using Python.
+
+Things to install:
+* [sqlalchemy](https://docs.sqlalchemy.org/en/13/): `pip install sqlalchemy`
+
+In this chapter, these modules provide a persistence mechanic and an abstraction layer in the form of an [O/RM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping):
+* orm
+* repository
+
