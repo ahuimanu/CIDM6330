@@ -33,3 +33,20 @@ Equally useful is to bear the language of the domain in mind. The "Some Notes on
 > * We have a batch of 10 BLUE-VASE, and we allocate an order line for 2 BLUE-VASE. 
 > * If we allocate the order line again to the same batch, the batch should still have an available quantity of 8. 
 > Batches have an ETA if they are currently shipping, or they may be in warehouse stock. We allocate to warehouse stock in preference to shipment batches. We allocate to shipment batches in order of which has the earliest ETA.
+
+### Running tests with Pytest
+
+Perhaps because the book's focus is on architecture, and because [the authors offer the book for free](https://www.cosmicpython.com/book/preface.html), the book doesn't discuss much detail about actually running the tests beyond a few assumptions:
+
+* You are using Docker containers (I'd rather not)
+* You are using a virtual environment (Yes, we are) and will run the tests manually (Yes, we will)
+
+Or, it is assumed that you have read Harry Percival's first book, [which is also free](https://www.obeythetestinggoat.com/pages/book.html#toc), and focuses more on the mechanics of testing.
+
+Regardless, you'll want to ensure that you include [`pytest`](https://pypi.org/project/pytest/) in your virtual environment.
+
+Then, test dicsovery is [pretty automagic](https://docs.pytest.org/en/stable/contents.html), and essentially requires that you run:
+
+`pytest` 
+
+in your project directory.  Of course, [there's much more to using pytest](https://docs.pytest.org/en/stable/contents.html), but that is a good basic start.
