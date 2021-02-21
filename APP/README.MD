@@ -47,6 +47,6 @@ Regardless, you'll want to ensure that you include [`pytest`](https://pypi.org/p
 
 Then, test dicsovery is [pretty automagic](https://docs.pytest.org/en/stable/contents.html), and essentially requires that you run:
 
-`pytest` 
+`python -m pytest` 
 
 in your project directory.  Of course, [there's much more to using pytest](https://docs.pytest.org/en/stable/contents.html), but that is a good basic start.
