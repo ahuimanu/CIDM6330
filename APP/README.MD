@@ -67,3 +67,8 @@ In this chapter, these modules provide a persistence mechanic and an abstraction
 * orm
 * repository
 
+### Test Orientation
+
+Everything is tested, so there are two new test modules:
+* test_orm
+* test_repository
