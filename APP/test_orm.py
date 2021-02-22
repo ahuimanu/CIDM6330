@@ -1,7 +1,10 @@
 from datetime import date
 
+import pytest
+
 import model
 
+# @pytest.mark.skip(reason="disabled for repository pattern tests")
 def test_orderline_mapper_can_load_lines(session):
     session.execute(
         'INSERT INTO order_lines (orderid, sku, qty) VALUES '
@@ -19,6 +22,7 @@ def test_orderline_mapper_can_load_lines(session):
     session = None
 
 
+# @pytest.mark.skip(reason="disabled for repository pattern tests")
 def test_orderline_mapper_can_save_lines(session):
     new_line = model.OrderLine("order1", "DECORATIVE-WIDGET", 12)
     session.add(new_line)
@@ -30,6 +34,7 @@ def test_orderline_mapper_can_save_lines(session):
     session = None    
 
 
+# @pytest.mark.skip(reason="disabled for repository pattern tests")
 def test_retrieving_batches(session):
     session.execute(
         'INSERT INTO batches (reference, sku, _purchased_quantity, eta)'
@@ -49,6 +54,7 @@ def test_retrieving_batches(session):
     session = None    
 
 
+# @pytest.mark.skip(reason="disabled for repository pattern tests")
 def test_saving_batches(session):
     batch = model.Batch('batch1', 'sku1', 100, eta=None)
     session.add(batch)
@@ -61,6 +67,7 @@ def test_saving_batches(session):
     session = None
 
 
+# @pytest.mark.skip(reason="disabled for repository pattern tests")
 def test_saving_allocations(session):
     batch = model.Batch('batch1', 'sku1', 100, eta=None)
     line = model.OrderLine('order1', 'sku1', 10)
@@ -72,7 +79,7 @@ def test_saving_allocations(session):
     session.close()    
     session = None    
 
-
+# @pytest.mark.skip(reason="disabled for repository pattern tests")
 def test_retrieving_allocations(session):
     session.execute(
         'INSERT INTO order_lines (orderid, sku, qty) VALUES ("order1", "sku1", 12)'
