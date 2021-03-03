@@ -7,7 +7,7 @@ from orm import metadata, start_mappers
 
 
 # @pytest.fixture(scope='session')
-@pytest.fixture()
+@pytest.fixture
 def the_db():
     # engine = create_engine('sqlite+pysqlite:///test.db', echo=True)
     engine = create_engine('sqlite+pysqlite:///:memory:', echo=True)

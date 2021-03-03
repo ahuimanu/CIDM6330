@@ -24,6 +24,8 @@ import sqlite3
 
 class DatabaseManager:
     def __init__(self, database_filename) -> None:
+        # added this to persist the name of the database file
+        self.database_filename = database_filename
         self.connection = sqlite3.connect(database_filename)
     
     def __del__(self):
@@ -61,6 +63,19 @@ class DatabaseManager:
             f'''
             CREATE TABLE IF NOT EXISTS {table_name}
             ({','.join(columns_with_types)});
+            '''
+        )
+
+    def drop_table(self, table_name):
+        '''
+        The method drops a table:
+        1. Accept two arguments: the name of the table to create, and a dictionary of column names mapped to their data types and constraints
+        2. Construct a DROP TABLE SQL statement like the one shown earlier
+        3. Execute the statement using DatabaseManager._execute
+        '''
+        self._execute(
+            f'''
+            DROP TABLE {table_name};
             '''
         )
 
