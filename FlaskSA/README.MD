@@ -74,3 +74,45 @@ FLASK_APP=hello.py
 from dotenv import load_dotenv
 load_dotenv()
 ```
+
+# Full-Spectrum Features of Flask
+
+Flask will do quite a bit for you if your needs entail the use of the HTTP protocol.  That said, here are the things we'll focus on:
+
+1. [Routing and URLs](https://flask.palletsprojects.com/en/1.1.x/quickstart/#routing)
+2. [Responding to HTTP Methods](https://flask.palletsprojects.com/en/1.1.x/quickstart/#http-methods)
+3. [Providing data serliazed as JSON in our HTTP responses](https://flask.palletsprojects.com/en/1.1.x/quickstart/#about-responses)
+
+## Routing and URLs
+
+Everything about utilizing HTTP comes down to addressing, routing and responses to requests.
+
+Commonly, many of these facilities can be seen in this example from the documentation:
+
+```python
+from flask import Flask, url_for
+from markupsafe import escape
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'index'
+
+@app.route('/login')
+def login():
+    return 'login'
+
+@app.route('/user/<username>')
+def profile(username):
+    return '{}\'s profile'.format(escape(username))
+```
+
+## HTTP Methods
+
+As with most Web Frameworks, you are provided an object that encapsulates both the [HTTP request](https://flask.palletsprojects.com/en/1.1.x/quickstart/#the-request-object) and [HTTP response](https://flask.palletsprojects.com/en/1.1.x/quickstart/#about-responses).  The lexicon of the requests and responses are codified as [HTTP Methods (or "verbs")](https://flask.palletsprojects.com/en/1.1.x/quickstart/#http-methods).
+
+# Flask Tutorial
+
+The best way to proceed would be to complete the [Flask tutorial](https://flask.palletsprojects.com/en/1.1.x/tutorial/).
+
