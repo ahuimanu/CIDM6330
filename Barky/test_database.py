@@ -18,6 +18,7 @@ def database_manager() -> DatabaseManager:
     """
     filename = "test_bookmarks.db"
     dbm = DatabaseManager(filename)
+    # what is yield? https://www.guru99.com/python-yield-return-generator.html
     yield dbm
     dbm.__del__()           # explicitly release the database manager
     os.remove(filename)
@@ -45,6 +46,7 @@ def test_database_manager_create_table(database_manager):
     assert cursor.fetchone()[0] == 1
 
     #cleanup
+    # this is probably not really needed
     database_manager.drop_table("bookmarks")
 
 
