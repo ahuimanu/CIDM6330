@@ -116,3 +116,8 @@ As with most Web Frameworks, you are provided an object that encapsulates both t
 
 The best way to proceed would be to complete the [Flask tutorial](https://flask.palletsprojects.com/en/1.1.x/tutorial/).
 
+# Flask-SQLAlchemy Extension
+
+We will also use Flask along with SQLAlchemy for our O/RM.
+
+The [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) Extension will be our tool.
