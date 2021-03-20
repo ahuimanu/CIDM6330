@@ -19,10 +19,10 @@ class AbstractBookMarkAPI(ABC):
 
     @abstractmethod    
     def delete(bookmark):
-        pass
+        raise NotImplementedError("Derived classes must implement many")
 
     @abstractmethod    
     def update(bookmark):
-        pass
+        raise NotImplementedError("Derived classes must implement many")
 
 
