@@ -39,3 +39,15 @@ CREATE TABLE IF NOT EXISTS bookmarks
 );
 ```
 
+## Barky Refactored
+
+Dane Hillard's code focused on a command-line interface, but we will refactor that code, in a new branch, to do the following:
+
+1. Replace the custom data handling (the DatabaseManager module) with the [SQLAlchemy O/RM](https://www.sqlalchemy.org/)
+    1. Replace the existing
+    1. Complete the implicit and explicit promises of the existing API
+2. Replace the CLI as the exclusive interface in favor of a web-based REST API
+3. Improve architecture:
+    1. SOLID
+    2. Repository Pattern and Unit of Work (understand how SQLAlchemy is really doing this)
+    3. Dependency injection

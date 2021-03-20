@@ -2,8 +2,9 @@
 This module utilizes the command pattern - https://en.wikipedia.org/wiki/Command_pattern - to 
 specify and implement the business logic layer
 """
-from datetime import datetime
 import sys
+from abc import ABC, abstractmethod
+from datetime import datetime
 
 import requests
 
@@ -13,12 +14,18 @@ from database import DatabaseManager
 db = DatabaseManager("bookmarks.db")
 
 
-class CreateBookmarksTableCommand:
+class Command(ABC):
+    @abstractmethod
+    def execute(self, data):
+        raise NotImplementedError("A command must implement the execute method")
+
+
+class CreateBookmarksTableCommand(Command):
     """
     uses the DatabaseManager to create the bookmarks table
     """
 
-    def execute(self):
+    def execute(self, data=None):
         db.create_table(
             "bookmarks",
             {
@@ -31,7 +38,7 @@ class CreateBookmarksTableCommand:
         )
 
 
-class AddBookmarkCommand:
+class AddBookmarkCommand(Command):
     """
     This class will:
 
@@ -47,7 +54,7 @@ class AddBookmarkCommand:
         return "Bookmark added!"
 
 
-class ListBookmarksCommand:
+class ListBookmarksCommand(Command):
     """
     We need to review the bookmarks in the database.
     To do so, this class will:
@@ -59,11 +66,11 @@ class ListBookmarksCommand:
     def __init__(self, order_by="date_added"):
         self.order_by = order_by
 
-    def execute(self):
+    def execute(self, data=None):
         return db.select("bookmarks", order_by=self.order_by).fetchall()
 
 
-class DeleteBookmarkCommand:
+class DeleteBookmarkCommand(Command):
     """
     We also need to remove bookmarks.
     """
@@ -73,7 +80,7 @@ class DeleteBookmarkCommand:
         return "Bookmark deleted!"
 
 
-class ImportGitHubStarsCommand:
+class ImportGitHubStarsCommand(Command):
     """
     Import starred repos in Github - credit Dane Hillard
     """
@@ -115,7 +122,7 @@ class ImportGitHubStarsCommand:
         return f"Imported {bookmarks_imported} bookmarks from starred repos!"
 
 
-class EditBookmarkCommand:
+class EditBookmarkCommand(Command):
     def execute(self, data):
         db.update(
             "bookmarks",
@@ -125,6 +132,6 @@ class EditBookmarkCommand:
         return "Bookmark updated!"
 
 
-class QuitCommand:
-    def execute(self):
+class QuitCommand(Command):
+    def execute(self, data=None):
         sys.exit()
