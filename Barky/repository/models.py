@@ -27,7 +27,7 @@ class BookmarkModel(Base):
     __tablename__ = 'bookmarks'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String)
-    url = Column(String)
-    notes = Column(String)
+    title = Column(String(255))
+    url = Column(String(255))
+    notes = Column(String(255))
     date_added = Column(Date)

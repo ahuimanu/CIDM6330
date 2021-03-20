@@ -2,27 +2,27 @@ from abc import ABC, abstractmethod
 
 class AbstractBookMarkAPI(ABC):
     @abstractmethod
-    def one(id):
+    def one(self, id):
         raise NotImplementedError("Derived classes must implement one")
 
     @abstractmethod
-    def first(filter):
+    def first(self, filter, value):
         raise NotImplementedError("Derived classes must implement one")
     
     @abstractmethod    
-    def many(filter, sort):
+    def many(self, filter, value, sort):
         raise NotImplementedError("Derived classes must implement many")
     
     @abstractmethod    
-    def add(bookmark):
+    def add(self, bookmark):
         raise NotImplementedError("Derived classes must implement many")
 
     @abstractmethod    
-    def delete(bookmark):
+    def delete(self, bookmark):
         raise NotImplementedError("Derived classes must implement many")
 
     @abstractmethod    
-    def update(bookmark):
+    def update(self, bookmark):
         raise NotImplementedError("Derived classes must implement many")
 
 
