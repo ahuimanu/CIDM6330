@@ -29,11 +29,12 @@ class FlaskBookmarkAPI(AbstractBookMarkAPI):
     def all(self):
         return f'all records'
 
-    def first(self, filter, value):
+    @app.route('/api/first/<property>/<value>/<sort>')
+    def first(self, filter, value, sort):
         return f'the first '
         pass
     
-    def many(filter, sort):
+    def many(self, filter, value, sort):
         pass
     
     def add(bookmark):

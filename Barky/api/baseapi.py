@@ -6,11 +6,11 @@ class AbstractBookMarkAPI(ABC):
         raise NotImplementedError("Derived classes must implement one")
 
     @abstractmethod
-    def first(self, filter, value):
+    def first(self, property, value):
         raise NotImplementedError("Derived classes must implement one")
     
     @abstractmethod    
-    def many(self, filter, value, sort):
+    def many(self, property, value, sort):
         raise NotImplementedError("Derived classes must implement many")
     
     @abstractmethod    

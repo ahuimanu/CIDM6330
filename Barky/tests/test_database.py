@@ -9,7 +9,7 @@ import sqlite3
 import pytest
 
 
-from database import DatabaseManager
+from services.database import DatabaseManager
 
 @pytest.fixture
 def database_manager() -> DatabaseManager:
