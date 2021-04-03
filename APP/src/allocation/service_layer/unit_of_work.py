@@ -38,7 +38,10 @@ class AbstractUnitOfWork(abc.ABC):
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
-        config.get_postgres_uri(),
+        #substituting POSTGRES with the in-memory sqlite
+        #config.get_postgres_uri(),
+        'sqlite+pysqlite:///:memory:',
+        echo=True,
         isolation_level="REPEATABLE READ",
     )
 )

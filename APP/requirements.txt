@@ -1,3 +1,4 @@
+-e git+https://github.com/ahuimanu/cidm6330.git@c42b6f20dee0733e45643e90d9a59dd5aa064a59#egg=allocation&subdirectory=app\src
 appdirs==1.4.4
 atomicwrites==1.4.0
 attrs==20.3.0
@@ -19,6 +20,7 @@ pathspec==0.8.1
 pep517==0.10.0
 pip-tools==6.0.1
 pluggy==0.13.1
+psycopg2==2.8.6
 py==1.10.0
 pyparsing==2.4.7
 pytest==6.2.2
