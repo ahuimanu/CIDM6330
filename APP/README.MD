@@ -72,3 +72,34 @@ In this chapter, these modules provide a persistence mechanic and an abstraction
 Everything is tested, so there are two new test modules:
 * test_orm
 * test_repository
+
+# End-of-Book Refactor
+
+By the end of the book, the code reflects the following diagram:
+
+![Allocation and APP Appendix A](https://i.imgur.com/wHKRxGf.jpg)
+
+This involves a transition towards the following:
+
+* a full set of tests:
+    * end-to-end (e2e)
+    * integration 
+    * unit
+* Domain Layer
+    * entities and models
+    * aggregates
+    * events
+    * commands
+* Service Layer
+    * Event and Command Handlers
+    * Unit Of Work
+    * internal message bus
+* Adapters (concrete implementations of interfaces/ABCs)
+    * Repository (for CRUD)
+    * Event Publisher
+* API
+    * Entry Points (Flask)
+    * Event consumer
+    * External Message Bus (Redis)
+
+That is quite a journey.
