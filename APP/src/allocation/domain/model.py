@@ -2,38 +2,51 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 from typing import Optional, List, Set
+from . import commands, events
 
 
-class OutOfStock(Exception):
-    pass
+class Product:
+    def __init__(self, sku: str, batches: List[Batch], version_number: int = 0):
+        self.sku = sku
+        self.batches = batches
+        self.version_number = version_number
+        self.events = []  # type: List[events.Event]
 
+    def allocate(self, line: OrderLine) -> str:
+        try:
+            batch = next(b for b in sorted(self.batches) if b.can_allocate(line))
+            batch.allocate(line)
+            self.version_number += 1
+            self.events.append(
+                events.Allocated(
+                    orderid=line.orderid,
+                    sku=line.sku,
+                    qty=line.qty,
+                    batchref=batch.reference,
+                )
+            )
+            return batch.reference
+        except StopIteration:
+            self.events.append(events.OutOfStock(line.sku))
+            return None
 
-def allocate(line: OrderLine, batches: List[Batch]) -> str:
-    try:
-        batch = next(
-            b for b in sorted(batches) if b.can_allocate(line)
-        )
-        batch.allocate(line)
-        return batch.reference
-    except StopIteration:
-        raise OutOfStock(f'Out of stock for sku {line.sku}')
+    def change_batch_quantity(self, ref: str, qty: int):
+        batch = next(b for b in self.batches if b.reference == ref)
+        batch._purchased_quantity = qty
+        while batch.available_quantity < 0:
+            line = batch.deallocate_one()
+            self.events.append(events.Deallocated(line.orderid, line.sku, line.qty))
 
 
 @dataclass(unsafe_hash=True)
 class OrderLine:
-    """
-    Data classes are both type hinted/annotated and resemble classic struct datatypes
-    https://docs.python.org/3/library/dataclasses.html
-    """
     orderid: str
     sku: str
     qty: int
 
 
 class Batch:
-    def __init__(
-        self, ref: str, sku: str, qty: int, eta: Optional[date]
-    ):
+    def __init__(self, ref: str, sku: str, qty: int, eta: Optional[date]):
         self.reference = ref
         self.sku = sku
         self.eta = eta
@@ -41,7 +54,7 @@ class Batch:
         self._allocations = set()  # type: Set[OrderLine]
 
     def __repr__(self):
-        return f'<Batch {self.reference}>'
+        return f"<Batch {self.reference}>"
 
     def __eq__(self, other):
         if not isinstance(other, Batch):
@@ -62,11 +75,9 @@ class Batch:
         if self.can_allocate(line):
             self._allocations.add(line)
 
-    def deallocate(self, line: OrderLine):
-        if line in self._allocations:
-            self._allocations.remove(line)
+    def deallocate_one(self) -> OrderLine:
+        return self._allocations.pop()
 
-    # python properties: https://docs.python.org/3.9/library/functions.html#property
     @property
     def allocated_quantity(self) -> int:
         return sum(line.qty for line in self._allocations)
