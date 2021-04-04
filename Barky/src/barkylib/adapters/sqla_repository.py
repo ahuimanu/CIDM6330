@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from .base_repository import BaseRepository
-from .models import Base, BookmarkModel
+from ..domain.models import Base, Bookmark
 
 class SqlAlchemyRepository(BaseRepository):
     """
@@ -31,12 +31,12 @@ class SqlAlchemyRepository(BaseRepository):
         # the session is used for all transactions
         self.Session = sessionmaker(bind=self.engine)
 
-    def add_one(self, bookmark: BookmarkModel) -> int:
+    def add_one(self, bookmark: Bookmark) -> int:
         self.Session.add(bookmark)
         self.Session.commit()
         pass
 
-    def add_many(self, bookmarks: list[BookmarkModel]) -> int:
+    def add_many(self, bookmarks: list[Bookmark]) -> int:
         self.Session.add(bookmarks)
         pass
 
@@ -52,8 +52,8 @@ class SqlAlchemyRepository(BaseRepository):
     def update_many(self, bookmarks) -> int:
         pass
 
-    def find_first(self, query) -> BookmarkModel:
+    def find_first(self, query) -> Bookmark:
         pass
 
-    def find_all(self, query) -> list[BookmarkModel]:
+    def find_all(self, query) -> list[Bookmark]:
         pass

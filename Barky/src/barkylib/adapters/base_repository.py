@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from .models import BookmarkModel
+from ..domain.models import Bookmark
 
 class BaseRepository(ABC):
 
@@ -30,10 +30,10 @@ class BaseRepository(ABC):
         raise NotImplementedError("Derived classes must implement update_many")
 
     @abstractmethod
-    def find_first(query) -> BookmarkModel:
+    def find_first(query) -> Bookmark:
         raise NotImplementedError("Derived classes must implement find_first")
 
     @abstractmethod
-    def find_all(query) -> list[BookmarkModel]:
+    def find_all(query) -> list[Bookmark]:
         raise NotImplementedError("Derived classes must implement find_all")
 
