@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from .base_repository import BaseRepository
 from .models import Base, BookmarkModel
 
-class SQLARespository(BaseRepository):
+class SqlAlchemyRepository(BaseRepository):
     """
     Uses guidance from the basic SQLAlchemy 1.3 tutorial: https://docs.sqlalchemy.org/en/13/orm/tutorial.html
     """
