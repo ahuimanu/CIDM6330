@@ -3,15 +3,17 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-class DomainBookmark:
+
+class Bookmark:
     """
     Pure domain bookmark:
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     url TEXT NOT NULL,
     notes TEXT,
-    date_added TEXT NOT NULL    
+    date_added TEXT NOT NULL
     """
+
     def __init__(self, id, title, url, notes, date_added) -> None:
         self.id = id
         self.title = title
@@ -24,7 +26,8 @@ class BookmarkModel(Base):
     """
     Declarative SQLA model
     """
-    __tablename__ = 'bookmarks'
+
+    __tablename__ = "bookmarks"
 
     id = Column(Integer, primary_key=True)
     title = Column(String(255))
