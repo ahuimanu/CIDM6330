@@ -1,4 +1,5 @@
 from __future__ import annotations
+from abc import ABC
 import abc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -6,12 +7,11 @@ from sqlalchemy.orm.session import Session
 
 
 from barkylib import config
-from barkylib.adapters import sqla_repository
-from allocation.adapters import repository
+from barkylib.adapters import repository
 
 
-class AbstractUnitOfWork(abc.ABC):
-    products: repository.AbstractRepository
+class AbstractUnitOfWork(ABC):
+    bookmarks: repository.AbstractRepository
 
     def __enter__(self) -> AbstractUnitOfWork:
         return self
@@ -38,7 +38,7 @@ class AbstractUnitOfWork(abc.ABC):
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
-        config.get_postgres_uri(),
+        config.get_sqlite_file_url(),
         isolation_level="REPEATABLE READ",
     )
 )

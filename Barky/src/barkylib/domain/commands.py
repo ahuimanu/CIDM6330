@@ -33,7 +33,7 @@ class AddBookmarkCommand(Command):
     # data["date_added"] = datetime.utcnow().isoformat()
     date_added: str
     date_edited: str
-    bookmark_notes: Optional[str] = None
+    notes: Optional[str] = None
 
 
 @dataclass
@@ -55,4 +55,4 @@ class EditBookmarkCommand(Command):
     # data["date_added"] = datetime.utcnow().isoformat()
     date_added: str
     date_edited: str
-    bookmark_notes: Optional[str] = None
+    notes: Optional[str] = None

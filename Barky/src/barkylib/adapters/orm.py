@@ -32,7 +32,7 @@ bookmarks = Table(
     "bookmarks",
     metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("title", String(255)),
+    Column("title", String(255), unique=True),
     Column("url", String(255)),
     Column("notes", Text),
     Column("date_added", DateTime),

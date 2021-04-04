@@ -1,7 +1,11 @@
-from flask import Flask
+from datetime import datetime
+from flask import Flask, jsonify, request
+from barkylib.domain import commands
+from barkylib import bootstrap
+
 from flask_sqlalchemy import SQLAlchemy
 
-from repository.sqla_repository import *
+from barkylib.adapters.repository import *
 from . baseapi import AbstractBookMarkAPI
 
 # init from dotenv file
@@ -9,6 +13,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bookmarks.db'
+# db = SQLAlchemy(app)
+bus = bootstrap.bootstrap()
 
 class FlaskBookmarkAPI(AbstractBookMarkAPI):
     """

@@ -3,6 +3,9 @@ from dataclasses import asdict
 from typing import List, Dict, Callable, Type, TYPE_CHECKING
 
 from barkylib.domain import commands, events, models
+from src.barkylib.domain.commands import EditBookmarkCommand
+
+from src.barkylib.domain.events import BookmarkEdited
 
 
 if TYPE_CHECKING:
@@ -14,102 +17,55 @@ def add_bookmark(
     uow: unit_of_work.AbstractUnitOfWork,
 ):
     with uow:
-        product = uow.products.get(sku=cmd.sku)
-        if product is None:
-            product = model.Product(cmd.sku, batches=[])
-            uow.products.add(product)
-        product.batches.append(model.Batch(cmd.ref, cmd.sku, cmd.qty, cmd.eta))
+        # look to see if we already have this bookmark as the title is set as unique
+        bookmark = uow.bookmarks.get(title=cmd.title)
+        if bookmark is None:
+            bookmark = models.Bookmark(
+                cmd.title, cmd.url, cmd.date_added, cmd.date_edited, cmd.notes
+            )
+            uow.bookmarks.add(bookmark)
         uow.commit()
 
-
-def allocate(
-    cmd: commands.Allocate,
+# ListBookmarksCommand: order_by: str order: str
+def list_bookmarks(
+    cmd: commands.ListBookmarksCommand,
     uow: unit_of_work.AbstractUnitOfWork,
 ):
-    line = OrderLine(cmd.orderid, cmd.sku, cmd.qty)
+    bookmarks = None
     with uow:
-        product = uow.products.get(sku=line.sku)
-        if product is None:
-            raise InvalidSku(f"Invalid sku {line.sku}")
-        product.allocate(line)
-        uow.commit()
+        bookmarks = uow.bookmarks.all()
+        
+    return bookmarks
 
 
-def reallocate(
-    event: events.Deallocated,
-    uow: unit_of_work.AbstractUnitOfWork,
-):
-    allocate(commands.Allocate(**asdict(event)), uow=uow)
-
-
-def change_batch_quantity(
-    cmd: commands.ChangeBatchQuantity,
+# DeleteBookmarkCommand: id: int
+def delete_bookmark(
+    cmd: commands.DeleteBookmarkCommand,
     uow: unit_of_work.AbstractUnitOfWork,
 ):
     with uow:
-        product = uow.products.get_by_batchref(batchref=cmd.ref)
-        product.change_batch_quantity(ref=cmd.ref, qty=cmd.qty)
-        uow.commit()
+        pass
 
 
-# pylint: disable=unused-argument
-
-
-def send_out_of_stock_notification(
-    event: events.OutOfStock,
-    notifications: notifications.AbstractNotifications,
-):
-    notifications.send(
-        "stock@made.com",
-        f"Out of stock for {event.sku}",
-    )
-
-
-def publish_allocated_event(
-    event: events.Allocated,
-    publish: Callable,
-):
-    publish("line_allocated", event)
-
-
-def add_allocation_to_read_model(
-    event: events.Allocated,
-    uow: unit_of_work.SqlAlchemyUnitOfWork,
+# EditBookmarkCommand(Command):
+def edit_bookmark(
+    cmd: commands.EditBookmarkCommand,
+    uow: unit_of_work.AbstractUnitOfWork,
 ):
     with uow:
-        uow.session.execute(
-            """
-            INSERT INTO allocations_view (orderid, sku, batchref)
-            VALUES (:orderid, :sku, :batchref)
-            """,
-            dict(orderid=event.orderid, sku=event.sku, batchref=event.batchref),
-        )
-        uow.commit()
-
-
-def remove_allocation_from_read_model(
-    event: events.Deallocated,
-    uow: unit_of_work.SqlAlchemyUnitOfWork,
-):
-    with uow:
-        uow.session.execute(
-            """
-            DELETE FROM allocations_view
-            WHERE orderid = :orderid AND sku = :sku
-            """,
-            dict(orderid=event.orderid, sku=event.sku),
-        )
-        uow.commit()
+        pass
 
 
 EVENT_HANDLERS = {
-    events.Allocated: [publish_allocated_event, add_allocation_to_read_model],
-    events.Deallocated: [remove_allocation_from_read_model, reallocate],
-    events.OutOfStock: [send_out_of_stock_notification],
+    events.BookmarkAdded: [add_bookmark],
+    events.BookmarksListed: [list_bookmarks],
+    events.BookmarkDeleted: [delete_bookmark],
+    events.BookmarkEdited: [edit_bookmark],
 }  # type: Dict[Type[events.Event], List[Callable]]
 
 COMMAND_HANDLERS = {
-    commands.Allocate: allocate,
-    commands.CreateBatch: add_batch,
-    commands.ChangeBatchQuantity: change_batch_quantity,
+    commands.AddBookmarkCommand: add_bookmark,
+    commands.ListBookmarksCommand: list_bookmarks,
+    commands.DeleteBookmarkCommand: delete_bookmark,
+    commands.EditBookmarkCommand: edit_bookmark,
 }  # type: Dict[Type[commands.Command], Callable]

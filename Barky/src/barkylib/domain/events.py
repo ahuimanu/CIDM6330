@@ -43,6 +43,6 @@ class BookmarkDeleted(Event):
     bookmark: Bookmark
 
 
-@dataclass
-class BookmarksDelted(Event):
-    bookmarks: list[Bookmark]
+# @dataclass
+# class BookmarksDeleted(Event):
+#     bookmarks: list[Bookmark]
