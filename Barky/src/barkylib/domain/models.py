@@ -12,6 +12,7 @@ class Bookmark:
     url TEXT NOT NULL,
     notes TEXT,
     date_added TEXT NOT NULL
+    date_edited TEXT NOT NULL
     """
 
     def __init__(self, id, title, url, notes, date_added) -> None:

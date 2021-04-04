@@ -1,11 +1,48 @@
+from abc import ABC, abstractmethod
+
 # making use of type hints: https://docs.python.org/3/library/typing.html
 from typing import List
+
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from .base_repository import BaseRepository
-from ..domain.models import Base, Bookmark
+from barkylib.domain.models import Base, Bookmark
+
+
+class BaseRepository(ABC):
+    @abstractmethod
+    def add_one(bookmark) -> int:
+        raise NotImplementedError("Derived classes must implement add_one")
+
+    @abstractmethod
+    def add_many(bookmarks) -> int:
+        raise NotImplementedError("Derived classes must implement add_many")
+
+    @abstractmethod
+    def delete_one(bookmark) -> int:
+        raise NotImplementedError("Derived classes must implement delete_one")
+
+    @abstractmethod
+    def delete_many(bookmarks) -> int:
+        raise NotImplementedError("Derived classes must implement delete_many")
+
+    @abstractmethod
+    def update(bookmark) -> int:
+        raise NotImplementedError("Derived classes must implement update")
+
+    @abstractmethod
+    def update_many(bookmarks) -> int:
+        raise NotImplementedError("Derived classes must implement update_many")
+
+    @abstractmethod
+    def find_first(query) -> Bookmark:
+        raise NotImplementedError("Derived classes must implement find_first")
+
+    @abstractmethod
+    def find_all(query) -> list[Bookmark]:
+        raise NotImplementedError("Derived classes must implement find_all")
+
 
 class SqlAlchemyRepository(BaseRepository):
     """
@@ -22,7 +59,7 @@ class SqlAlchemyRepository(BaseRepository):
             self.engine = create_engine(url)
         else:
             # let's default to in-memory for now
-            self.engine = create_engine('sqlite:///:memory:', echo=True)
+            self.engine = create_engine("sqlite:///:memory:", echo=True)
 
         # ensure tables are there
         Base.metadata.create_all(self.engine)
