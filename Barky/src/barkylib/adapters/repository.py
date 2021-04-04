@@ -1,50 +1,75 @@
 from abc import ABC, abstractmethod
 
 # making use of type hints: https://docs.python.org/3/library/typing.html
-from typing import List
+from typing import List, Set
 
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
+from barkylib.adapters import orm
 from barkylib.domain.models import Base, Bookmark
 
 
-class BaseRepository(ABC):
-    @abstractmethod
-    def add_one(bookmark) -> int:
-        raise NotImplementedError("Derived classes must implement add_one")
+class AbstractRepository(ABC):
+    def __init__(self):
+        self.seen = set()
+
+    def add(self, bookmark: Bookmark):
+        self._add(bookmark)
+
+    def get(self, title: str):
+        bookmark = self._get(title)
+
+        if bookmark:
+            self.seen.add(bookmark)
+
+        return bookmark
 
     @abstractmethod
-    def add_many(bookmarks) -> int:
-        raise NotImplementedError("Derived classes must implement add_many")
+    def _add(self, bookmark: Bookmark):
+        raise NotImplementedError
 
     @abstractmethod
-    def delete_one(bookmark) -> int:
-        raise NotImplementedError("Derived classes must implement delete_one")
+    def _get(self, title) -> Bookmark:
+        raise NotImplementedError
 
     @abstractmethod
-    def delete_many(bookmarks) -> int:
-        raise NotImplementedError("Derived classes must implement delete_many")
+    def _edit(self, bookmark: Bookmark):
+        found = self.get(bookmark.title)
+        if found:
+            pass
 
-    @abstractmethod
-    def update(bookmark) -> int:
-        raise NotImplementedError("Derived classes must implement update")
+    # @abstractmethod
+    # def add_one(bookmark) -> int:
+    #     raise NotImplementedError("Derived classes must implement add_one")
 
-    @abstractmethod
-    def update_many(bookmarks) -> int:
-        raise NotImplementedError("Derived classes must implement update_many")
+    # @abstractmethod
+    # def add_many(bookmarks) -> int:
+    #     raise NotImplementedError("Derived classes must implement add_many")
 
-    @abstractmethod
-    def find_first(query) -> Bookmark:
-        raise NotImplementedError("Derived classes must implement find_first")
+    # @abstractmethod
+    # def delete_one(bookmark) -> int:
+    #     raise NotImplementedError("Derived classes must implement delete_one")
 
-    @abstractmethod
-    def find_all(query) -> list[Bookmark]:
-        raise NotImplementedError("Derived classes must implement find_all")
+    # @abstractmethod
+    # def delete_many(bookmarks) -> int:
+    #     raise NotImplementedError("Derived classes must implement delete_many")
+
+    # @abstractmethod
+    # def update(bookmark) -> int:
+    #     raise NotImplementedError("Derived classes must implement update")
+
+    # @abstractmethod
+    # def update_many(bookmarks) -> int:
+    #     raise NotImplementedError("Derived classes must implement update_many")
+
+    # @abstractmethod
+    # def find_first(query) -> Bookmark:
+    #     raise NotImplementedError("Derived classes must implement find_first")
+
+    # @abstractmethod
+    # def find_all(query) -> list[Bookmark]:
+    #     raise NotImplementedError("Derived classes must implement find_all")
 
 
-class SqlAlchemyRepository(BaseRepository):
+class SqlAlchemyRepository(AbstractRepository):
     """
     Uses guidance from the basic SQLAlchemy 1.3 tutorial: https://docs.sqlalchemy.org/en/13/orm/tutorial.html
     """

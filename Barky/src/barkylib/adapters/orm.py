@@ -7,10 +7,11 @@ from sqlalchemy import (
     Integer,
     String,
     DateTime,
+    Text,
     event,
 )
 
-from sqlalchemy.orm import mapper, relationship
+from sqlalchemy.orm import mapper
 
 from ..domain.models import Bookmark
 
@@ -40,6 +41,6 @@ bookmarks = Table(
 )
 
 
-def start_mapper():
+def start_mappers():
     logger.info("string mappers")
     bookmarks_mapper = mapper(Bookmark, bookmarks)

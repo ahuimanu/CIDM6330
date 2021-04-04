@@ -11,4 +11,3 @@ def test_api_can_connect():
 def test_api_index():
     res = requests.get(LOCALHOST)
     assert res != None
-
