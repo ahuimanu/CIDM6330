@@ -15,13 +15,13 @@ class Bookmark:
     date_edited TEXT NOT NULL
     """
 
-    def __init__(self, id, title, url, notes, date_added, date_edited) -> None:
+    def __init__(self, id, title, url, notes, date_added) -> None:
         self.id = id
         self.title = title
         self.url = url
         self.notes = notes
         self.date_added = date_added
-        self.date_edited = date_edited
+        self.date_edited = self.date_added
 
 
 # class BookmarkModel(Base):

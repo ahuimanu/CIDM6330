@@ -12,10 +12,9 @@ def test_bookmark_title_is_unique():
 def test_new_bookmark_added_and_edited_times_are_the_same():
     # arrange
     created = datetime.now().isoformat()
-    edited = created
     
     # act
-    bookmark = Bookmark(0, "test", "http://www.example/com", None, created, edited)
+    bookmark = Bookmark(0, "test", "http://www.example/com", None, created)
 
     # assert
     assert bookmark.date_added == bookmark.date_edited
@@ -26,7 +25,7 @@ def test_new_bookmark_url_is_well_formed():
     edited = created
     
     # act
-    bookmark = Bookmark(0, "test", "http://www.example/com", None, created, edited)
+    bookmark = Bookmark(0, "test", "http://www.example/com", None, created)
     # list comprehensions - https://www.w3schools.com/python/python_lists_comprehension.asp
     okay = [prefix for prefix in ok_urls if bookmark.url.startswith(prefix) ]
     # any function - https://www.w3schools.com/python/ref_func_any.asp
@@ -38,7 +37,7 @@ def test_that_edit_time_is_newer_than_created_time():
     edited = created
     
     # act
-    bookmark = Bookmark(0, "test", "http://www.example/com", None, created, edited)
+    bookmark = Bookmark(0, "test", "http://www.example/com", None, created)
 
     bookmark.notes = "Lorem Ipsum"
     hours_addition = random.randrange(1,10)
