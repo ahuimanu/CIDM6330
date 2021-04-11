@@ -3,14 +3,9 @@ from dataclasses import asdict
 from typing import List, Dict, Callable, Type, TYPE_CHECKING
 
 from barkylib.domain import commands, events, models
-from src.barkylib.domain.commands import EditBookmarkCommand
-
-from src.barkylib.domain.events import BookmarkEdited
-
 
 if TYPE_CHECKING:
     from . import unit_of_work
-
 
 def add_bookmark(
     cmd: commands.AddBookmarkCommand,
@@ -18,10 +13,11 @@ def add_bookmark(
 ):
     with uow:
         # look to see if we already have this bookmark as the title is set as unique
-        bookmark = uow.bookmarks.get(title=cmd.title)
-        if bookmark is None:
+        bookmarks = uow.bookmarks.get_by_title(value=cmd.title)
+        # checks to see if the list is empty
+        if not bookmarks:
             bookmark = models.Bookmark(
-                cmd.title, cmd.url, cmd.date_added, cmd.date_edited, cmd.notes
+                cmd.id, cmd.title, cmd.url, cmd.notes, cmd.date_added, cmd.date_edited, 
             )
             uow.bookmarks.add(bookmark)
         uow.commit()

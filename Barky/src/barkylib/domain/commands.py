@@ -10,11 +10,6 @@ from typing import Optional
 
 import requests
 
-# from database import DatabaseManager
-
-# module scope
-# db = DatabaseManager("bookmarks.db")
-
 
 class Command(ABC):
     pass
@@ -26,7 +21,6 @@ class AddBookmarkCommand(Command):
     This command is a dataclass that encapsulates a bookmark
     This uses type hints: https://docs.python.org/3/library/typing.html
     """
-
     id: int
     title: str
     url: str

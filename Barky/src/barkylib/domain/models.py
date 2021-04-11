@@ -14,12 +14,13 @@ date_added TEXT NOT NULL
 date_edited TEXT NOT NULL
 """
 
-
-@dataclass
 class Bookmark:
-    id: int
-    title: str
-    url: str
-    notes: str
-    date_added: datetime
-    date_edited: datetime
+
+    def __init__(self, id: int, title: str, url: str, notes: str, date_added: datetime, date_edited: datetime):
+        self.id = id
+        self.title = title
+        self.url = url
+        self.notes = notes
+        self.date_added = date_added
+        self.date_edited = date_edited
+        self.events = []

@@ -5,43 +5,81 @@ from datetime import datetime
 from typing import List, Set
 
 from barkylib.adapters import orm
-from barkylib.domain.models import Base, Bookmark
+from barkylib.domain.models import Bookmark
 
 
 class AbstractBookmarkRepository(ABC):
     def __init__(self):
-        self.bookmarks: list[Bookmark] = list()
+        # seen is in reference to events detected
+        self.seen = set()
+
+    def add(self, bookmark: Bookmark) -> None:
+        # add to repo
+        self._add(bookmark)
+        # add to event list
+        self.seen.add(bookmark)
+
+    def get_all(self) -> list[Bookmark]:
+        bookmarks: list[Bookmark] = self._get_all()
+        if bookmarks:
+            self.seen.update(bookmarks)
+        return bookmarks
+
+    def get_by_id(self, value: int) -> Bookmark:
+        # get from repo
+        bookmark: Bookmark = self._get_by_id(value)
+        if bookmark:
+            self.seen.add(bookmark)
+        return bookmark        
+
+    def get_by_title(self, value: str) -> Bookmark:
+        # get from repo
+        bookmark: Bookmark = self._get_by_title(value)
+        if bookmark:
+            self.seen.add(bookmark)
+        return bookmark
+
+    def get_by_url(self, value: str) -> Bookmark:
+        # get from repo
+        bookmark: Bookmark = self._get_by_url(value)
+        if bookmark:
+            self.seen.add(bookmark)
+        return bookmark
 
     @abstractmethod
-    def add(self, bookmark: Bookmark) -> None:
+    def _add(self, bookmark: Bookmark) -> None:
         raise NotImplementedError("Derived classes must implement add_one")
 
     @abstractmethod
-    def add_all(self, bookmarks: list[Bookmark]) -> None:
+    def _add_all(self, bookmarks: list[Bookmark]) -> None:
         raise NotImplementedError("Derived classes must implement add_all")
 
     @abstractmethod
-    def delete(bookmark: Bookmark) -> None:
+    def _delete(bookmark: Bookmark) -> None:
         raise NotImplementedError("Derived classes must implement delete")
 
     @abstractmethod
-    def get_by_id(self, value: int) -> list[Bookmark]:
+    def _get_all(self) -> list[Bookmark]:
+        raise NotImplementedError("Derived classes must implement get_all")
+
+    @abstractmethod
+    def _get_by_id(self, value: int) -> Bookmark:
         raise NotImplementedError("Derived classes must implement get")
 
     @abstractmethod
-    def get_by_title(self, value: str) -> list[Bookmark]:
+    def _get_by_title(self, value: str) -> Bookmark:
         raise NotImplementedError("Derived classes must implement get")
 
     @abstractmethod
-    def get_by_url(self, value: str) -> list[Bookmark]:
+    def _get_by_url(self, value: str) -> Bookmark:
         raise NotImplementedError("Derived classes must implement get")
 
     @abstractmethod
-    def update(self, bookmark: Bookmark) -> None:
+    def _update(self, bookmark: Bookmark) -> None:
         raise NotImplementedError("Derived classes must implement update")
 
     @abstractmethod
-    def update(self, bookmarks: list[Bookmark]) -> None:
+    def _update(self, bookmarks: list[Bookmark]) -> None:
         raise NotImplementedError("Derived classes must implement update")
 
 
@@ -54,33 +92,36 @@ class SqlAlchemyBookmarkRepository(AbstractBookmarkRepository):
         super().__init__()
         self.session = session
 
-    def add(self, bookmark: Bookmark) -> None:
+    def _add(self, bookmark: Bookmark) -> None:
         self.session.add(bookmark)
-        self.session.commit()
+        # self.session.commit()
 
-    def add_all(self, bookmarks: list[Bookmark]) -> None:
+    def _add_all(self, bookmarks: list[Bookmark]) -> None:
         self.session.add_all(bookmarks)
-        self.session.commit()
+        # self.session.commit()
 
-    def delete(self, bookmark: Bookmark) -> None:
+    def _delete(self, bookmark: Bookmark) -> None:
         pass
 
-    def get_by_id(self, value: int) -> list[Bookmark]:
+    def _get_all(self) -> list[Bookmark]:
+        return self.session.query(Bookmark).all()
+
+    def _get_by_id(self, value: int) -> Bookmark:
         answer = self.session.query(Bookmark).filter(Bookmark.id == value)
-        return answer.all()
+        return answer.one()
 
-    def get_by_title(self, value: str) -> list[Bookmark]:
+    def _get_by_title(self, value: str) -> Bookmark:
         answer = self.session.query(Bookmark).filter(Bookmark.title == value)
-        return answer.all()
+        return answer.one()
 
-    def get_by_url(self, value: str) -> list[Bookmark]:
+    def _get_by_url(self, value: str) -> Bookmark:
         answer = self.session.query(Bookmark).filter(Bookmark.url == value)
-        return answer.all()
+        return answer.one()
 
-    def update(self, bookmark) -> None:
+    def _update(self, bookmark) -> None:
         pass
 
-    def update(self, bookmarks: list[Bookmark]) -> None:
+    def _update(self, bookmarks: list[Bookmark]) -> None:
         pass
 
 
@@ -91,27 +132,31 @@ class FakeBookmarkRepository(AbstractBookmarkRepository):
 
     def __init__(self, bookmarks):
         super().__init__()
-        self._bookmarks: list[Bookmark] = list()
+        self._bookmarks = set(bookmarks)
 
-    def add(self, bookmark: Bookmark) -> None:
-        self._bookmarks.append(bookmark)
+    def _add(self, bookmark) -> None:
+        self._bookmarks.add(bookmark)
 
-    def add_all(self, bookmarks: list[Bookmark]) -> None:
-        self._bookmarks.extend(bookmarks)
+    def _add_all(self, bookmarks: list[Bookmark]) -> None:
+        self._bookmarks.update(bookmarks)
 
-    def delete(self, bookmark: Bookmark) -> None:
+    def _delete(self, bookmark: Bookmark) -> None:
         self._bookmarks.remove(bookmark)
 
-    def get_by_id(self, value: int) -> list[Bookmark]:
-        return [b for b in self._bookmarks if b.id == value]
+    def _get_all(self) -> list[Bookmark]:
+        return self._bookmarks
 
-    def get_by_title(self, value: str) -> list[Bookmark]:
-        return [b for b in self._bookmarks if b.title == value]
+    # python next function: https://www.w3schools.com/python/ref_func_next.asp
+    def _get_by_id(self, value: int) -> Bookmark:
+        return next((b for b in self._bookmarks if b.id == value), None)
 
-    def get_by_url(self, value: str) -> list[Bookmark]:
-        return [b for b in self._bookmarks if b.title == value]
+    def _get_by_title(self, value: str) -> Bookmark:
+        return next((b for b in self._bookmarks if b.title == value), None)
 
-    def update(self, bookmark: Bookmark) -> None:
+    def _get_by_url(self, value: str) -> list[Bookmark]:
+        return next((b for b in self._bookmarks if b.url == value), None)
+
+    def _update(self, bookmark: Bookmark) -> None:
         try:
             idx = self._bookmarks.index(bookmark)
             bm = self._bookmarks[idx]
@@ -128,6 +173,6 @@ class FakeBookmarkRepository(AbstractBookmarkRepository):
 
         return None
 
-    def update(self, bookmarks: list[Bookmark]) -> None:
+    def _update(self, bookmarks: list[Bookmark]) -> None:
         for inbm in bookmarks:
-            self.update(inbm)
+            self._update(inbm)
