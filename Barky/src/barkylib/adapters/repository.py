@@ -7,105 +7,52 @@ from barkylib.adapters import orm
 from barkylib.domain.models import Base, Bookmark
 
 
-class AbstractRepository(ABC):
+class AbstractBookmarkRepository(ABC):
     def __init__(self):
-        self.seen = set()
-
-    def add(self, bookmark: Bookmark):
-        self._add(bookmark)
-
-    def get(self, title: str):
-        bookmark = self._get(title)
-
-        if bookmark:
-            self.seen.add(bookmark)
-
-        return bookmark
+        self.bookmarks = set()
 
     @abstractmethod
-    def _add(self, bookmark: Bookmark):
-        raise NotImplementedError
+    def add_one(self, bookmark: Bookmark) -> None:
+        raise NotImplementedError("Derived classes must implement add_one")
 
     @abstractmethod
-    def _get(self, title) -> Bookmark:
-        raise NotImplementedError
+    def add_all(self, bookmarks: list[Bookmark]) -> None:
+        raise NotImplementedError("Derived classes must implement add_all")
 
     @abstractmethod
-    def _edit(self, bookmark: Bookmark):
-        found = self.get(bookmark.title)
-        if found:
-            pass
+    def delete(bookmark: Bookmark) -> None:
+        raise NotImplementedError("Derived classes must implement delete")
 
-    # @abstractmethod
-    # def add_one(bookmark) -> int:
-    #     raise NotImplementedError("Derived classes must implement add_one")
+    @abstractmethod
+    def get(bookmark: Bookmark, query) -> list[Bookmark]:
+        raise NotImplementedError("Derived classes must implement get")
 
-    # @abstractmethod
-    # def add_many(bookmarks) -> int:
-    #     raise NotImplementedError("Derived classes must implement add_many")
-
-    # @abstractmethod
-    # def delete_one(bookmark) -> int:
-    #     raise NotImplementedError("Derived classes must implement delete_one")
-
-    # @abstractmethod
-    # def delete_many(bookmarks) -> int:
-    #     raise NotImplementedError("Derived classes must implement delete_many")
-
-    # @abstractmethod
-    # def update(bookmark) -> int:
-    #     raise NotImplementedError("Derived classes must implement update")
-
-    # @abstractmethod
-    # def update_many(bookmarks) -> int:
-    #     raise NotImplementedError("Derived classes must implement update_many")
-
-    # @abstractmethod
-    # def find_first(query) -> Bookmark:
-    #     raise NotImplementedError("Derived classes must implement find_first")
-
-    # @abstractmethod
-    # def find_all(query) -> list[Bookmark]:
-    #     raise NotImplementedError("Derived classes must implement find_all")
+    @abstractmethod
+    def update(bookmark: Bookmark) -> None:
+        raise NotImplementedError("Derived classes must implement update")
 
 
-class SqlAlchemyRepository(AbstractRepository):
+class SqlAlchemyBookmarkRepository(AbstractBookmarkRepository):
     """
     Uses guidance from the basic SQLAlchemy 1.3 tutorial: https://docs.sqlalchemy.org/en/13/orm/tutorial.html
     """
 
-    def __init__(self, url=None) -> None:
+    def __init__(self, session) -> None:
         super().__init__()
+        self.session = session
 
-        self.engine = None
+    def add_one(self, bookmark: Bookmark) -> None:
+        self.session.add(bookmark)
+        self.session.commit()
 
-        # create db connection
-        if url != None:
-            self.engine = create_engine(url)
-        else:
-            # let's default to in-memory for now
-            self.engine = create_engine("sqlite:///:memory:", echo=True)
+    def add_all(self, bookmarks: list[Bookmark]) -> None:
+        self.session.add_all(bookmarks)
+        self.session.commit()
 
-        # ensure tables are there
-        Base.metadata.create_all(self.engine)
-
-        # obtain session
-        # the session is used for all transactions
-        self.Session = sessionmaker(bind=self.engine)
-
-    def add_one(self, bookmark: Bookmark) -> int:
-        self.Session.add(bookmark)
-        self.Session.commit()
+    def delete(self, bookmark: Bookmark) -> None:
         pass
 
-    def add_many(self, bookmarks: list[Bookmark]) -> int:
-        self.Session.add(bookmarks)
-        pass
-
-    def delete_one(self, bookmark) -> int:
-        pass
-
-    def delete_many(self, bookmarks) -> int:
+    def get(self, bookmark: Bookmark, query) -> list[Bookmark]:
         pass
 
     def update(self, bookmark) -> int:
@@ -114,8 +61,8 @@ class SqlAlchemyRepository(AbstractRepository):
     def update_many(self, bookmarks) -> int:
         pass
 
-    def find_first(self, query) -> Bookmark:
-        pass
 
-    def find_all(self, query) -> list[Bookmark]:
-        pass
+class FakeBookmarkRepository(AbstractBookmarkRepository):
+    def __init__(self, bookmarks):
+        super().__init__()
+        self._bookmarks = set(bookmarks)

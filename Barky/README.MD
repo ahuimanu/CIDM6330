@@ -25,7 +25,7 @@ At a basic level, the architecture is designed with a layered strategy to includ
 
 We will take a bare bones approach and connect directly to a sqlite database.
 
-The [DB Browser for SQLite](https://sqlitebrowser.org/) tool will be useful to inspect the data and manage the database file.
+The [DB Browser for SQLite](https://sqlitebrowser.org/) tool will be useful to inspect the data and manage the database file.  [SQLiteStudio](https://sqlitestudio.pl/features/) is another alternative that would accomplish the same thing.
 
 The initial database wil consist of a table called `bookmarks`:
 
@@ -53,3 +53,7 @@ Dane Hillard's code focused on a command-line interface, but we will refactor th
    1. SOLID
    2. Repository Pattern and Unit of Work (understand how SQLAlchemy is really doing this)
    3. Dependency injection
+
+# SQLAlchemy 1.3.x to 1.4.x
+
+Some things about SQLAlchemy have changed, making the APP code somewhat different.  This repohas been refactored to use 1.4.x.
