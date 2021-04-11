@@ -25,15 +25,15 @@ class AbstractBookmarkRepository(ABC):
         raise NotImplementedError("Derived classes must implement delete")
 
     @abstractmethod
-    def get_by_id(self, bookmark: Bookmark, query: int) -> list[Bookmark]:
+    def get_by_id(self, value: int) -> list[Bookmark]:
         raise NotImplementedError("Derived classes must implement get")
 
     @abstractmethod
-    def get_by_title(self, bookmark: Bookmark, query: str) -> list[Bookmark]:
+    def get_by_title(self, value: str) -> list[Bookmark]:
         raise NotImplementedError("Derived classes must implement get")
 
     @abstractmethod
-    def get_by_url(self, bookmark: Bookmark, query: str) -> list[Bookmark]:
+    def get_by_url(self, value: str) -> list[Bookmark]:
         raise NotImplementedError("Derived classes must implement get")
 
     @abstractmethod
@@ -65,14 +65,17 @@ class SqlAlchemyBookmarkRepository(AbstractBookmarkRepository):
     def delete(self, bookmark: Bookmark) -> None:
         pass
 
-    def get_by_id(self, bookmark: Bookmark, query: int) -> list[Bookmark]:
-        pass
+    def get_by_id(self, value: int) -> list[Bookmark]:
+        answer = self.session.query(Bookmark).filter(Bookmark.id == value)
+        return answer.all()
 
-    def get_by_title(self, bookmark: Bookmark, query: str) -> list[Bookmark]:
-        pass
+    def get_by_title(self, value: str) -> list[Bookmark]:
+        answer = self.session.query(Bookmark).filter(Bookmark.title == value)
+        return answer.all()
 
-    def get_by_url(self, bookmark: Bookmark, query: str) -> list[Bookmark]:
-        pass
+    def get_by_url(self, value: str) -> list[Bookmark]:
+        answer = self.session.query(Bookmark).filter(Bookmark.url == value)
+        return answer.all()
 
     def update(self, bookmark) -> None:
         pass
@@ -83,7 +86,7 @@ class SqlAlchemyBookmarkRepository(AbstractBookmarkRepository):
 
 class FakeBookmarkRepository(AbstractBookmarkRepository):
     """
-    Uses a Python set to store the "fake" bookmarks: https://www.w3schools.com/python/python_sets.asp
+    Uses a Python list to store "fake" bookmarks: https://www.w3schools.com/python/python_lists.asp
     """
 
     def __init__(self, bookmarks):
@@ -99,14 +102,14 @@ class FakeBookmarkRepository(AbstractBookmarkRepository):
     def delete(self, bookmark: Bookmark) -> None:
         self._bookmarks.remove(bookmark)
 
-    def get_by_id(self, bookmark: Bookmark, query: int) -> list[Bookmark]:
-        return [b for b in self._bookmarks if b.id == query]
+    def get_by_id(self, value: int) -> list[Bookmark]:
+        return [b for b in self._bookmarks if b.id == value]
 
-    def get_by_title(self, bookmark: Bookmark, query: str) -> list[Bookmark]:
-        return [b for b in self._bookmarks if b.title == query]
+    def get_by_title(self, value: str) -> list[Bookmark]:
+        return [b for b in self._bookmarks if b.title == value]
 
-    def get_by_url(self, bookmark: Bookmark, query: str) -> list[Bookmark]:
-        return [b for b in self._bookmarks if b.title == query]
+    def get_by_url(self, value: str) -> list[Bookmark]:
+        return [b for b in self._bookmarks if b.title == value]
 
     def update(self, bookmark: Bookmark) -> None:
         try:
