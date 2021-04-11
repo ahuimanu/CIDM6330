@@ -10,7 +10,7 @@ from barkylib.adapters import repository
 
 
 class AbstractUnitOfWork(ABC):
-    bookmarks: repository.AbstractRepository
+    bookmarks: repository.AbstractBookmarkRepository
 
     def __enter__(self) -> AbstractUnitOfWork:
         return self
@@ -49,7 +49,7 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
 
     def __enter__(self):
         self.session = self.session_factory()  # type: Session
-        self.bookmarks = repository.SqlAlchemyRepository(self.session)
+        self.bookmarks = repository.SqlAlchemyBookmarkRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):

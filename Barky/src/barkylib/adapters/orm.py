@@ -39,8 +39,8 @@ bookmarks = Table(
     Column("title", String(255), unique=True),
     Column("url", String(255)),
     Column("notes", Text),
-    Column("date_added", DateTime),
-    Column("date_edited", DateTime),
+    Column("date_added", Text),
+    Column("date_edited", Text),
 )
 
 
