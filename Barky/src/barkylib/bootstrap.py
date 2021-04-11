@@ -18,11 +18,10 @@ def bootstrap(
         orm.start_mappers()
 
     # dependencies = {"uow": uow, "notifications": notifications, "publish": publish}
-    dependencies = {"uow": uow }    
+    dependencies = {"uow": uow}
     injected_event_handlers = {
         event_type: [
-            inject_dependencies(handler, dependencies)
-            for handler in event_handlers
+            inject_dependencies(handler, dependencies) for handler in event_handlers
         ]
         for event_type, event_handlers in handlers.EVENT_HANDLERS.items()
     }
@@ -41,8 +40,6 @@ def bootstrap(
 def inject_dependencies(handler, dependencies):
     params = inspect.signature(handler).parameters
     deps = {
-        name: dependency
-        for name, dependency in dependencies.items()
-        if name in params
+        name: dependency for name, dependency in dependencies.items() if name in params
     }
     return lambda message: handler(message, **deps)

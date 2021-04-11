@@ -4,10 +4,6 @@ from barkylib.domain import commands
 from barkylib.api import views
 from barkylib import bootstrap
 
-# init from dotenv file
-from dotenv import load_dotenv
-load_dotenv()
-
 app = Flask(__name__)
 bus = bootstrap.bootstrap()
 
