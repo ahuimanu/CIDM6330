@@ -1,6 +1,6 @@
 import inspect
 from typing import Callable
-from barkylib.adapters import orm
+from barkylib.adapters.orm import start_mappers, metadata
 from barkylib.services import handlers, messagebus, unit_of_work
 
 
@@ -15,7 +15,7 @@ def bootstrap(
     #     notifications = EmailNotifications()
 
     if start_orm:
-        orm.start_mappers()
+        start_mappers()
 
     # dependencies = {"uow": uow, "notifications": notifications, "publish": publish}
     dependencies = {"uow": uow}

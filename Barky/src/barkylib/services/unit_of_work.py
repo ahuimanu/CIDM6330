@@ -37,8 +37,8 @@ class AbstractUnitOfWork(ABC):
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
-        config.get_sqlite_file_url(),
-        isolation_level="REPEATABLE READ",
+        config.get_sqlite_memory_uri(),
+        isolation_level="SERIALIZABLE",
     )
 )
 

@@ -2,7 +2,7 @@ import os
 
 
 def get_sqlite_memory_uri():
-    pass
+    return f"sqlite:///:memory:"
 
 
 def get_sqlite_file_url():
@@ -19,7 +19,7 @@ def get_postgres_uri():
 
 def get_api_url():
     host = os.environ.get("API_HOST", "localhost")
-    port = 5005 if host == "localhost" else 80
+    port = 5000 if host == "localhost" else 80
     return f"http://{host}:{port}"
 
 

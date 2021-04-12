@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from .api_client import post_to_add_bookmark, get_bookmark_by_title
 import pytest
 
-@pytest.mark.usefixtures("file_sqlite_db")
+
 @pytest.mark.usefixtures("restart_api")
 def test_path_correct_returns_202_and_bookmark_added():
 
@@ -30,7 +30,7 @@ def test_path_correct_returns_202_and_bookmark_added():
     ]
 
 
-@pytest.mark.usefixtures("file_sqlite_db")
+
 @pytest.mark.usefixtures("restart_api")
 def test_incorrect_path_returns_400_and_error_message():
 

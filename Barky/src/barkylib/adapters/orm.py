@@ -15,10 +15,12 @@ from sqlalchemy import (
     event,
 )
 
-from sqlalchemy.orm import registry
+from sqlalchemy.orm import registry, mapper, relationship
+
 from barkylib.domain.models import Bookmark
 
 mapper_registry = registry()
+Base = mapper_registry.generate_base()
 
 logger = logging.getLogger(__name__)
 metadata = MetaData()
@@ -43,7 +45,9 @@ bookmarks = Table(
     Column("date_edited", Text),
 )
 
-
 def start_mappers():
+    
     logger.info("starting mappers")
-    mapper_registry.map_imperatively(Bookmark, bookmarks)
+    # mapper_registry.map_imperatively(Bookmark, bookmarks)
+    mapper(Bookmark, bookmarks)
+

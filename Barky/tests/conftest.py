@@ -24,15 +24,8 @@ def in_memory_sqlite_db():
 
 
 @pytest.fixture
-def file_sqlite_db():
-    engine = create_engine(f"sqlite:///bookmarks.db")
-    metadata.create_all(engine)
-    return engine
-
-
-@pytest.fixture
-def sqlite_session_factory(file_sqlite_db):
-    yield sessionmaker(bind=file_sqlite_db)
+def sqlite_session_factory(in_memory_sqlite_db):
+    yield sessionmaker(bind=in_memory_sqlite_db)
 
 
 @pytest.fixture
