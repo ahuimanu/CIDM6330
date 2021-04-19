@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from typing import List, Optional
 
+# from .events import Event
+
 
 """
 Pure domain bookmark:
@@ -17,10 +19,10 @@ date_edited TEXT NOT NULL
 class Bookmark:
 
     def __init__(self, id: int, title: str, url: str, notes: str, date_added: datetime, date_edited: datetime):
-        self.id = id
-        self.title = title
-        self.url = url
-        self.notes = notes
-        self.date_added = date_added
-        self.date_edited = date_edited
+        self.id : int = id
+        self.title : str = title
+        self.url : str = url
+        self.notes : str = notes
+        self.date_added : str = date_added
+        self.date_edited : str = date_edited
         self.events = []

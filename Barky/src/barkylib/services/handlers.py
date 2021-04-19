@@ -17,14 +17,20 @@ def add_bookmark(
 
         # look to see if we already have this bookmark as the title is set as unique
         try:
+            # we place this in a try block in case we are using SQLAlchemy
             bookmark = uow.bookmarks.get_by_title(value=cmd.title)
-        except:
+
             # checks to see if the list is empty
             if not bookmark:
                 bookmark = models.Bookmark(
                     cmd.id, cmd.title, cmd.url, cmd.notes, cmd.date_added, cmd.date_edited, 
                 )
-                uow.bookmarks.add(bookmark)
+                uow.bookmarks.add(bookmark)            
+        except:
+            bookmark = models.Bookmark(
+                cmd.id, cmd.title, cmd.url, cmd.notes, cmd.date_added, cmd.date_edited, 
+            )
+            uow.bookmarks.add(bookmark)
 
         uow.commit()
 

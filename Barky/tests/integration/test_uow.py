@@ -8,7 +8,7 @@ import pytest
 from barkylib.domain.models import Bookmark
 from barkylib.services import unit_of_work
 
-pytestmark = pytest.mark.usefixtures("mappers")
+# pytestmark = pytest.mark.usefixtures("mappers")
 
 # self.id = id
 # self.title = title

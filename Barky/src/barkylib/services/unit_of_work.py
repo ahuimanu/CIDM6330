@@ -65,7 +65,7 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
 
 class FakeUnitOfWork(AbstractUnitOfWork):
     def __init__(self):
-        self.bookmarks = repository.FakeBookmarkRepository([])
+        self.bookmarks = repository.FakeBookmarkRepository(bookmarks = [])
         self.committed = False
 
     def _commit(self):

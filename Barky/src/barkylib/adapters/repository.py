@@ -94,11 +94,11 @@ class SqlAlchemyBookmarkRepository(AbstractBookmarkRepository):
 
     def _add(self, bookmark: Bookmark) -> None:
         self.session.add(bookmark)
-        # self.session.commit()
+        self.session.commit()
 
     def _add_all(self, bookmarks: list[Bookmark]) -> None:
         self.session.add_all(bookmarks)
-        # self.session.commit()
+        self.session.commit()
 
     def _delete(self, bookmark: Bookmark) -> None:
         pass

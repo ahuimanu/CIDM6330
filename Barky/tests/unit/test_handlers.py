@@ -16,89 +16,94 @@ def boostrap_test_app():
     return bootstrap.bootstrap(start_orm=False, uow=FakeUnitOfWork())
 
 
-class TestAddBookmark:
-    def test_add_single_bookmark(self):
-        bus = boostrap_test_app()
+def test_add_single_bookmark():
+    bus = boostrap_test_app()
 
-        nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
+    nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
 
-        # add one
-        bus.handle(
-            commands.AddBookmarkCommand(
-                0,
-                f"Test",  # title
-                f"http://example.com",  # url
-                nu.isoformat(),  # date added
-                nu.isoformat(),  # date edited
-            )
+    # add one
+    bus.handle(
+        commands.AddBookmarkCommand(
+            0,
+            f"Test",  # title
+            f"http://example.com",  # url
+            nu.isoformat(),  # date added
+            nu.isoformat(),  # date edited
+            f"notes",
         )
+    )
 
-        assert bus.uow.bookmarks.get_by_title(f"Test") is not None
-        assert bus.uow.committed
+    print(bus.uow.bookmarks.get_by_title(f"Test"))
 
-    def test_get_bookmark_by_id(self):
-        bus = boostrap_test_app()
+    assert bus.uow.bookmarks.get_by_title(f"Test") is not None
+    assert bus.uow.committed
 
-        nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
 
-        # add one
-        bus.handle(
-            commands.AddBookmarkCommand(
-                99,
-                f"Test",  # title
-                f"http://example.com",  # url
-                nu.isoformat(),  # date added
-                nu.isoformat(),  # date edited
-            )
+def test_get_bookmark_by_id():
+    bus = boostrap_test_app()
+
+    nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
+
+    # add one
+    bus.handle(
+        commands.AddBookmarkCommand(
+            99,
+            f"Test",  # title
+            f"http://example.com",  # url
+            nu.isoformat(),  # date added
+            nu.isoformat(),  # date edited
         )
+    )
 
-        assert bus.uow.bookmarks.get_by_id(99) is not None
-        assert bus.uow.committed
+    assert bus.uow.bookmarks.get_by_id(99) is not None
+    assert bus.uow.committed
 
-    def test_get_bookmark_by_url(self):
-        bus = boostrap_test_app()
 
-        nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
+def test_get_bookmark_by_url():
+    bus = boostrap_test_app()
 
-        # add one
-        bus.handle(
-            commands.AddBookmarkCommand(
-                99,
-                f"Test",  # title
-                f"http://example.com",  # url
-                nu.isoformat(),  # date added
-                nu.isoformat(),  # date edited
-            )
+    nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
+
+    # add one
+    bus.handle(
+        commands.AddBookmarkCommand(
+            99,
+            f"Test",  # title
+            f"http://example.com",  # url
+            nu.isoformat(),  # date added
+            nu.isoformat(),  # date edited
         )
+    )
 
-        assert bus.uow.bookmarks.get_by_url(f"http://example.com") is not None
-        assert bus.uow.committed
+    assert bus.uow.bookmarks.get_by_url(f"http://example.com") is not None
+    assert bus.uow.committed
 
-    def test_get_all_bookmarks(self):
-        bus = boostrap_test_app()
 
-        nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)        
-        bus.handle(
-            commands.AddBookmarkCommand(
-                99,
-                f"Test",  # title
-                f"http://example.com",  # url
-                nu.isoformat(),  # date added
-                nu.isoformat(),  # date edited
-            )
+def test_get_all_bookmarks():
+    bus = boostrap_test_app()
+
+    nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
+    bus.handle(
+        commands.AddBookmarkCommand(
+            99,
+            f"Test",  # title
+            f"http://example.com",  # url
+            nu.isoformat(),  # date added
+            nu.isoformat(),  # date edited
         )
+    )
 
-        nuto = nu + timedelta(days = 2, hours=12)
+    nuto = nu + timedelta(days=2, hours=12)
 
-        bus.handle(
-            commands.AddBookmarkCommand(
-                999,
-                f"Test2",  # title
-                f"http://example.com",  # url
-                nuto.isoformat(),  # date added
-                nuto.isoformat(),  # date edited
-            )
+    bus.handle(
+        commands.AddBookmarkCommand(
+            999,
+            f"Test2",  # title
+            f"http://example.com",  # url
+            nuto.isoformat(),  # date added
+            nuto.isoformat(),  # date edited
         )
+    )
 
-        records = bus.uow.bookmarks.get_all()
-        assert len(records) == 2
+    records = bus.uow.bookmarks.get_all()
+    assert len(records) == 2

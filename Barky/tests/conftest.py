@@ -41,14 +41,6 @@ def wait_for_sqlite_to_come_up(engine):
     return engine.connect()
 
 
-@pytest.fixture()
-def file_sqlite_db():
-    engine = create_engine(config.get_sqlite_file_url(), isolation_level="SERIALIZABLE")
-    wait_for_sqlite_to_come_up(engine)
-    metadata.create_all(engine)
-    return engine   
-
-
 @retry(stop=stop_after_delay(10))
 def wait_for_postgres_to_come_up(engine):
     return engine.connect()
@@ -63,6 +55,14 @@ def wait_for_webapp_to_come_up():
 def wait_for_redis_to_come_up():
     r = redis.Redis(**config.get_redis_host_and_port())
     return r.ping()
+
+
+@pytest.fixture(scope="session")
+def file_sqlite_db():
+    engine = create_engine(config.get_sqlite_file_url(), isolation_level="SERIALIZABLE")
+    wait_for_sqlite_to_come_up(engine)
+    metadata.create_all(engine)
+    return engine   
 
 
 @pytest.fixture(scope="session")
