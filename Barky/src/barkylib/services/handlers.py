@@ -12,14 +12,20 @@ def add_bookmark(
     uow: unit_of_work.AbstractUnitOfWork,
 ):
     with uow:
+
+        bookmark = None
+
         # look to see if we already have this bookmark as the title is set as unique
-        bookmarks = uow.bookmarks.get_by_title(value=cmd.title)
-        # checks to see if the list is empty
-        if not bookmarks:
-            bookmark = models.Bookmark(
-                cmd.id, cmd.title, cmd.url, cmd.notes, cmd.date_added, cmd.date_edited, 
-            )
-            uow.bookmarks.add(bookmark)
+        try:
+            bookmark = uow.bookmarks.get_by_title(value=cmd.title)
+        except:
+            # checks to see if the list is empty
+            if not bookmark:
+                bookmark = models.Bookmark(
+                    cmd.id, cmd.title, cmd.url, cmd.notes, cmd.date_added, cmd.date_edited, 
+                )
+                uow.bookmarks.add(bookmark)
+
         uow.commit()
 
 # ListBookmarksCommand: order_by: str order: str

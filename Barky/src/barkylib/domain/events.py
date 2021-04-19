@@ -5,10 +5,6 @@ from typing import Optional
 
 from .models import Bookmark
 
-# from database import DatabaseManager
-
-# module scope
-# db = DatabaseManager("bookmarks.db")
 
 
 class Event(ABC):
@@ -43,6 +39,3 @@ class BookmarkDeleted(Event):
     bookmark: Bookmark
 
 
-# @dataclass
-# class BookmarksDeleted(Event):
-#     bookmarks: list[Bookmark]
