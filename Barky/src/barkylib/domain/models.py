@@ -3,9 +3,6 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from typing import List, Optional
 
-# from .events import Event
-
-
 """
 Pure domain bookmark:
 id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -23,7 +23,7 @@ mapper_registry = registry()
 Base = mapper_registry.generate_base()
 
 logger = logging.getLogger(__name__)
-metadata = MetaData()
+metadata = mapper_registry.metadata
 
 """
 Pure domain bookmark:
@@ -48,6 +48,6 @@ bookmarks = Table(
 def start_mappers():
     
     logger.info("starting mappers")
-    # mapper_registry.map_imperatively(Bookmark, bookmarks)
-    mapper(Bookmark, bookmarks)
+    mapper_registry.map_imperatively(Bookmark, bookmarks)
+    # mapper(Bookmark, bookmarks)
 
