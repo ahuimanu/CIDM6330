@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from flask import Flask, jsonify, request
 from barkylib.domain import commands
@@ -24,12 +25,13 @@ def add_confirm_and_remove_bookmark():
     # notes: Optional[str] = None
 
     # title, url, notes, date_added, date_edited
-    id = request.json["id"]
-    title = request.json["title"]
-    url = request.json["url"]
-    date_added = request.json["date_added"]
-    date_edited = request.json["date_edited"]
-    notes = request.json["notes"]
+    data = request.get_json()
+    id = data["id"]
+    title = data["title"]
+    url = data["url"]
+    date_added = data["date_added"]
+    date_edited = data["date_edited"]
+    notes = data["notes"]
 
     cmd = commands.AddBookmarkCommand(
             id, title, url, date_added, date_edited, notes,

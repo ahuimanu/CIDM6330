@@ -22,4 +22,4 @@ class Bookmark:
         self.notes : str = notes
         self.date_added : str = date_added
         self.date_edited : str = date_edited
-        self.events = []
+        self.events : list[Bookmark]= []

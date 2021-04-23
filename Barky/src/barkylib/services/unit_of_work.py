@@ -8,6 +8,8 @@ from sqlalchemy.orm.session import Session
 from barkylib import config
 from barkylib.adapters import repository
 
+from barkylib.domain.models import Bookmark
+
 
 class AbstractUnitOfWork(ABC):
     bookmarks: repository.AbstractBookmarkRepository

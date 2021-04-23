@@ -17,11 +17,12 @@ def boostrap_test_app():
 
 
 def test_add_single_bookmark():
-    bus = boostrap_test_app()
 
+    #arrange
+    bus = boostrap_test_app()
     nu: datetime = datetime(2021, 3, 31, 0, 0, 0, 0, tzinfo=timezone.utc)
 
-    # add one
+    # add one = act
     bus.handle(
         commands.AddBookmarkCommand(
             0,
@@ -35,6 +36,7 @@ def test_add_single_bookmark():
 
     print(bus.uow.bookmarks.get_by_title(f"Test"))
 
+    # assert
     assert bus.uow.bookmarks.get_by_title(f"Test") is not None
     assert bus.uow.committed
 

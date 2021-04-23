@@ -28,6 +28,8 @@ def test_new_bookmark_url_is_well_formed():
     created: str = datetime.now().isoformat()
     edited: str = created
 
+    # ok_urls = ["http://", "https://"]    
+
     # act
     bookmark = Bookmark(0, "test", "http://www.example/com", None, created, edited)
     # list comprehensions - https://www.w3schools.com/python/python_lists_comprehension.asp

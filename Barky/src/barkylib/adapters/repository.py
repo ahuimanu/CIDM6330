@@ -11,7 +11,7 @@ from barkylib.domain.models import Bookmark
 class AbstractBookmarkRepository(ABC):
     def __init__(self):
         # seen is in reference to events detected
-        self.seen = set()
+        self.seen : set[Bookmark] = set()
 
     def add(self, bookmark: Bookmark) -> None:
         # add to repo
