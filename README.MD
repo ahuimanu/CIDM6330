@@ -15,6 +15,10 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 
 # Notes
 
+## Git Crash Course for Begginers
+
+[Good resource](https://gist.github.com/brandon1024/14b5f9fcfd982658d01811ee3045ff1e).
+
 ## Visual Studio Code Python Extension
 
 It may become necessary for you to encourage the Python and Pylance extensions on how to find your virtual environment in VSCode.
