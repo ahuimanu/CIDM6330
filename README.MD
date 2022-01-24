@@ -12,3 +12,13 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 * **Barky** - a derivative of Dane Hillard's Bark app, transformed to follow along with Percival and Gregory's material
 * **FlaskSA** - code related to Flask and SQLAlchemy.
 * **Testing** - Separate Materials on Testing
+
+# Notes
+
+## Visual Studio Code Python Extension
+
+It may become necessary for you to encourage the Python and Pylance extensions on how to find your virtual environment in VSCode.
+
+The following can be added to a 'settings.json' file to accompany your project:
+
+`"python.pythonPath": "/my/project/path/.venv/bin/python",`
