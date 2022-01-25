@@ -20,7 +20,7 @@ def index():
     )
 
 
-@bpblog.reoute("/create", methods=("GET", "POST"))
+@bpblog.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
     if request.method == "POST":
