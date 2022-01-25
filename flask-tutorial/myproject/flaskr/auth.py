@@ -76,6 +76,10 @@ def login():
             session["user_id"] = user["id"]
             return redirect(url_for("index"))
 
+        flash(error)
+
+    return render_template("auth/login.html")
+
 
 @bpauth.before_app_request
 def load_logged_in_user():
