@@ -50,6 +50,10 @@ def register():
             else:
                 return redirect(url_for("auth.login"))
 
+        flash(error)
+
+    return render_template("auth/register.html")
+
 
 @bpauth.route("/login", methods=("GET", "POST"))
 def login():
