@@ -26,3 +26,10 @@ It may become necessary for you to encourage the Python and Pylance extensions o
 The following can be added to a 'settings.json' file to accompany your project:
 
 `"python.pythonPath": "/my/project/path/.venv/bin/python",`
+
+## PyPi Packages
+
+Some PyPi packages we are using:
+* setuptools
+* pytest
+* coverage
