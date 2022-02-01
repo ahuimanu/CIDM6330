@@ -21,11 +21,11 @@
       </header>
       <p class="body">{{ post['body'] }}</p>
     </article>
-    {% comment %} 
+    <!--
         loop.last is a special variable available inside Jinja for loops. 
         It’s used to display a line after each post except the last one, 
         to visually separate them. 
-    {% endcomment %}
+    --> 
     {% if not loop.last %}
       <hr>
     {% endif %}

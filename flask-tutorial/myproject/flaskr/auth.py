@@ -44,7 +44,7 @@ def register():
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
-
+                db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered"
             else:
@@ -92,9 +92,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = (
-            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
-        )
+        g.user = get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
 
 
 @bpauth.route("/logout")

@@ -4,13 +4,11 @@ blib2to3 Node/Leaf transformation-related utility functions.
 
 import sys
 from typing import (
-    Collection,
     Generic,
     Iterator,
     List,
     Optional,
     Set,
-    Tuple,
     TypeVar,
     Union,
 )
@@ -19,11 +17,15 @@ if sys.version_info >= (3, 8):
     from typing import Final
 else:
     from typing_extensions import Final
+if sys.version_info >= (3, 10):
+    from typing import TypeGuard
+else:
+    from typing_extensions import TypeGuard
 
 from mypy_extensions import mypyc_attr
 
 # lib2to3 fork
-from blib2to3.pytree import Node, Leaf, type_repr
+from blib2to3.pytree import Node, Leaf, type_repr, NL
 from blib2to3 import pygram
 from blib2to3.pgen2 import token
 
@@ -255,16 +257,6 @@ def whitespace(leaf: Leaf, *, complex_subscript: bool) -> str:  # noqa: C901
         ):
             return NO
 
-        elif (
-            prevp.type == token.RIGHTSHIFT
-            and prevp.parent
-            and prevp.parent.type == syms.shift_expr
-            and prevp.prev_sibling
-            and prevp.prev_sibling.type == token.NAME
-            and prevp.prev_sibling.value == "print"  # type: ignore
-        ):
-            # Python 2 print chevron
-            return NO
         elif prevp.type == token.AT and p.parent and p.parent.type == syms.decorator:
             # no space in decorators
             return NO
@@ -312,12 +304,7 @@ def whitespace(leaf: Leaf, *, complex_subscript: bool) -> str:  # noqa: C901
             return NO
 
         if not prev:
-            if t == token.DOT:
-                prevp = preceding_leaf(p)
-                if not prevp or prevp.type != token.NUMBER:
-                    return NO
-
-            elif t == token.LSQB:
+            if t == token.DOT or t == token.LSQB:
                 return NO
 
         elif prev.type != token.COMMA:
@@ -450,27 +437,6 @@ def prev_siblings_are(node: Optional[LN], tokens: List[Optional[NodeType]]) -> b
     return prev_siblings_are(node.prev_sibling, tokens[:-1])
 
 
-def last_two_except(leaves: List[Leaf], omit: Collection[LeafID]) -> Tuple[Leaf, Leaf]:
-    """Return (penultimate, last) leaves skipping brackets in `omit` and contents."""
-    stop_after: Optional[Leaf] = None
-    last: Optional[Leaf] = None
-    for leaf in reversed(leaves):
-        if stop_after:
-            if leaf is stop_after:
-                stop_after = None
-            continue
-
-        if last:
-            return leaf, last
-
-        if id(leaf) in omit:
-            stop_after = leaf.opening_bracket
-        else:
-            last = leaf
-    else:
-        raise LookupError("Last two leaves were also skipped")
-
-
 def parent_type(node: Optional[LN]) -> Optional[NodeType]:
     """
     Returns:
@@ -542,15 +508,14 @@ def first_leaf_column(node: Node) -> Optional[int]:
     return None
 
 
-def first_child_is_arith(node: Node) -> bool:
-    """Whether first child is an arithmetic or a binary arithmetic expression"""
-    expr_types = {
+def is_arith_like(node: LN) -> bool:
+    """Whether node is an arithmetic or a binary arithmetic expression"""
+    return node.type in {
         syms.arith_expr,
         syms.shift_expr,
         syms.xor_expr,
         syms.and_expr,
     }
-    return bool(node.children and node.children[0].type in expr_types)
 
 
 def is_docstring(leaf: Leaf) -> bool:
@@ -687,7 +652,7 @@ def is_yield(node: LN) -> bool:
     if node.type == syms.yield_expr:
         return True
 
-    if node.type == token.NAME and node.value == "yield":  # type: ignore
+    if is_name_token(node) and node.value == "yield":
         return True
 
     if node.type != syms.atom:
@@ -854,3 +819,19 @@ def ensure_visible(leaf: Leaf) -> None:
         leaf.value = "("
     elif leaf.type == token.RPAR:
         leaf.value = ")"
+
+
+def is_name_token(nl: NL) -> TypeGuard[Leaf]:
+    return nl.type == token.NAME
+
+
+def is_lpar_token(nl: NL) -> TypeGuard[Leaf]:
+    return nl.type == token.LPAR
+
+
+def is_rpar_token(nl: NL) -> TypeGuard[Leaf]:
+    return nl.type == token.RPAR
+
+
+def is_string_token(nl: NL) -> TypeGuard[Leaf]:
+    return nl.type == token.STRING
