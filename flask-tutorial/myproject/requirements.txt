@@ -3,7 +3,6 @@ black==21.12b0
 click==8.0.3
 coverage==6.2
 Flask==2.0.2
--e git+https://github.com/ahuimanu/CIDM6330.git@19338cc445178dc2d674d2d765e0ba649ba76227#egg=flaskr&subdirectory=flask-tutorial/myproject
 iniconfig==1.1.1
 itsdangerous==2.0.1
 Jinja2==3.0.3
