@@ -1,7 +1,8 @@
 
 # APP Code CIDM 6330 Spring 2022
 
-https://github.com/cosmicpython/code.git
+[Harry Percival and Bob Gregory's Code Repository for the Book](https://github.com/cosmicpython/code.git)
+Note, the full contents of the book itself is available at this link.
 
 git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.git
 
@@ -33,3 +34,7 @@ Some PyPi packages we are using:
 * setuptools
 * pytest
 * coverage
+
+## Percival's First Book on TDD
+
+[Test-Driven Development with Python](https://www.obeythetestinggoat.com/)
