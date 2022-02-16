@@ -1,0 +1,25 @@
+attrs==21.4.0
+black==22.1.0
+click==8.0.3
+coverage==6.3
+Deprecated==1.2.13
+Flask==2.0.2
+-e git+https://github.com/ahuimanu/CIDM6330.git@b81709cc7a54b4c2e06211f17e47e56f0bddc0f3#egg=flaskr&subdirectory=flask-tutorial/myproject
+iniconfig==1.1.1
+itsdangerous==2.0.1
+Jinja2==3.0.3
+MarkupSafe==2.0.1
+mypy-extensions==0.4.3
+packaging==21.3
+pathspec==0.9.0
+platformdirs==2.4.1
+pluggy==1.0.0
+py==1.11.0
+pyparsing==3.0.7
+pytest==6.2.5
+redis==4.1.2
+toml==0.10.2
+tomli==2.0.0
+typing_extensions==4.0.1
+Werkzeug==2.0.2
+wrapt==1.13.3
