@@ -38,3 +38,7 @@ Some PyPi packages we are using:
 ## Percival's First Book on TDD
 
 [Test-Driven Development with Python](https://www.obeythetestinggoat.com/)
+
+## Regarding Barky
+
+There are four branches related to Barky that show the progression in Barky in consideration of the design principles we are studying.
