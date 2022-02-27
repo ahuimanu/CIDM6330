@@ -8,6 +8,14 @@ First, always make sure your virtual environment is activated.
 
 `pip install pytest`
 
+We can use a coverage plugin that works with pytest.
+
+`pip install pytest-cov`
+
+We will also use a conftest.py file should we wish to share fixtures across tests. This file also does double duty by making packages and modules more visible to your tests without "installing" those packages.
+
+[conftest.py](https://docs.pytest.org/en/7.0.x/reference/fixtures.html?highlight=conftest#conftest-py-sharing-fixtures-across-multiple-files)
+
 ## Consider installing black
 
 This package is useful for code formatting management.
@@ -26,3 +34,8 @@ The example will explore two common data structures:
 
 The objective is to use [Pytest](https://docs.pytest.org/en/7.0.x/) to test their implementations.
 
+## Running Pytest
+
+We run pytest thusly: `python -m pytest`
+
+Getting a coverage report: `python -m pytest -v --cov`
