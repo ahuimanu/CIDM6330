@@ -2,11 +2,21 @@
 
 Various demonstrations and examples of testing will be placed here.
 
+## Install PyTest
+
+First, always make sure your virtual environment is activated.
+
+`pip install pytest`
+
 ## Consider installing black
 
-Useful for code formatting management.
+This package is useful for code formatting management.
 
-`pip install -U black --user`
+`pip install -U black`
+
+Run black from the root of your project:
+
+`python -m black .`
 
 ## Data Structures
 
