@@ -13,6 +13,8 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 * **FlaskSA** - code related to Flask and SQLAlchemy.
 * **Testing** - Separate Materials on Testing
 * **flask-tutorial** - The Flask 2.0 tutorial. (new in 2022)
+* **PyTesting** - pytest basics
+* **Acme** - Acme crew scheduling
 
 # Notes
 
