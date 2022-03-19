@@ -20,3 +20,6 @@ extend-exclude = '''
                      # the root of the project
 )
 '''
+
+[tool.isort]
+profile = "black"
