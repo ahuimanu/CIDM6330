@@ -23,6 +23,7 @@ class StationType(IntEnum):
 class Station:
     """
     https://aviationweather.gov/dataserver/fields?datatype=station
+
     """
     station_id: str  # The 4-letter station specifier
     wmo_id: str  # Four-letter WMO Id for the station

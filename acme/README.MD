@@ -12,6 +12,9 @@ Credit to Ed Williams for formulae available at his [Aviation Formulary](https:/
 * [NOAA - ADDS - TDS](https://aviationweather.gov/dataserver) - NOAA Text Data Server for current observations
 * [NOAA - ADDS - API Web Serivce](https://www.weather.gov/documentation/services-web-api)
 
+### Key Python Language Features Demonstrated
+* [dataclass](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
+
 ## Strongly Recommended Resources
 
 * [Python Basics](https://pythonbasics.org/) - Outstanding synopsis of many of the Python language facilities used here.
