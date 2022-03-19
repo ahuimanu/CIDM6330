@@ -21,7 +21,9 @@ Credit to Ed Williams for formulae available at his [Aviation Formulary](https:/
 ### Python Development Utilities and Packages
 * [pre-commit](https://pre-commit.com/) - A framework for managing and maintaining multi-language pre-commit hooks
 * [black](https://github.com/psf/black) - for [PEP8](https://peps.python.org/pep-0008/)-compliant formatting
+* [isort](https://pycqa.github.io/isort/index.html) - isort is a Python utility / library to sort imports alphabetically, and automatically separated into sections and by type.
 * [TOML files](https://peps.python.org/pep-0518/)
+    * [Example TOML File](https://martin-thoma.com/pyproject-toml/)
 
 ## Strongly Recommended Resources
 
