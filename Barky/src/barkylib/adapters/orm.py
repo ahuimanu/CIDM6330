@@ -1,16 +1,7 @@
 import logging
 from typing import Text
-from sqlalchemy import (
-    Table,
-    MetaData,
-    Column,
-    Integer,
-    String,
-    DateTime,
-    Text,
-    event,
-)
 
+from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, event
 from sqlalchemy.orm import mapper
 
 from ..domain.models import Bookmark

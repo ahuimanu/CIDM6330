@@ -1,12 +1,11 @@
 from __future__ import annotations
+
 from dataclasses import asdict
-from typing import List, Dict, Callable, Type, TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, Dict, List, Type
 
 from barkylib.domain import commands, events, models
 from src.barkylib.domain.commands import EditBookmarkCommand
-
 from src.barkylib.domain.events import BookmarkEdited
-
 
 if TYPE_CHECKING:
     from . import unit_of_work
@@ -26,6 +25,7 @@ def add_bookmark(
             uow.bookmarks.add(bookmark)
         uow.commit()
 
+
 # ListBookmarksCommand: order_by: str order: str
 def list_bookmarks(
     cmd: commands.ListBookmarksCommand,
@@ -34,7 +34,7 @@ def list_bookmarks(
     bookmarks = None
     with uow:
         bookmarks = uow.bookmarks.all()
-        
+
     return bookmarks
 
 

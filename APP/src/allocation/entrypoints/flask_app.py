@@ -1,8 +1,9 @@
 from datetime import datetime
-from flask import Flask, jsonify, request
+
+from allocation import bootstrap, views
 from allocation.domain import commands
 from allocation.service_layer.handlers import InvalidSku
-from allocation import bootstrap, views
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 bus = bootstrap.bootstrap()

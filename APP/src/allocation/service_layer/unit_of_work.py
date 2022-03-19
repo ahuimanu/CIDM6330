@@ -1,13 +1,13 @@
 # pylint: disable=attribute-defined-outside-init
 from __future__ import annotations
-import abc
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.session import Session
 
+import abc
 
 from allocation import config
 from allocation.adapters import repository
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.session import Session
 
 
 class AbstractUnitOfWork(abc.ABC):
@@ -38,9 +38,9 @@ class AbstractUnitOfWork(abc.ABC):
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
-        #substituting POSTGRES with the in-memory sqlite
-        #config.get_postgres_uri(),
-        'sqlite+pysqlite:///:memory:',
+        # substituting POSTGRES with the in-memory sqlite
+        # config.get_postgres_uri(),
+        "sqlite+pysqlite:///:memory:",
         echo=True,
         isolation_level="REPEATABLE READ",
     )

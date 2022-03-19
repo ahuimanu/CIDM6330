@@ -1,17 +1,8 @@
 import logging
-from sqlalchemy import (
-    Table,
-    MetaData,
-    Column,
-    Integer,
-    String,
-    Date,
-    ForeignKey,
-    event,
-)
-from sqlalchemy.orm import mapper, relationship
 
 from allocation.domain import model
+from sqlalchemy import Column, Date, ForeignKey, Integer, MetaData, String, Table, event
+from sqlalchemy.orm import mapper, relationship
 
 logger = logging.getLogger(__name__)
 

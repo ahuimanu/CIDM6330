@@ -8,13 +8,14 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 
 # Components of this Repo:
 
-* **APP** - Arhictecture Patterns in Python
-* **Barky** - a derivative of Dane Hillard's Bark app, transformed to follow along with Percival and Gregory's material
-* **FlaskSA** - code related to Flask and SQLAlchemy.
-* **Testing** - Separate Materials on Testing
-* **flask-tutorial** - The Flask 2.0 tutorial. (new in 2022)
-* **PyTesting** - pytest basics
-* **Acme** - Acme crew scheduling
+* [Acme](acme/README.MD) - Acme crew scheduling example. (new in 2022)
+* [APP](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
+* [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material
+* [flask-tutorial](flask-tutorial/myproject/README.MD) - The Flask 2.0 tutorial. (new in 2022)
+* [FlaskSA](FlaskSA/README.MD) - code related to Flask and SQLAlchemy.
+* [PyTesting](PyTesting/README.MD) - pytest basics
+* [Testing](Testing/README.MD) - Separate materials on testing in Python.
+
 
 # Notes
 

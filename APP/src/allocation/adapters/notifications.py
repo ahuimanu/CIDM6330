@@ -1,6 +1,7 @@
 # pylint: disable=too-few-public-methods
 import abc
 import smtplib
+
 from allocation import config
 
 

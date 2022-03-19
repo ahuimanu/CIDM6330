@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class AbstractBookMarkAPI(ABC):
     @abstractmethod
     def one(self, id):
@@ -8,21 +9,19 @@ class AbstractBookMarkAPI(ABC):
     @abstractmethod
     def first(self, property, value):
         raise NotImplementedError("Derived classes must implement one")
-    
-    @abstractmethod    
+
+    @abstractmethod
     def many(self, property, value, sort):
         raise NotImplementedError("Derived classes must implement many")
-    
-    @abstractmethod    
+
+    @abstractmethod
     def add(self, bookmark):
         raise NotImplementedError("Derived classes must implement many")
 
-    @abstractmethod    
+    @abstractmethod
     def delete(self, bookmark):
         raise NotImplementedError("Derived classes must implement many")
 
-    @abstractmethod    
+    @abstractmethod
     def update(self, bookmark):
         raise NotImplementedError("Derived classes must implement many")
-
-

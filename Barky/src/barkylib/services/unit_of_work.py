@@ -1,13 +1,13 @@
 from __future__ import annotations
-from abc import ABC
-import abc
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.session import Session
 
+import abc
+from abc import ABC
 
 from barkylib import config
 from barkylib.adapters import repository
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.session import Session
 
 
 class AbstractUnitOfWork(ABC):

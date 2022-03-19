@@ -1,5 +1,4 @@
 import pytest
-
 from avform.conversions import (
     knots_to_fps,
     knots_to_kph,

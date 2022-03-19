@@ -1,14 +1,15 @@
 # pylint: disable=no-self-use
 from __future__ import annotations
+
 from collections import defaultdict
 from datetime import date
 from typing import Dict, List
+
 import pytest
 from allocation import bootstrap
-from allocation.domain import commands
-from allocation.service_layer import handlers
 from allocation.adapters import notifications, repository
-from allocation.service_layer import unit_of_work
+from allocation.domain import commands
+from allocation.service_layer import handlers, unit_of_work
 
 
 class FakeRepository(repository.AbstractRepository):
@@ -69,9 +70,7 @@ class TestAddBatch:
         bus = bootstrap_test_app()
         bus.handle(commands.CreateBatch("b1", "GARISH-RUG", 100, None))
         bus.handle(commands.CreateBatch("b2", "GARISH-RUG", 99, None))
-        assert "b2" in [
-            b.reference for b in bus.uow.products.get("GARISH-RUG").batches
-        ]
+        assert "b2" in [b.reference for b in bus.uow.products.get("GARISH-RUG").batches]
 
 
 class TestAllocate:

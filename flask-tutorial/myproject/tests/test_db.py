@@ -8,6 +8,7 @@ Although python comes with a testing library, the Flask tutorial
 is using Pytest - https://docs.pytest.org/en/6.2.x/
 """
 
+
 def test_get_close_db(app):
     with app.app_context():
         db = get_db()

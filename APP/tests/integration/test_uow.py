@@ -4,10 +4,12 @@ import time
 import traceback
 from typing import List
 from unittest.mock import Mock
+
 import pytest
 from allocation.domain import model
 from allocation.service_layer import unit_of_work
-from ..random_refs import random_sku, random_batchref, random_orderid
+
+from ..random_refs import random_batchref, random_orderid, random_sku
 
 pytestmark = pytest.mark.usefixtures("mappers")
 
@@ -89,6 +91,7 @@ def try_to_allocate(orderid, sku, exceptions, session_factory):
     except Exception as e:  # pylint: disable=broad-except
         print(traceback.format_exc())
         exceptions.append(e)
+
 
 # we won't bother with any postgres tests
 """

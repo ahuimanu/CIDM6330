@@ -8,7 +8,7 @@ For our purposes, Flask will allow us to specify [HTTP REST API endpoints](https
 
 ## Flask is Easy
 
-1. Create Virtual Environment: While I use conda, I believe the built-in venv tool is perhaps the safest bet for you: 
+1. Create Virtual Environment: While I use conda, I believe the built-in venv tool is perhaps the safest bet for you:
 ``` bash
 mkdir myproject
 cd myproject

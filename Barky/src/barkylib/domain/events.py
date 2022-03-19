@@ -1,6 +1,6 @@
 from abc import ABC
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional
 
 from .models import Bookmark

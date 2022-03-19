@@ -1,6 +1,8 @@
 from __future__ import annotations
+
 import logging
-from typing import Callable, Dict, List, Union, Type, TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, Dict, List, Type, Union
+
 from barkylib.domain import commands, events
 
 if TYPE_CHECKING:

@@ -1,15 +1,16 @@
 from datetime import datetime
-from flask import Flask, jsonify, request
-from barkylib.domain import commands
+
 from barkylib import bootstrap
-
-from flask_sqlalchemy import SQLAlchemy
-
 from barkylib.adapters.repository import *
-from . baseapi import AbstractBookMarkAPI
+from barkylib.domain import commands
 
 # init from dotenv file
 from dotenv import load_dotenv
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+
+from .baseapi import AbstractBookMarkAPI
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -17,33 +18,35 @@ app = Flask(__name__)
 # db = SQLAlchemy(app)
 bus = bootstrap.bootstrap()
 
+
 class FlaskBookmarkAPI(AbstractBookMarkAPI):
     """
-    Flask 
+    Flask
     """
+
     def __init__(self) -> None:
         super().__init__()
-    
-    @app.route('/')
+
+    @app.route("/")
     def index(self):
-        return f'Barky API'
+        return f"Barky API"
 
-    @app.route('/api/one/<id>')
+    @app.route("/api/one/<id>")
     def one(self, id):
-        return f'The provided id is {id}'
+        return f"The provided id is {id}"
 
-    @app.route('/api/all')
+    @app.route("/api/all")
     def all(self):
-        return f'all records'
+        return f"all records"
 
-    @app.route('/api/first/<property>/<value>/<sort>')
+    @app.route("/api/first/<property>/<value>/<sort>")
     def first(self, filter, value, sort):
-        return f'the first '
+        return f"the first "
         pass
-    
+
     def many(self, filter, value, sort):
         pass
-    
+
     def add(bookmark):
         pass
 

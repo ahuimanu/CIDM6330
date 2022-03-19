@@ -13,5 +13,5 @@ class Stack:
             item = self._storage.pop()
         except IndexError:
             item = None
-        
+
         return item

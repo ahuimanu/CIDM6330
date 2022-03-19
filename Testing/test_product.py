@@ -13,9 +13,10 @@ Recall the basic steps of a functional test:
 
 Put another way, we call this:
 * Arrange
-* Act 
+* Act
 * Assert
 """
+
 
 class ProductTestCase(unittest.TestCase):
     def test_working(self):
@@ -25,11 +26,10 @@ class ProductTestCase(unittest.TestCase):
         """
         Test that the name transformation works
         """
-        #arrange
-        small_black_shoes = Product('shoes', 'S', 'black')
-        expected_value = 'SHOES'
-        #act
+        # arrange
+        small_black_shoes = Product("shoes", "S", "black")
+        expected_value = "SHOES"
+        # act
         actual_value = small_black_shoes.transform_name_for_sku()
-        #assert
+        # assert
         self.assertEqual(expected_value, actual_value)
-

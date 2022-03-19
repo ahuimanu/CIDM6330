@@ -1,5 +1,5 @@
-from atexit import register
 import os
+from atexit import register
 
 from flask import Flask
 

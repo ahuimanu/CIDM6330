@@ -1,6 +1,6 @@
 """
 https://edwilliams.org/avform147.htm#Conv
- 
+
  1 knot = 1.852000 km/hr*
  1 knot = 185200/109728 ft/sec* =1.687810 ft/sec
  1 knot = 1852000/1609344 mph* = 1.150779 mph

@@ -1,4 +1,5 @@
 from datetime import date
+
 from allocation.domain.model import Batch, OrderLine
 
 

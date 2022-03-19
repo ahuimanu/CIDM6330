@@ -1,4 +1,4 @@
-# skipping this due to dependency on email 
+# skipping this due to dependency on email
 
 # # pylint: disable=redefined-outer-name
 # import pytest

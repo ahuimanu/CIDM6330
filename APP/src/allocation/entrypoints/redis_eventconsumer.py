@@ -1,7 +1,7 @@
 import json
 import logging
-import redis
 
+import redis
 from allocation import bootstrap, config
 from allocation.domain import commands
 
