@@ -9,4 +9,9 @@ Credit to Ed Williams for formulae available at his [Aviation Formulary](https:/
 ### Dependencies
 
 * [Python-Metar](https://github.com/python-metar/python-metar)
-* [NOAA - ADDS - TDS](https://aviationweather.gov/dataserver) - NOAA Text Data Server
+* [NOAA - ADDS - TDS](https://aviationweather.gov/dataserver) - NOAA Text Data Server for current observations
+* [NOAA - ADDS - API Web Serivce](https://www.weather.gov/documentation/services-web-api)
+
+## Strongly Recommended Resources
+
+* [Python Basics](https://pythonbasics.org/) - Outstanding synopsis of many of the Python language facilities used here.
