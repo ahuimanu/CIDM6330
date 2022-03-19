@@ -4,7 +4,7 @@ from enum import Enum, IntEnum
 
 class StationType(IntEnum):
     """
-    https://aviationweather.gov/dataserver/fields?datatype=station    
+    https://aviationweather.gov/dataserver/fields?datatype=station
     The station type, which can be a combination of the following:
     METAR | rawinsonde | TAF | NEXRAD | wind_profiler | WFO_office | SYNOPS
 
@@ -19,12 +19,14 @@ class StationType(IntEnum):
     WFO_office = 5
     SYNOPS = 6
 
+
 @dataclass
 class Station:
     """
     https://aviationweather.gov/dataserver/fields?datatype=station
 
     """
+
     station_id: str  # The 4-letter station specifier
     wmo_id: str  # Four-letter WMO Id for the station
     latitude: float  # The latitude in decimal degrees
@@ -38,7 +40,6 @@ class Station:
     # properties - https://docs.python.org/3/library/functions.html#property
 
 
-
 class StationHelper:
     """
     A utility class containing routines to assist in creating stations
@@ -47,4 +48,4 @@ class StationHelper:
     # static methods - https://docs.python.org/3/library/functions.html#staticmethod
     @staticmethod
     def get_station_from_station_id(station_id: str) -> Station:
-        pass    
+        pass
