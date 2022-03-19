@@ -24,6 +24,7 @@ Credit to Ed Williams for formulae available at his [Aviation Formulary](https:/
 * [isort](https://pycqa.github.io/isort/index.html) - isort is a Python utility / library to sort imports alphabetically, and automatically separated into sections and by type.
 * [TOML files](https://peps.python.org/pep-0518/)
     * [Example TOML File](https://martin-thoma.com/pyproject-toml/)
+* [requests](https://docs.python-requests.org/en/latest/) - Requests is an HTTP library for Python that  allows you to send HTTP/1.1 requests.
 
 ## Strongly Recommended Resources
 
