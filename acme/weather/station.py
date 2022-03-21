@@ -21,11 +21,11 @@ class StationType(IntEnum):
     """
 
     METAR = 0
-    rawinsonde = 1
+    RAWINDSONDE = 1
     TAF = 2
     NEXRAD = 3
-    wind_profiler = 4
-    WFO_office = 5
+    WIND_PROFILER = 4
+    WFO_OFFICE = 5
     SYNOPS = 6
 
 
