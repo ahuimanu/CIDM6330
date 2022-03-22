@@ -29,3 +29,7 @@ Credit to Ed Williams for formulae available at his [Aviation Formulary](https:/
 ## Strongly Recommended Resources
 
 * [Python Basics](https://pythonbasics.org/) - Outstanding synopsis of many of the Python language facilities used here.
+
+### Pytest Notes
+
+* [Specifying which tests to run](https://docs.pytest.org/en/7.0.x/how-to/usage.html) - `pytest -k "test_knots_to_kph" -v`
