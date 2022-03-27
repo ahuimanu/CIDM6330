@@ -1,9 +1,7 @@
-import string
 from abc import ABC, abstractmethod, abstractproperty
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum, IntEnum
-from turtle import st
-from typing import TypeAlias
+from typing import List, TypeAlias
 from urllib.error import HTTPError
 from xml.etree.ElementTree import Element, fromstring
 
@@ -29,6 +27,7 @@ class StationType(IntEnum):
     SYNOPS = 6
 
 
+# https://docs.python.org/3/library/dataclasses.html#module-dataclasses
 @dataclass
 class Station:
     """
@@ -47,7 +46,7 @@ class Station:
         ""  # The two-letter abbreviation for the U.S. state or Canadian province
     )
     country: str = ""  # The two-letter country abbreviation
-    site_type: StationType = StationType.METAR
+    site_type: List[StationType] = field(default_factory=list)
 
     # properties - https://docs.python.org/3/library/functions.html#property
 
@@ -83,9 +82,13 @@ class NOAAADDSStationHelper(StationHelper):
 
         xml = NOAAADDSStationHelper._request_noaa_xml(station_id)
         tree_root = NOAAADDSStationHelper._parse_noaa_xml(xml)
-        station = NOAAADDSStationHelper._create_station_from_element(tree_root)
+        station = NOAAADDSStationHelper._create_station_from_xml_element(tree_root)
 
         return station
+
+    @staticmethod
+    def _create_noaa_request_uri(station_id: str) -> str:
+        pass
 
     @staticmethod
     def _request_noaa_xml(station_id: str) -> str:
@@ -141,8 +144,75 @@ class NOAAADDSStationHelper(StationHelper):
         return xml_tree_root
 
     @staticmethod
-    def _create_station_from_element(xml_tree_root: Element):
-        return Station()
+    def _get_data_source_from_xml_element(xml_tree_root: Element) -> str:
+        return xml_tree_root[1].attrib
+
+    @staticmethod
+    def _get_data_from_xml_element(xml_tree_root: Element) -> str:
+        return xml_tree_root[6].attrib
+
+    @staticmethod
+    def _get_station_from_xml_element(xml_tree_root: Element) -> str:
+        return xml_tree_root[6][0]
+
+    @staticmethod
+    def _get_site_type_list_from_xml_element(
+        xml_station_root: Element,
+    ) -> list(StationType):
+
+        out_list = []
+
+        site_types = xml_station_root
+        for child in site_types:
+            # METAR | rawinsonde | TAF | NEXRAD | wind_profiler | WFO_office | SYNOPS
+            # https://docs.python.org/3/tutorial/controlflow.html?highlight=match#match-statements
+            match child.tag:
+                case "METAR":
+                    out_list.append(StationType.METAR)
+                case "rawinsonde":
+                    out_list.append(StationType.RAWINDSONDE)
+                case "TAF":
+                    out_list.append(StationType.TAF)
+                case "NEXRAD":
+                    out_list.append(StationType.NEXRAD)
+                case "wind_profiler":
+                    out_list.append(StationType.WIND_PROFILER)
+                case "WFO_office":
+                    out_list.append(StationType.WFO_OFFICE)
+                case "SYNOPS":
+                    out_list.append(StationType.SYNOPS)
+
+        return out_list
+
+    @staticmethod
+    def _create_station_from_xml_element(xml_tree_root: Element) -> Station:
+        station_element = NOAAADDSStationHelper._get_station_from_xml_element(
+            xml_tree_root
+        )
+
+        station_id = station_element[0].text
+        wmo_id = station_element[1].text
+        latitude = float(station_element[2].text)
+        longitude = float(station_element[3].text)
+        elevation_m = float(station_element[4].text)
+        site = station_element[5].text
+        state = station_element[6].text
+        country = station_element[7].text
+        site_type = NOAAADDSStationHelper._get_site_type_list_from_xml_element(
+            station_element[8]
+        )
+
+        return Station(
+            station_id,
+            wmo_id,
+            latitude,
+            longitude,
+            elevation_m,
+            site,
+            state,
+            country,
+            site_type,
+        )
 
     @staticmethod
     def get_station_from_lat_lon(latitude: float, longitude: float) -> Station:

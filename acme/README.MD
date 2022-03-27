@@ -33,3 +33,4 @@ Credit to Ed Williams for formulae available at his [Aviation Formulary](https:/
 ### Pytest Notes
 
 * [Specifying which tests to run](https://docs.pytest.org/en/7.0.x/how-to/usage.html) - `pytest -k "test_knots_to_kph" -v`
+* [Pytest Cheat Sheet](https://gist.github.com/kwmiebach/3fd49612ef7a52b5ce3a)
