@@ -1,8 +1,8 @@
 # Flask Intro
 
-[Flask](https://flask.palletsprojects.com/en/1.1.x/) is the [number one Web framework for Python](https://www.jetbrains.com/lp/python-developers-survey-2020/).
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is the [number one Web framework for Python](https://lp.jetbrains.com/python-developers-survey-2021/#FrameworksLibraries).
 
-Often called a ["micro framework," Flask](https://flask.palletsprojects.com/en/1.1.x/foreword/#what-does-micro-mean) is extensible such that you can start small and scale out.  Further, Flask is less deterministic ("opinionated") about collateral choices you make in terms of using Flask in an extended architecture.
+Often called a ["micro framework," Flask](https://flask.palletsprojects.com/en/2.2.x/design/#what-does-micro-mean) is extensible such that you can start small and scale out.  Further, Flask is less deterministic ("opinionated") about collateral choices you make in terms of using Flask in an extended architecture.
 
 For our purposes, Flask will allow us to specify [HTTP REST API endpoints](https://en.wikipedia.org/wiki/Representational_state_transfer) to query and modify application state.
 
@@ -120,4 +120,4 @@ The best way to proceed would be to complete the [Flask tutorial](https://flask.
 
 We will also use Flask along with SQLAlchemy for our O/RM.
 
-The [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) Extension will be our tool.
+The [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/) Extension will be our tool.
