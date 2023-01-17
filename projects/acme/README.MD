@@ -1,5 +1,16 @@
 # Acme Crew Scheduler
 
+This is a simple exercise that allows for:
+* data specification
+* domain business rules
+* module development
+* interface development
+
+Candidate implementations:
+* Django DRF
+* Flask/SQLAlchemy
+* FastAPI/SQLAlchemy
+
 Credit to Ed Williams for formulae available at his [Aviation Formulary](https://edwilliams.org/avform147.htm)
 
 ## Simple Domain Model
