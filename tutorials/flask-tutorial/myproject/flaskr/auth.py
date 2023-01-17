@@ -104,9 +104,12 @@ def logout():
 
 
 def login_required(view: View):
-    # using functools (https://docs.python.org/3/library/functools.html)
-    # to assist in creating a decorator function
-    # https://wiki.python.org/moin/PythonDecorators
+    """
+    using functools (https://docs.python.org/3/library/functools.html)
+    to assist in creating a decorator function
+    https://wiki.python.org/moin/PythonDecorators
+    """
+
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
