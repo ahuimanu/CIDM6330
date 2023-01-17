@@ -1,5 +1,5 @@
 
-# APP Code CIDM 6330 Spring 2022
+# APP Code CIDM 6330 Spring 2023
 
 [Harry Percival and Bob Gregory's Code Repository for the Book](https://github.com/cosmicpython/code.git)
 Note, the full contents of the book itself is available at this link.
@@ -8,7 +8,7 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 
 # Components of this Repo:
 
-* [Acme](acme/README.MD) - Acme crew scheduling example. (new in 2022)
+* [Acme](acme/README.MD) - Acme crew scheduling example. (new in 2022, updated in 2023)
 * [APP](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
 * [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material
 * [flask-tutorial](flask-tutorial/myproject/README.MD) - The Flask 2.0 tutorial. (new in 2022)
@@ -33,7 +33,7 @@ The following can be added to a 'settings.json' file to accompany your project:
 
 ## PyPi Packages
 
-Some PyPi packages we are using:
+PyPi packages used:
 * setuptools
 * pytest
 * coverage
@@ -45,3 +45,5 @@ Some PyPi packages we are using:
 ## Regarding Barky
 
 There are four branches related to Barky that show the progression in Barky in consideration of the design principles we are studying.
+
+You can see these branches with the `git branch` command.
