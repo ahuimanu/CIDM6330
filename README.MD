@@ -8,7 +8,7 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 
 # Components of this Repo:
 
-* [Acme](acme/README.MD) - Acme crew scheduling example. (new in 2022, updated in 2023)
+* [Acme](acme/README.MD) - Acme crew scheduling example. (updated in 2023)
 * [APP](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
 * [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material
 * [flask-tutorial](flask-tutorial/myproject/README.MD) - The Flask 2.0 tutorial. (new in 2022)
@@ -47,3 +47,7 @@ PyPi packages used:
 There are four branches related to Barky that show the progression in Barky in consideration of the design principles we are studying.
 
 You can see these branches with the `git branch` command.
+
+## Useful Architectural Structures
+
+Table from 
