@@ -8,7 +8,7 @@ class AbstractBookMarkAPI(ABC):
 
     @abstractmethod
     def first(self, property, value):
-        raise NotImplementedError("Derived classes must implement one")
+        raise NotImplementedError("Derived classes must implement first")
 
     @abstractmethod
     def many(self, property, value, sort):
@@ -16,12 +16,12 @@ class AbstractBookMarkAPI(ABC):
 
     @abstractmethod
     def add(self, bookmark):
-        raise NotImplementedError("Derived classes must implement many")
+        raise NotImplementedError("Derived classes must implement add")
 
     @abstractmethod
     def delete(self, bookmark):
-        raise NotImplementedError("Derived classes must implement many")
+        raise NotImplementedError("Derived classes must implement delete")
 
     @abstractmethod
     def update(self, bookmark):
-        raise NotImplementedError("Derived classes must implement many")
+        raise NotImplementedError("Derived classes must implement update")

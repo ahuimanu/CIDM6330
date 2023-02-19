@@ -32,24 +32,26 @@ db.init_app(app)
 
 # sql alchemy magic
 
+
 # create METAR model
 class MetarReport(db.Model):
     id = db.Column(db.String, primary_key=True)
     raw = db.Column(db.String, unique=True, nullable=False)
     timestamp = db.Column(db.DateTime)
 
+
 # init and create all tables
 with app.app_context():
     db.create_all()
 
+
 # utility methods
 # https://api.weather.gov/stations/KAMA/observations/latest
 def fetch_metar_for_station(station: str):
-
     url = f"https://api.weather.gov/stations/{station}/observations/latest"
-    r = requests.get('https://api.github.com/events')
+    r = requests.get(url)
+    return r.content
 
-    pass
 
 def save_station_to_favorites(station: str):
     pass
@@ -62,15 +64,13 @@ def noaa_metar():
 
 @app.route("/metar/<station>")
 def get_noaa_metar(station: str):
-    # fetch_metar_for_station(station)
-    return "login"
+    return fetch_metar_for_station(station)
 
 
 @app.route("/save/<station>")
 def save_station(station: str):
     save_station_to_favorites(station)
     return f"{escape(station)} data"
-    
 
 
 @app.route("/favorites")

@@ -2,13 +2,17 @@ import logging
 from typing import Text
 
 from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, event
-from sqlalchemy.orm import mapper
+
+# from sqlalchemy.orm import mapper
+from sqlalchemy.orm import registry
 
 from ..domain.models import Bookmark
 
 logger = logging.getLogger(__name__)
 
 metadata = MetaData()
+
+mapper_reg = registry()
 
 
 """
@@ -34,4 +38,7 @@ bookmarks = Table(
 
 def start_mappers():
     logger.info("string mappers")
-    bookmarks_mapper = mapper(Bookmark, bookmarks)
+    # SQLAlchemy 2.0
+    bookmarks_mapper = mapper_reg.map_imperatively(Bookmark, bookmarks)
+    # SQLAlchemy 1.3
+    # bookmarks_mapper = mapper(Bookmark, bookmarks)

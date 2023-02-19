@@ -37,41 +37,47 @@ class AbstractRepository(ABC):
             pass
 
     # @abstractmethod
-    # def add_one(bookmark) -> int:
-    #     raise NotImplementedError("Derived classes must implement add_one")
+    def add_one(bookmark) -> int:
+        raise NotImplementedError("Derived classes must implement add_one")
 
     # @abstractmethod
-    # def add_many(bookmarks) -> int:
-    #     raise NotImplementedError("Derived classes must implement add_many")
+    def add_many(bookmarks) -> int:
+        raise NotImplementedError("Derived classes must implement add_many")
 
     # @abstractmethod
-    # def delete_one(bookmark) -> int:
-    #     raise NotImplementedError("Derived classes must implement delete_one")
+    def delete_one(bookmark) -> int:
+        raise NotImplementedError("Derived classes must implement delete_one")
 
     # @abstractmethod
-    # def delete_many(bookmarks) -> int:
-    #     raise NotImplementedError("Derived classes must implement delete_many")
+    def delete_many(bookmarks) -> int:
+        raise NotImplementedError("Derived classes must implement delete_many")
 
     # @abstractmethod
-    # def update(bookmark) -> int:
-    #     raise NotImplementedError("Derived classes must implement update")
+    def update(bookmark) -> int:
+        raise NotImplementedError("Derived classes must implement update")
 
     # @abstractmethod
-    # def update_many(bookmarks) -> int:
-    #     raise NotImplementedError("Derived classes must implement update_many")
+    def update_many(bookmarks) -> int:
+        raise NotImplementedError("Derived classes must implement update_many")
 
     # @abstractmethod
-    # def find_first(query) -> Bookmark:
-    #     raise NotImplementedError("Derived classes must implement find_first")
+    def find_first(query) -> Bookmark:
+        raise NotImplementedError("Derived classes must implement find_first")
 
     # @abstractmethod
-    # def find_all(query) -> list[Bookmark]:
-    #     raise NotImplementedError("Derived classes must implement find_all")
+    def find_all(query) -> list[Bookmark]:
+        raise NotImplementedError("Derived classes must implement find_all")
+
+
+# sqlalchemy stuff
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 class SqlAlchemyRepository(AbstractRepository):
     """
-    Uses guidance from the basic SQLAlchemy 1.3 tutorial: https://docs.sqlalchemy.org/en/13/orm/tutorial.html
+    Uses guidance from the basic SQLAlchemy 2.0 tutorial:
+    https://docs.sqlalchemy.org/en/20/tutorial/index.html
     """
 
     def __init__(self, url=None) -> None:
@@ -84,7 +90,7 @@ class SqlAlchemyRepository(AbstractRepository):
             self.engine = create_engine(url)
         else:
             # let's default to in-memory for now
-            self.engine = create_engine("sqlite:///:memory:", echo=True)
+            self.engine = create_engine("sqlite+pysqlite:///:memory:", echo=True)
 
         # ensure tables are there
         Base.metadata.create_all(self.engine)
