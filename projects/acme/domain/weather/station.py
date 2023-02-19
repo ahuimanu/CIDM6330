@@ -70,7 +70,6 @@ class StationHelper(ABC):
 
 
 class NOAAADDSStationHelper(StationHelper):
-
     NOAA_ADDS_URL = (
         f"https://aviationweather-bldr.ncep.noaa.gov/adds/dataserver_current/httpparam"
     )
@@ -79,7 +78,6 @@ class NOAAADDSStationHelper(StationHelper):
 
     @staticmethod
     def get_station_from_station_id(station_id: str) -> Station:
-
         xml = NOAAADDSStationHelper._request_noaa_xml(station_id)
         tree_root = NOAAADDSStationHelper._parse_noaa_xml(xml)
         station = NOAAADDSStationHelper._create_station_from_xml_element(tree_root)
@@ -92,7 +90,6 @@ class NOAAADDSStationHelper(StationHelper):
 
     @staticmethod
     def _request_noaa_xml(station_id: str) -> str:
-
         # prepare url
         url = NOAAADDSStationHelper.NOAA_ADDS_URL
         format = NOAAADDSStationHelper.NOAA_ADDS_FORMAT
@@ -120,7 +117,6 @@ class NOAAADDSStationHelper(StationHelper):
         return response_xml
 
     def _parse_noaa_xml(xml: str) -> Element:
-
         # prepare - create station object
         # station_id: str = ""  # The 4-letter station specifier
         # wmo_id: str = ""  # Four-letter WMO Id for the station
@@ -159,7 +155,6 @@ class NOAAADDSStationHelper(StationHelper):
     def _get_site_type_list_from_xml_element(
         xml_station_root: Element,
     ) -> list(StationType):
-
         out_list = []
 
         site_types = xml_station_root

@@ -12,7 +12,6 @@ def bootstrap(
     notifications: AbstractNotifications = None,
     publish: Callable = redis_eventpublisher.publish,
 ) -> messagebus.MessageBus:
-
     if notifications is None:
         notifications = EmailNotifications()
 

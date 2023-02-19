@@ -5,6 +5,7 @@ from domain.weather.station import Station, StationType
 # tests heavily utilize the ElementTree library
 # https://docs.python.org/3/library/xml.etree.elementtree.html
 
+
 # https://docs.pytest.org/en/7.1.x/explanation/fixtures.html
 @pytest.fixture
 def xml_to_parse():
@@ -96,7 +97,6 @@ def test_can_parse_station_from_xml(xml_to_parse):
 
 
 def test_can_parse_site_types_from_xml(xml_to_parse):
-
     # arrange
     # <METAR/>
     # <NEXRAD/>
@@ -125,7 +125,6 @@ def test_can_parse_site_types_from_xml(xml_to_parse):
 
 
 def test_can_get_station_from_station_id():
-
     # arrange
     # act
     station = station_helper.get_station_from_station_id("KAMA")
