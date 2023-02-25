@@ -1,4 +1,5 @@
 import sys
+# credit: https://codingdojo.org/
 
 def number_to_numeral(number):
     """
@@ -35,7 +36,9 @@ def number_to_numeral(number):
     }
 
     s = []
+    # https://www.w3schools.com/python/python_for_loops.asp
     for index in ['ones', 'tens', 'hundreds', 'thousands']:
+        # https://www.w3schools.com/python/ref_func_divmod.asp
         number, remainder = divmod(number, 10)
         s.insert(0, numerals_dict[index][remainder])
     return ''.join(s)
