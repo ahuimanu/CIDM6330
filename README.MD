@@ -18,6 +18,7 @@ git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.
 
 
 # Notes
+March 2023: The API was updated to more explicitly show Flask integration using Blueprints.
 
 ## Git Crash Course for Begginers
 
