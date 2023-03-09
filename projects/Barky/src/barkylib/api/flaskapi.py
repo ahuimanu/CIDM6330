@@ -7,16 +7,24 @@ from barkylib.domain import commands
 # init from dotenv file
 from dotenv import load_dotenv
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
 )
 from flask_sqlalchemy import SQLAlchemy
-from . baseapi import AbstractBookMarkAPI
+from .baseapi import AbstractBookMarkAPI
 
 load_dotenv()
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bookmarks.db'
 # db = SQLAlchemy(app)
 bus = bootstrap.bootstrap()
+
 
 class FlaskBookmarkAPI(AbstractBookMarkAPI):
     """
@@ -55,15 +63,15 @@ class FlaskBookmarkAPI(AbstractBookMarkAPI):
     def update(bookmark):
         pass
 
+
 fb = FlaskBookmarkAPI()
-bp = Blueprint('flask_bookmark_api', __name__, url_prefix='/api')
+bp = Blueprint("flask_bookmark_api", __name__, url_prefix="/api")
 
 # @app.route('/')
-bp.add_url_rule('/', 'index', fb.index, ['GET'])
+bp.add_url_rule("/", "index", fb.index, ["GET"])
 
 # @app.route('/api/one/<id>')
-bp.add_url_rule('/one/<id>', 'one', fb.one, ['GET'])
+bp.add_url_rule("/one/<id>", "one", fb.one, ["GET"])
 
 # @app.route('/api/all')
-bp.add_url_rule('/all', 'all', fb.all, ['GET'])
-
+bp.add_url_rule("/all", "all", fb.all, ["GET"])
