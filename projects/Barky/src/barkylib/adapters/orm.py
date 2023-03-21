@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 metadata = MetaData()
 
-mapper_reg = registry()
+mapper_registry = registry()
 
 
 """
@@ -26,7 +26,7 @@ date_edited TEXT NOT NULL
 """
 bookmarks = Table(
     "bookmarks",
-    metadata,
+    mapper_registry.metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("title", String(255), unique=True),
     Column("url", String(255)),
@@ -39,6 +39,6 @@ bookmarks = Table(
 def start_mappers():
     logger.info("string mappers")
     # SQLAlchemy 2.0
-    bookmarks_mapper = mapper_reg.map_imperatively(Bookmark, bookmarks)
+    bookmarks_mapper = mapper_registry.map_imperatively(Bookmark, bookmarks)
     # SQLAlchemy 1.3
     # bookmarks_mapper = mapper(Bookmark, bookmarks)

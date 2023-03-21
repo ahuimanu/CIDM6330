@@ -4,8 +4,8 @@ from dataclasses import asdict
 from typing import TYPE_CHECKING, Callable, Dict, List, Type
 
 from barkylib.domain import commands, events, models
-from src.barkylib.domain.commands import EditBookmarkCommand
-from src.barkylib.domain.events import BookmarkEdited
+from barkylib.domain.commands import EditBookmarkCommand
+from barkylib.domain.events import BookmarkEdited
 
 if TYPE_CHECKING:
     from . import unit_of_work
