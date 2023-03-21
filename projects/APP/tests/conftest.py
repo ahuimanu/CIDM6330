@@ -8,7 +8,7 @@ import pytest
 import redis
 import requests
 from allocation import config
-from allocation.adapters.orm import metadata, start_mappers
+from allocation.adapters.orm import mapper_registry, start_mappers
 from sqlalchemy import create_engine
 from sqlalchemy.orm import clear_mappers, sessionmaker
 from tenacity import retry, stop_after_delay
@@ -19,7 +19,7 @@ pytest.register_assert_rewrite("tests.e2e.api_client")
 @pytest.fixture
 def in_memory_sqlite_db():
     engine = create_engine("sqlite:///:memory:")
-    metadata.create_all(engine)
+    mapper_registry.metadata.create_all(engine)
     return engine
 
 
@@ -55,7 +55,7 @@ def wait_for_redis_to_come_up():
 def postgres_db():
     engine = create_engine(config.get_postgres_uri(), isolation_level="SERIALIZABLE")
     wait_for_postgres_to_come_up(engine)
-    metadata.create_all(engine)
+    mapper_registry.metadata.create_all(engine)
     return engine
 
 
