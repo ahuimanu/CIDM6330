@@ -59,7 +59,7 @@ class SqlAlchemyRepository(AbstractRepository):
     https://docs.sqlalchemy.org/en/20/tutorial/index.html
     """
 
-    def __init__(self, connection_string=None) -> None:
+    def __init__(self, session, connection_string=None) -> None:
         super().__init__()
 
         self.engine = None
@@ -76,7 +76,10 @@ class SqlAlchemyRepository(AbstractRepository):
 
         # obtain session
         # the session is used for all transactions
-        self.Session = sessionmaker(bind=self.engine)
+        if session != None:
+            self.Session = session
+        else:
+            self.Session = sessionmaker(bind=self.engine)
 
     def __del__(self):
         self.Session.commit()
