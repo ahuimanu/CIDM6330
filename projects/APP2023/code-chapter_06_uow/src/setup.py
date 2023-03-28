@@ -2,6 +2,6 @@ from setuptools import setup
 
 setup(
     name="allocation",
-    version="0.1",
+    version="0.6",
     packages=["allocation"],
 )

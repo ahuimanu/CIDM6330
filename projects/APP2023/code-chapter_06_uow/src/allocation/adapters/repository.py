@@ -1,6 +1,8 @@
 import abc
 from allocation.domain import model
 
+from sqlalchemy import select
+
 
 class AbstractRepository(abc.ABC):
     @abc.abstractmethod
@@ -20,7 +22,9 @@ class SqlAlchemyRepository(AbstractRepository):
         self.session.add(batch)
 
     def get(self, reference):
-        return self.session.query(model.Batch).filter_by(reference=reference).one()
+        return self.session.scalars(
+            select(model.Batch).filter_by(reference=reference)
+        ).one()
 
     def list(self):
-        return self.session.query(model.Batch).all()
+        return self.session.scalars(select(model.Batch)).all()
