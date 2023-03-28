@@ -2,12 +2,15 @@ import model
 from datetime import date
 from sqlalchemy.sql import text
 
+
 def test_orderline_mapper_can_load_lines(session):
-    session.execute(text(
-        "INSERT INTO order_lines (orderid, sku, qty) VALUES "
-        '("order1", "RED-CHAIR", 12),'
-        '("order1", "RED-TABLE", 13),'
-        '("order2", "BLUE-LIPSTICK", 14)')
+    session.execute(
+        text(
+            "INSERT INTO order_lines (orderid, sku, qty) VALUES "
+            '("order1", "RED-CHAIR", 12),'
+            '("order1", "RED-TABLE", 13),'
+            '("order2", "BLUE-LIPSTICK", 14)'
+        )
     )
     expected = [
         model.OrderLine("order1", "RED-CHAIR", 12),
@@ -52,9 +55,7 @@ def test_saving_batches(session):
     session.add(batch)
     session.commit()
     rows = session.execute(
-        text(
-            'SELECT reference, sku, _purchased_quantity, eta FROM "batches"'
-        )
+        text('SELECT reference, sku, _purchased_quantity, eta FROM "batches"')
     )
     assert list(rows) == [("batch1", "sku1", 100, None)]
 
@@ -65,10 +66,9 @@ def test_saving_allocations(session):
     batch.allocate(line)
     session.add(batch)
     session.commit()
-    rows = list(session.execute(
-        text(
-            'SELECT orderline_id, batch_id FROM "allocations"'
-        )))
+    rows = list(
+        session.execute(text('SELECT orderline_id, batch_id FROM "allocations"'))
+    )
     assert rows == [(batch.id, line.id)]
 
 
@@ -86,7 +86,7 @@ def test_retrieving_allocations(session):
         text(
             "INSERT INTO batches (reference, sku, _purchased_quantity, eta)"
             ' VALUES ("batch1", "sku1", 100, null)'
-        )        
+        )
     )
     [[bid]] = session.execute(
         text("SELECT id FROM batches WHERE reference=:ref AND sku=:sku"),

@@ -5,7 +5,6 @@ import config
 from datetime import datetime
 
 
-
 def random_suffix():
     return uuid.uuid4().hex[:6]
 

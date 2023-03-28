@@ -1,7 +1,9 @@
 import os
 
+
 def get_sqlite_filedb_uri():
     return f"sqlite:///../allocation.db"
+
 
 def get_postgres_uri():
     host = os.environ.get("DB_HOST", "localhost")
