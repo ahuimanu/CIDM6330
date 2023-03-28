@@ -18,7 +18,9 @@ Then you can bring in the requirements:
 ## Creating a local virtualenv (optional)
 
 ```bash
-python3.8 -m venv .venv && source .venv/bin/activate # or however you like to create virtualenvs
+python -m venv .venv && source .venv/bin/activate # or however you like to create virtualenvs
+
+# note, unless using gitbash, you'll need to use the Activate.ps1 script in windows
 
 # for chapter 1
 pip install pytest 
