@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy.sql import delete, insert, select, text
 from allocation.domain import model
-from allocation.adapters.orm import batches
+from allocation.adapters.orm import allocations, batches
 from allocation.service_layer import unit_of_work
 
 
@@ -28,21 +28,30 @@ def get_allocated_batch_ref(session, orderid, sku):
     #     "SELECT id FROM order_lines WHERE orderid=:orderid AND sku=:sku",
     #     dict(orderid=orderid, sku=sku),
     # )
-    [[batchref]] = session.execute(
+    batchref = session.scalars(
         text(
             "SELECT b.reference FROM allocations JOIN batches AS b ON batch_id = b.id"
             " WHERE orderline_id=:orderlineid"
         ),
         dict(orderlineid=orderlineid),
     )
+
+    batchref = session.scalars(
+        select(allocations, batches)
+        .join_from(allocations, batches, allocations.c.id == batches.c.id)
+        .where(orderlineid == orderlineid)
+    )
+
+    batchrefval = batchref.reference
+    print(batchref.reference)
     session.close()
-    return batchref
+    return batchrefval
 
 
 def test_uow_can_retrieve_a_batch_and_allocate_to_it(session_factory):
-    session_s = session_factory()
-    insert_batch(session_s, "batch1", "HIPSTER-WORKBENCH", 100, None)
-    session_s.commit()
+    session = session_factory
+    insert_batch(session, "batch1", "HIPSTER-WORKBENCH", 100, None)
+    session.commit()
 
     uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory)
     with uow:
@@ -51,6 +60,7 @@ def test_uow_can_retrieve_a_batch_and_allocate_to_it(session_factory):
         batch.allocate(line)
         uow.commit()
 
+    # batchref = "batch2"
     batchref = get_allocated_batch_ref(session, "o1", "HIPSTER-WORKBENCH")
     assert batchref == "batch1"
 

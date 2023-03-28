@@ -24,7 +24,7 @@ class SqlAlchemyRepository(AbstractRepository):
     def get(self, reference):
         return self.session.scalars(
             select(model.Batch).filter_by(reference=reference)
-        ).one()
+        ).first()
 
     def list(self):
         return self.session.scalars(select(model.Batch)).all()

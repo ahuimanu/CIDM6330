@@ -38,6 +38,8 @@ def file_sqlite_db():
 @pytest.fixture
 def session_factory(file_sqlite_db):
     start_mappers()
+    # what is "yield?"
+    # Python Generators: https://realpython.com/introduction-to-python-generators/
     yield sessionmaker(bind=file_sqlite_db)()
     clear_mappers()
 
