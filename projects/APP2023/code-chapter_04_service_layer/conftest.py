@@ -7,12 +7,14 @@ import requests
 from requests.exceptions import ConnectionError
 from sqlalchemy.exc import OperationalError
 from sqlalchemy import create_engine
-from sqlalchemy.sql import text
+from sqlalchemy.sql import delete, insert, select, text
 from sqlalchemy.orm import sessionmaker, clear_mappers
 
-from orm import mapper_registry, start_mappers
 import config
 from flask_app import create_app
+from model import Batch
+from orm import mapper_registry, start_mappers, batches
+
 
 # chapter reworked to follow
 # https://flask.palletsprojects.com/en/2.2.x/patterns/appfactories/#application-factories
@@ -26,6 +28,7 @@ def in_memory_db():
     engine = create_engine(f"sqlite:///:memory:")
     mapper_registry.metadata.create_all(engine)
     return engine
+
 
 @pytest.fixture
 def file_sqlite_db():
@@ -96,21 +99,33 @@ def add_stock(session):
     skus_added = set()
 
     def _add_stock(lines):
+        print(lines)
         for ref, sku, qty, eta in lines:
+            # session.execute(
+            #     text(
+            #         "INSERT INTO batches (reference, sku, _purchased_quantity, eta)"
+            #         " VALUES (:ref, :sku, :qty, :eta)"
+            #     ),
+            #     dict(ref=ref, sku=sku, qty=qty, eta=eta),
+            # )
+            # [[batch_id]] = session.scalars(
+            #     text("SELECT id FROM batches WHERE reference=:ref AND sku=:sku"),
+            #     dict(ref=ref, sku=sku),
+            # )
             session.execute(
-                text(
-                    "INSERT INTO batches (reference, sku, _purchased_quantity, eta)"
-                    " VALUES (:ref, :sku, :qty, :eta)"
-                ),
-                dict(ref=ref, sku=sku, qty=qty, eta=eta),
+                insert(batches).values(
+                    reference=ref, sku=sku, _purchased_quantity=qty, eta=eta
+                )
             )
-            [[batch_id]] = session.execute(
-                text("SELECT id FROM batches WHERE reference=:ref AND sku=:sku"),
-                dict(ref=ref, sku=sku),
-            )
-            batches_added.add(batch_id)
-            skus_added.add(sku)
+            batch_id = session.scalars(
+                select(Batch).where(Batch.reference == ref).where(Batch.sku == sku)
+            ).first()
+            print(batch_id.reference)
+            print(batch_id.sku)
+            batches_added.add(batch_id.reference)
+            skus_added.add(batch_id.sku)
         session.commit()
+        session.close()
 
     yield _add_stock
 
@@ -128,7 +143,7 @@ def add_stock(session):
             text("DELETE FROM order_lines WHERE sku=:sku"),
             dict(sku=sku),
         )
-        
+
     session.commit()
 
 

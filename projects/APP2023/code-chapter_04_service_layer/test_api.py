@@ -1,8 +1,10 @@
 import uuid
 import pytest
 import requests
-
 import config
+
+from datetime import datetime
+
 
 
 def random_suffix():
@@ -36,8 +38,8 @@ def test_happy_path_returns_201_and_allocated_batch(add_stock, test_client):
     otherbatch = random_batchref(3)
     add_stock(
         [
-            (laterbatch, sku, 100, "2011-01-02"),
-            (earlybatch, sku, 100, "2011-01-01"),
+            (laterbatch, sku, 100, datetime.strptime("2011-01-02", "%Y-%m-%d")),
+            (earlybatch, sku, 100, datetime.strptime("2011-01-01", "%Y-%m-%d")),
             (otherbatch, othersku, 100, None),
         ]
     )

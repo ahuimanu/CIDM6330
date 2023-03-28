@@ -4,7 +4,6 @@ import model
 from sqlalchemy import select
 
 
-
 class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def add(self, batch: model.Batch):
@@ -23,7 +22,9 @@ class SqlAlchemyRepository(AbstractRepository):
         self.session.add(batch)
 
     def get(self, reference):
-        return self.session.execute(select(model.Batch).filter_by(reference=reference)).one()
+        return self.session.scalars(
+            select(model.Batch).filter_by(reference=reference)
+        ).one()
 
     def list(self):
-        return self.session.execute(select(model.Batch)).all()
+        return self.session.scalars(select(model.Batch)).all()

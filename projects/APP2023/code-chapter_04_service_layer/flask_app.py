@@ -8,8 +8,10 @@ import orm
 import repository
 import services
 
+
 def index_endpoint():
     return "<p>HELLO FROM THE API</p>"
+
 
 def allocate_endpoint():
     clear_mappers()
@@ -37,6 +39,8 @@ def create_app():
     app.config.update({"TESTING": True})
 
     app.add_url_rule("/", "index", view_func=index_endpoint)
-    app.add_url_rule("/allocate", "allocate", view_func=allocate_endpoint, methods=["POST"])
+    app.add_url_rule(
+        "/allocate", "allocate", view_func=allocate_endpoint, methods=["POST"]
+    )
 
     return app
