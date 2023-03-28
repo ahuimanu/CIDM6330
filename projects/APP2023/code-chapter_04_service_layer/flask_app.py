@@ -16,8 +16,7 @@ def index_endpoint():
 def allocate_endpoint():
     clear_mappers()
     orm.start_mappers()
-    # get_session = sessionmaker(bind=create_engine(config.get_postgres_uri()))
-    get_session = sessionmaker(bind=create_engine(f"sqlite:///bookmarks.db"))
+    get_session = sessionmaker(bind=create_engine(config.get_sqlite_filedb_uri()))
     session = get_session()
     repo = repository.SqlAlchemyRepository(session)
     line = model.OrderLine(

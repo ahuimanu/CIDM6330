@@ -32,7 +32,7 @@ def in_memory_db():
 
 @pytest.fixture
 def file_sqlite_db():
-    engine = create_engine(f"sqlite:///bookmarks.db")
+    engine = create_engine(config.get_sqlite_filedb_uri())
     mapper_registry.metadata.create_all(engine)
     return engine
 
