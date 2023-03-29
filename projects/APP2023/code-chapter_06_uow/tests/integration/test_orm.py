@@ -28,7 +28,6 @@ def test_orderline_mapper_can_load_lines(session_factory):
     ]
     # assert session.query(model.OrderLine).all() == expected
     outcome = session.scalars(select(model.OrderLine)).all()
-    print(outcome)
     assert outcome == expected
     session.close()
 

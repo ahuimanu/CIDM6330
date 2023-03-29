@@ -1,5 +1,6 @@
 # pylint: disable=redefined-outer-name
 import time
+import os
 from pathlib import Path
 
 import pytest
@@ -37,16 +38,23 @@ def file_sqlite_db():
 
 @pytest.fixture
 def session_factory(file_sqlite_db):
+    # setup
     start_mappers()
     # what is "yield?"
     # Python Generators: https://realpython.com/introduction-to-python-generators/
     yield sessionmaker(bind=file_sqlite_db)()
+    # teardown
     clear_mappers()
+    file_sqlite_db.dispose()
+
+    # remove db
+    path = Path(__file__).parent
+    os.remove(path / "allocation.db")
 
 
 @pytest.fixture
 def session(session_factory):
-    return session_factory()
+    return session_factory
 
 
 @pytest.fixture

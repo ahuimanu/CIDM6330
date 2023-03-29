@@ -25,6 +25,7 @@ def test_repository_can_save_a_batch(session_factory):
     assert list(rows) == [("batch1", "RUSTY-SOAPDISH", 100, None)]
 
     session.commit()
+    session.close()
 
 
 def insert_order_line(session_factory):
@@ -97,3 +98,4 @@ def test_repository_can_retrieve_a_batch_with_allocations(session_factory):
     assert retrieved._allocations == {
         model.OrderLine("order1", "GENERIC-SOFA", 12),
     }
+    session.close()

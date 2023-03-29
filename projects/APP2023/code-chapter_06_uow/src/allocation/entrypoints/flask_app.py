@@ -28,19 +28,24 @@ def add_batch_endpoint():
 
 
 def allocate_endpoint():
-    clear_mappers()
-    orm.start_mappers()
-    get_session = sessionmaker(bind=create_engine(config.get_sqlite_filedb_uri()))
-    session = get_session()
-    repo = repository.SqlAlchemyRepository(session)
-    line = model.OrderLine(
-        request.json["orderid"],
-        request.json["sku"],
-        request.json["qty"],
-    )
+    # clear_mappers()
+    # orm.start_mappers()
+    # get_session = sessionmaker(bind=create_engine(config.get_sqlite_filedb_uri()))
+    # session = get_session()
+    # repo = repository.SqlAlchemyRepository(session)
+    # line = model.OrderLine(
+    #     request.json["orderid"],
+    #     request.json["sku"],
+    #     request.json["qty"],
+    # )
 
     try:
-        batchref = services.allocate(line, repo, session)
+        batchref = services.allocate(
+            request.json["orderid"],
+            request.json["sku"],
+            request.json["qty"],
+            unit_of_work.SqlAlchemyUnitOfWork(),
+        )
     except (model.OutOfStock, services.InvalidSku) as e:
         return {"message": str(e)}, 400
 
