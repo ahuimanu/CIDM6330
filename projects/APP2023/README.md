@@ -36,6 +36,8 @@ pip install requirements.txt
 pip install -e src/
 ```
 
+**NOTE:** as each chapter changes - from 6 to 13 - it will be necessary to re-run `pip install -e src/` to refresh the package to include code changes.
+
 ## Running the tests
 
 ```bash

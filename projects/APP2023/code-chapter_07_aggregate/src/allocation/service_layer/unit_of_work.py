@@ -27,12 +27,12 @@ class AbstractUnitOfWork(abc.ABC):
         raise NotImplementedError
 
 
+# this has been changed to create and call the session maker
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
-        config.get_postgres_uri(),
-        isolation_level="REPEATABLE READ",
+        config.get_sqlite_filedb_uri(),
     )
-)
+)()
 
 
 class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
@@ -40,7 +40,7 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
         self.session_factory = session_factory
 
     def __enter__(self):
-        self.session = self.session_factory()  # type: Session
+        self.session = self.session_factory  # type: Session
         self.products = repository.SqlAlchemyRepository(self.session)
         return super().__enter__()
 
