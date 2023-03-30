@@ -31,7 +31,7 @@ DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
         config.get_sqlite_filedb_uri(),
     )
-)
+)()
 
 
 class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
