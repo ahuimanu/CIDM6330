@@ -43,6 +43,7 @@ def session_factory(file_sqlite_db):
     # what is "yield?"
     # Python Generators: https://realpython.com/introduction-to-python-generators/
     yield sessionmaker(bind=file_sqlite_db)()
+    
     # teardown
     clear_mappers()
     file_sqlite_db.dispose()
