@@ -4,7 +4,7 @@ This is a simple exercise that allows for:
 * data specification
 * domain business rules
 * module development
-* interface development
+* interface and API development
 
 Candidate implementations:
 * Django DRF

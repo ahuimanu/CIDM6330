@@ -1,24 +1,23 @@
 
-# APP Code CIDM 6330 Spring 2023
+# CIDM6330 Spring 2024
+This repository will contain all supplemental materials and code for CIDM6330 for the Spring 2024 semester.
+
+# APP Code CIDM 6330 Spring 2024
 
 [Harry Percival and Bob Gregory's Code Repository for the Book](https://github.com/cosmicpython/code.git)
-Note, the full contents of the book itself is available at this link.
+While the Percival and Gregory Book is older now, it has good concepts in it and can be reviewed for free at [Cosmic Python](https://www.cosmicpython.com/).
 
-git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.git
+`git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.git`
 
 # Components of this Repo:
 
-* [Acme](acme/README.MD) - Acme crew scheduling example. (updated in 2023)
+* [Acme](acme/README.MD) - Acme crew scheduling example. (updated in 2024)
 * [APP](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
+* [APP2023](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory with some adjustments
 * [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material
-* [flask-tutorial](flask-tutorial/myproject/README.MD) - The Flask 2.0 tutorial. (new in 2022)
-* [FlaskSA](FlaskSA/README.MD) - code related to Flask and SQLAlchemy.
 * [PyTesting](PyTesting/README.MD) - pytest basics
 * [Testing](Testing/README.MD) - Separate materials on testing in Python.
-
-
-# Notes
-March 2023: The API was updated to more explicitly show Flask integration using Blueprints.
+* [Django Girls Tutorial](tutorials/django-girls-tutorial/) - A good primer on Django.
 
 ## Git Crash Course for Begginers
 
