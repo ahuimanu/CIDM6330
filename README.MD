@@ -50,7 +50,3 @@ There are four branches related to Barky that show the progression in Barky in c
 You can see these branches with the `git branch` command.
 
 ## Useful Architectural Structures
-
-
-
-
