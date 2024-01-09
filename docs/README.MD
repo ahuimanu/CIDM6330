@@ -5,7 +5,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 
 1. [Orientation to the Subject](#orientation-to-the-subject)
 2. [Design](#design)
-3. Software Architecture and Patterns
+3. [Software Architecture and Patterns](#software-architecture-and-patterns)
 4. [The Software Architect](#the-software-architect)
 5. The Empirics of Implementation
 6. Continuous Improvement
@@ -224,6 +224,91 @@ Software architecture will have a fleeting definitive expression as it bridges o
 
 ## On Architecture
 Like "Engineering", claiming to be an architect, or to develop architecture, is subjective despite the degree to which both the engineering and architecture disciplines and professionals have tried to protect these.
+
+Therefore, it would be most useful to understand these:
+1. What is the difference between achitecture and design? 
+2. How to maintain technical depth and breadth.
+3. How to recognize and evaluate design tradeoffs inherent in solution technologies and patterns.
+4. Understand how the business and problem domains drive architectural decisions.
+
+I like Richards and Ford's Technical depth and breadth model here: 
+
+<img src="img/technical_depth_and_breadth.png" alt="Technical Depth and Breadth" height="400">
+
+## Conceptual Foundations: Modularity
+While a foundational grasp of both Object-Oriented Programming and the Unified Modeling Language are ideal pre-requisites, there are pragmatic ways of understanding Modularity in software and systems development.
+
+* A *module*: `a set of standardized parts from which a more complex structure can be crafted`
+* *Modularity*: `A logical grouping of related code - often classes - designed for effective reuse - package, module, or namespace`
+
+Aspects of measuring and identifyin modularity follow:
+
+* **Cohesion**: `To what extent part of a module are naturally bound (thematically, funtionally) and thus belong together.`  We can reconcile with cohesion by considering whether that cohesion is functional, sequential, communicative, procedural, temporal, or logical.
+* **Coupling**: `Degree to which items are connected such that both are commonly involved at the same time, within the same sequence, or within the same logical dependence.` We can reconcile with coupling by considering whether modules are related through abstractions, call distance, or instability of implementation.
+* **Connascense**: This is a more acute coupling where `items within a module are coupled when changes in one module require changes in another - they are codependent.`
+
+Modularity is a necessary part of architectural design.
+
+## Conceptual Foundations: Architectural Characteristics
+Since all software systems solutions will involve both domain requirements and architectural characteristics, an understanding of architectual charactistics will be useful here.
+
+An architectural characteristics can be understood as classified in more or more of the following:
+* Specifies a nondomain design consideration/need.
+* Incluences or supports necessary design structures.
+* Is critical to application success.
+
+Richards and Ford have a nice model of this:
+
+<img src="img/architecture-characteristics.png" alt="Architectural Characteristics" height="400">
+
+
+### Examples of Architectural Characteristics
+
+Again Richards and Ford provide some nice examples:
+
+**Operational Architecture Characteristics**
+<hr>
+
+| Characteristic        | Definition            |
+|-------------------|-----------------------|
+| Availability      | "Uptime" |
+| Continuity        | "Risk management and disaster recovery" |
+| Performance       | "Resilience, horsepower, abundance " |
+| Recoverability    | "Restoration after disaster" |
+| Reliability       | "Connected to availability" |
+| Robustness        | "Continuity during error and boundary conditions" |
+| Scalability       | "Factors of 10" |
+
+**Sturctural Architecture Characteristics**
+<hr>
+
+| Characteristic    | Definition            |
+|-------------------|-----------------------|
+| Configurability   | "Built to accommodate options and customization" |
+| Extensibility     | "Add to function by plugging in new capabilities" |
+| Deployability     | "Where can this be operated from?" |
+| Reusability       | "Can this solution be used in other contexts?" |
+| Localizable       | "Can this solution support location and context?" |
+| Maintainability   | "Cost in time and skill" |
+| Portability       | "Can we migrate to new operating environments?" |
+| Supportability    | "What is the extend of support needs" |
+| Upgradeability    | "Backwards compatibility" |
+
+**Other Architecture Characteristics**
+<hr>
+
+| Characteristic    | Definition            |
+|-------------------|-----------------------|
+| Accessibility     | "Compliant with provisions to broadly support a variety of users." |
+| Archivability     | "What data needs to be retained and for how long" |
+| Authentication    | "You are who you say you are" |
+| Authorization     | "You can use this, but now that" |
+| Legal             | "Stay within the lines of what is permitted" |
+| Privacy           | "Visibility and control over that visibility" |
+| Security          | "CIA" |
+| Exertise/Skill    | "Expected user skill level required." |
+
+See also: [the ISO25010 standards on Software Product Quality](https://iso25000.com/index.php/en/iso-25000-standards/iso-25010)
 
 # The Software Architect
 
