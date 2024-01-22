@@ -154,10 +154,66 @@ Representational State Transfer (REST) uses the HTTP protocol standards as a bas
     * Self-documenting and internally-complete messages
     * Hypermedia as the Engine of Application State (HATEOAS) - system navigation is complete via hyperlinks
 
+With a RESTful API, we are typiclly creating a dictionary or look-up between HTTP methods (Verbs) and operations you are interested in on an entity within your application/project/system.  Often, this facilitates the most basic of **C**reate **R**ead **U**pdate and **D**elete (aka **CRUD**) operations on entities within the system.
+
+This is also a way to think of accessing the resources available within a system.
+
+| Resource      | Partial URI   | HTTP Method | Description |
+|---------------|---------------|-----------|--------------------------------------------------------------|
+| Collection    | /reports      | GET       | A list operation that returns all elements in the collection |
+|               |               | POST      | A list creation operation |
+| Single Object | /report/1     | GET       | Get a single element from the collection based on its unique id   |
+|               |               | PUT       | Create a single object to be inserted into the collection |
+|               |               | PATCH     | An update operation that modifies some data in a record |
+|               |               | DELETE    | Delete an object from the collection using its unique id |
+
+The entire point of a REST API is for the HTTP method to clarify the type of transaction you want from the system and for the URI to clarify which resource you are interested and/or to specify how you'd like to query for that resource.
+
+### JSON
+In most cases, REST APIs will return [JSON](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON) which gained prominence over earlier standards like [XML](https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction).  Either are fine and some of [the earliest tools for REST interfaces](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) were assumed to be working with XML.
+
 [Back to Contents](#contents)
+
+### HTTP Verbs in Action
+
+Like many early networking and web protocols, HTTP is straightforward, simple, and pretty easy to grasp as it is not too large.  Here are some excerpts of what would be actual HTTP payload information as clients and servers transact using the HTTP protocol.
+
+The following examples presume we are working with an aviation weather API that provides coded and decoded aviation-related weather information.
+
+***NOTE***:
+<mark>
+The list of possible media and content types that can be returned in an HTTP request can be found here through the [Internet Assigned Numbers Authority](https://www.iana.org/assignments/media-types/media-types.xhtml).
+</mark>
+
+**GET**
+```
+GET /reports/1
+HTTP/1.1 200 OK
+Content-Type: application/json
+{"icao": "KAMA", "raw": "KAMA 221753Z 18011KT 10SM CLR 09/M01 A2990 RMK AO2 SLP119 T00941011 10100 21006 50004", "updated": "1826 UTC 22 Mon Jan 2024"}
+```
+
+**GET with query and filter**
+```
+GET /reports/KAMA/raw
+HTTP/1.1 200 OK
+Content-Type: text/plain
+KAMA 221753Z 18011KT 10SM CLR 09/M01 A2990 RMK AO2 SLP119 T00941011 10100 21006 50004
+```
+
+### HTTP Headers and Status Codes
+We can also use [HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) and [Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to assist in maintaining application state with respect to the provision and use of a RESTful API.
+
 
 ## The Unified Modeling Language
 There are a number of visual models we'll want to become familiar with as a tool for expressing various aspects of a system.  The diagrams should ultimately contribute to the code artifacts we produce to facilitate the system's effectiveness.  With that said, these models are themselves artifacts of design; their purpose is to facilitate understanding that leads to an information systems artifact.
+
+### Designing for a Resource Approach
+
+
+A resource-based view of your system is useful as it is prudent to consider that both state change and derived value come from viewing your system via the transactions it facilitates.  As the a RESTful API, by virtue of leveraging HTTp is limited to CRUD operations, a resource-based view encourages a design where resources are the "lego bricks" for the API your system provides.  Seeing everything as a resource helps to create very explicit APIs and helps with the stateless requirement for RESTful interfaces.
+
+A stateless service means that all the information required to fulfill a request is either provided by the caller or retrieved externally, normally from a database. This excludes other ways of keeping information, such as storing information locally in the same server's hard drive. This makes any server capable of handling every single request, and it's critical in achieving scalability.
 
 [Back to Contents](#contents)
 
