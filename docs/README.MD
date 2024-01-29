@@ -141,6 +141,71 @@ A dictionary or key-value-pairing concept is useful for API design as communicat
 
 [Back to Contents](#contents)
 
+## Design for Data
+If your systems are doing anything useful over time then that data describes the state of a system such that its transactive operations provide some utility and value.  Data is the lifeblood of any system and nearly all other parts share that common interest.
+
+A datum or data will always indicate whether a system is alive and can present and consume records of its lifetime. When we think of data in a computing systems context, what we commonly think of is a database. To this end, we will consider the following:
+* Types of Databases
+* Database transactions
+* Distributed databases
+* The relational model
+* Schema Design
+* Data Indexing
+
+### Types of Databases
+
+The short version, which is presented here, says that there are relational databases, and then the rest:
+
+* **Relational databases**: Leverages the relational model and the Structured Query Language to define and manipulate data and schemas.
+* **Non-relational databases**: Functionally, this means other data management paradigms beyond the relational model - document, key-value, object, and column data stores. Also includes graph databases.
+* **Small or flat databases**: Single file datastores meant to emphasize portability or simplicity. File-based such as XML, JSON, CSV, or even SQLite.
+
+**Note:** Python has rich support for any of these database approaches.
+
+### Transaction Management
+Data stores become valuable when they facilitate and broker access across many requests and demands.  Most interactions with a database can be expressed in terms of a transaction. Care is needed in managing transactions to ensure enduring intergrity of the underlying system.  For this reason we can speak to the ability for a database system to handle transactions using the ACID acronym:
+
+* **Atomicity** Requirement that transactions are applied as a unit such that they are either wholly successful, or not.
+* **Consistency** Requirement that transactions are subject to constraints.
+* **Isolation** Requirement that transactions are free from "dirty reads" and "lost updates" such that parallel transactions do not negatively impact each other.
+* **Durability** Requirement that completed transactions are preserved, permanent, and free from transient interferance.
+
+These are not magic, but rather what any decent database management system will provide.  In the Relational World, we have [popular Relational Database Management Systems (RDBMS)](https://db-engines.com/en/ranking/relational+dbms) such as:
+* **Oracle**
+* **MySQL**
+* **MS SQL Server**
+* **PostgreSQL**
+* **SQLite**
+* **Snowflake**
+
+### Schemas
+
+When designing data, a schema is created/designed to express the topology of the semantic and physical aspects of data storage and management. More specifically, we are interested in identifying and grouping:
+
+* **fields** - the name and type of a datum to be stored in a collection of data that describes a record.
+* **keys** - values within the data that can be used to uniquely retrieve a record in the data store.
+* **relationships** - mappings between keys that allow for the selection of sets of related records.
+
+#### Relationship Types
+
+Once relationships are established, we can then speak of a number of types of relationships:
+* one-to-one
+* one-to-many
+* many-to-many
+
+![data relationships](https://qsstudy.com/wp-content/uploads/2019/01/types-of-relationship-in-Database.jpg)
+
+### Indexing and Normalization
+Schema design can be refined through processes of data normalization.
+
+![Data Normalization](https://databasetown.com/wp-content/uploads/2023/03/Normalization-in-DBMS-Copy.jpg)
+
+Once normalized, data can often be indexed to reduce search time.
+
+![Data Indexing](https://cdn-media-1.freecodecamp.org/images/0eg06hWYJWhXPt1QNuaDlETYrmnSKAo6Nf44)
+
+[Back to Contents](#contents)
+
 ## RESTful Interfaces for APIs
 Representational State Transfer (REST) uses the HTTP protocol standards as a basis for a API communication protocol for applications.  For a system to be considered RESTful, it must:
 
@@ -193,7 +258,7 @@ Content-Type: application/json
 {"icao": "KAMA", "raw": "KAMA 221753Z 18011KT 10SM CLR 09/M01 A2990 RMK AO2 SLP119 T00941011 10100 21006 50004", "updated": "1826 UTC 22 Mon Jan 2024"}
 ```
 
-**GET with query and filter**
+**GET with parameter**
 ```
 GET /reports/KAMA/raw
 HTTP/1.1 200 OK
@@ -204,16 +269,59 @@ KAMA 221753Z 18011KT 10SM CLR 09/M01 A2990 RMK AO2 SLP119 T00941011 10100 21006 
 ### HTTP Headers and Status Codes
 We can also use [HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) and [Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to assist in maintaining application state with respect to the provision and use of a RESTful API.
 
-
-## The Unified Modeling Language
-There are a number of visual models we'll want to become familiar with as a tool for expressing various aspects of a system.  The diagrams should ultimately contribute to the code artifacts we produce to facilitate the system's effectiveness.  With that said, these models are themselves artifacts of design; their purpose is to facilitate understanding that leads to an information systems artifact.
+[Back to Contents](#contents)
 
 ### Designing for a Resource Approach
 
-
 A resource-based view of your system is useful as it is prudent to consider that both state change and derived value come from viewing your system via the transactions it facilitates.  As the a RESTful API, by virtue of leveraging HTTp is limited to CRUD operations, a resource-based view encourages a design where resources are the "lego bricks" for the API your system provides.  Seeing everything as a resource helps to create very explicit APIs and helps with the stateless requirement for RESTful interfaces.
 
-A stateless service means that all the information required to fulfill a request is either provided by the caller or retrieved externally, normally from a database. This excludes other ways of keeping information, such as storing information locally in the same server's hard drive. This makes any server capable of handling every single request, and it's critical in achieving scalability.
+HTTP forces a stateless approach which ensures that all the information required to fulfill a request is initiated by the particulars of the call. What a RESTful API facilitates is the ability of two networked machines to coordinate by makings requests and providing responses. This has also been referred to in the past as [Remote Procedure Calls](https://en.wikipedia.org/wiki/Remote_procedure_call). Being remote, there is both latency and a degree of resource marshalling that must occur to keep these available.  Selecting something stateless, like HTTP, forces useful restrictions on API development which can be beneficial.
+
+[Back to Contents](#contents)
+
+### Notes for a RESTful design
+
+> Here are some notes for RESTful design from Jaime Buelta:
+>
+> The best way to start designing a RESTful API is to clearly state the resources and then describe them:
+>
+> * Description: Description of the action
+> * Resource URI: Note that this may be shared for several actions, differentiated by the method (for example, GET to retrieve and DELETE to delete)
+> * Methods applicable: The HTTP method to use for the action defined in this endpoint
+> * (Only if relevant) Input body: The input body of the request
+> * Expected result in the body: Result
+> * Possible expected errors: Returning status codes depending on specific errors
+> * Description: Description of the action
+> * (Only if relevant) Input query parameters: Query parameters to add to the URI for extra functionality
+> * (Only if relevant) Relevant headers: Any supported header
+> * (Only if relevant) Returning status codes out of the ordinary (200 and 201): Different from errors, in case there's a status code that's considered a success but it's not the usual case; for example, a success returns a redirection
+
+[Back to Contents](#contents)
+
+### Additional Items for RESTful APIs
+
+There are other items for consideration when developing RESTful APIs:
+
+* **Documentation**: Tools such as [OpenAPI and Swagger](https://swagger.io/specification/) help to expose both your API and its documentation to facilitate use.
+* **Authentication**: One of the drivers of big data is profit where access to API-driven information is ascribed a fee. Among many approaches to this is [JSON Web Tokens](https://jwt.io/).
+* **Versioning**: You will also want to version your API so that you can distinguish fixes and features over time.  [Semantic Versioning](https://semver.org/) is a common (and familiar) approach to this.
+
+### Design Targets: Frontend and Backend
+Keep in mind that our architecture and design, although commonly associated with the "backend" of an applicaiton ecosystem, can also apply to more client-facing "frontend" components of a system.
+
+Perhaps this picture illustrates these concepts:
+
+<!-- ![front end and back end](https://elevatex.de/wp-content/uploads/2022/02/Frontend-vs.-Backend-ENG.png) -->
+![front end and back end 2](https://i.ytimg.com/vi/YGxrvHGCJ2Y/maxresdefault.jpg)
+
+Understanding these broad aspects lends itself to our ability to our architectures in terms of layers and segments.  The general structures that underlies our architectural reasoning lies in the ability to array concerns or focal points into patterns.  We can sometimes understand brokering traffic between frontend and backend using the Model-View-Controller architecture pattern:
+
+![Model View Controller Pattern](https://miro.medium.com/v2/resize:fit:1200/1*AVqp-Nmj_8UCbo25jOjD-w.png)
+
+[Back to Contents](#contents)
+
+## The Unified Modeling Language
+There are a number of visual models we'll want to become familiar with as a tool for expressing various aspects of a system.  The diagrams should ultimately contribute to the code artifacts we produce to facilitate the system's effectiveness.  With that said, these models are themselves artifacts of design; their purpose is to facilitate understanding that leads to an information systems artifact.
 
 [Back to Contents](#contents)
 
