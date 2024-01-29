@@ -162,6 +162,8 @@ The short version, which is presented here, says that there are relational datab
 
 **Note:** Python has rich support for any of these database approaches.
 
+**Note:** [12-Factor App](https://www.methodsandtools.com/archive/12factorapp.php)
+
 ### Transaction Management
 Data stores become valuable when they facilitate and broker access across many requests and demands.  Most interactions with a database can be expressed in terms of a transaction. Care is needed in managing transactions to ensure enduring intergrity of the underlying system.  For this reason we can speak to the ability for a database system to handle transactions using the ACID acronym:
 
