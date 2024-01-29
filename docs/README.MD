@@ -157,7 +157,7 @@ A datum or data will always indicate whether a system is alive and can present a
 The short version, which is presented here, says that there are relational databases, and then the rest:
 
 * **Relational databases**: Leverages the relational model and the Structured Query Language to define and manipulate data and schemas.
-* **Non-relational databases**: Functionally, this means other data management paradigms beyond the relational model - document, key-value, object, and column data stores. Also includes graph databases.
+* **Non-relational databases**: Functionally, this means other data management paradigms beyond the relational model - [document](https://db-engines.com/en/article/Document+Stores), [key-value](https://db-engines.com/en/article/Key-value+Stores), [object](https://db-engines.com/en/article/Object+oriented+DBMS), [graph](https://db-engines.com/en/article/Graph+DBMS), and [wide column](https://db-engines.com/en/article/Wide+Column+Stores) data stores. 
 * **Small or flat databases**: Single file datastores meant to emphasize portability or simplicity. File-based such as XML, JSON, CSV, or even SQLite.
 
 **Note:** Python has rich support for any of these database approaches.
