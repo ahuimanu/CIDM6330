@@ -206,6 +206,37 @@ Once normalized, data can often be indexed to reduce search time.
 
 [Back to Contents](#contents)
 
+## Modeling Data
+Whereas we must attend to the implementation of data, for archictectural purposes, we often abstract data as mong the layers or tiers of our design.  Therefore, we can conceive of an n-tiered, or multitiered architecture for the purposes of reasoning about a system's overall design:
+
+![multitiered architecture](https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Overview_of_a_three-tier_application_vectorVersion.svg/1920px-Overview_of_a_three-tier_application_vectorVersion.svg.png)
+
+The idea here isn't to [get too hung up on tiers and layers](https://www.hanselman.com/blog/a-reminder-on-threemulti-tierlayer-architecturedesign-brought-to-you-by-my-late-night-frustrations) beyond keeping in mind that abstractions are useful for the processes of designing and reasoning about a system.
+
+### Domain-Driven Design as a Useful Abstraction
+We can look to Domain-Driven Design for useful vocabulary from which we can understand how to develop and use abstractions for architectural design.
+
+A DDD approach suggests the importance of the abstractions of models and context.  A Data Model abstracts data management to include state changes and the related business logic that governs state changes for the model. Of significant utility is to devel abstractions that separate applications and implementations.  A DDD encourages that we name these abstractions as methods and attributes that are consistent with the underlying langauge of the domain - as we name it in reality, we should name it in the model.
+
+DDD and Object-Oriented Programming (OOP) provide concepts that encourage designs that reflect the concepts intrinsic to a specific domain of practice. DDD encourages that we explore and define business-oriented interfaces to be included in our Model layer so we can abstract and present a consistent interface that represent the flow of business logic.
+
+DDD serves as a reminder that intimate knowledge of the specific domain, and subject-matter expertise (SME) are required to specify meaningful interfaces.  At its simplest expression, a Data Model simply replicates the database schema -  a class or object is designed that replicates the fields and structure of the database. However, models can be more complex and provide an interface to multiple tables or fields to best reflect actual patterns of use within the domain.
+
+#### Object-Relational Mapping
+Object-Relational Mapping (ORM) is the development of a system that transforms and translates from raw database access to in-memory/runtime objects that abstract raw access to the database. An ORM will provide mappings between the collections or tables in a database via the provision of related objects in an OOP environment.
+
+While ORM desribes a technique, ORMs are usually tool/libraries (SQLAlchemy and the DjangoORM are good examples)convert from SQL to Python objects. From a codig standpoint, we replace SQL statements with methods called on the classes and objects that represent the underlying database schema.
+
+Eventually, we rely on migrations to describe object model changes as schema changes, and vice versa.
+
+#### Common Data Model Patterns for Later Exploration
+
+Data modeling leads to our exploration of a few architectural patterns we will explore later:
+* Unit of Work
+* Command Query Responsibility Segregation
+
+[Back to Contents](#contents)
+
 ## RESTful Interfaces for APIs
 Representational State Transfer (REST) uses the HTTP protocol standards as a basis for a API communication protocol for applications.  For a system to be considered RESTful, it must:
 
