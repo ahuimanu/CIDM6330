@@ -101,7 +101,7 @@ def sum(args):
     sum_total = 0
     for val in args:
         sum_total += val
-    return total
+    return sum_total
 ```
 This is a straightforward approach to creating a running sum of any [iterable](https://pythonbasics.org/iterable/) (usually linear) structure we will encounter. `args` is assumed to be a python data structure such as [lists, tuples, or sets](https://docs.python.org/3/tutorial/datastructures.html).
 
@@ -115,8 +115,6 @@ workspace/
 ```
 
 We are likely to develop more and more tests where the [ideal coverage](https://artoftesting.com/test-coverage) of these tests will approach a one to one ratio with working/functioning code.
-
-
 
 ### Test Writing Considerations
 
@@ -144,9 +142,7 @@ We also want to iteratively explore all of the failure paths and circumstances. 
 With these steps in mind, the test can look like this:
 ```python
 import unittest
-
-from my_sum import sum
-
+from sum_thing import sum
 
 class TestSum(unittest.TestCase):
     def test_list_int(self):
@@ -176,3 +172,90 @@ As the heart of a unit test is in its assertion(s).  This is the validation and 
 |`.assertFalse(x)`      | `x == False`          |
 |`.assertIs(a, b)`      | `a is b`              |
 |`.assertIsNone(x)`     | `x is None`           |
+
+### The `unittest` command
+Unit test also has a command-line Python module utility that allows for more management options for your tests.
+
+In most cases you would run the `unittest` utility like this: `python -m unittest <module>`
+
+**NOTE:**
+~~~
+Anytime you put Python code into a .py source file, Python now considers all code in that file to belong (semantically) to the same module. This impacts how python imports work.
+~~~
+
+|command                        | purpose                                                                       |
+|-------------------------------|-------------------------------------------------------------------------------|
+|`unittest <module>`            | runs all methods in all subclasses of TestCase discovered within the module   |
+|`unittest -v <module>`         | runs tests with verbose - more detailed - output.                             |
+|`unittest discover`            | Lists all modules that contain unit tests`                                    |
+|`unittest discover -s <dir>`   | run all tests in a specified directory                                        |
+
+### Failing tests
+Python will throw an error when a test fails, which is the desired behavior because a failed test should be considered a "no go" and show stopping event.
+
+First, let's run the test: `python -m unittest discover -s tests/`
+
+And see the following output:
+```
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+```
+
+This is non-verbose output and the single dot shows that a single test was run and the *OK* shows that all tests passed.
+
+If we make a tiny change in the code, we can force a failing test:
+
+```python
+class TestSum(unittest.TestCase):
+    def test_list_int(self):
+        """
+        Test that it can sum a list of integers
+        """
+        data = [1, 2]
+        result = sum(data)
+        self.assertEqual(result, 4) #WRONG!!!
+```
+
+`unittest` will now produce output indicating that the test has failed and provide enough information to track down the failure.
+
+```
+F
+======================================================================
+FAIL: test_list_int (test.TestSum.test_list_int)
+Test that it can sum a list of integers
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<path_to_test>/test.py", line 11, in test_list_int
+    self.assertEqual(result, 4)
+AssertionError: 3 != 4
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+```
+
+### IDE Integration
+Most [Integrated Development Environments - IDEs](https://en.wikipedia.org/wiki/Integrated_development_environment) will provide additional facilities to detect, run, and present test results in ways that are less cumbersome than running commands.  As a rule, over the years I've learned how to first learn to run anything with just command-line tools before I start to rely on simplifications and automation.  Your results and experience may vary from mine.
+
+## Django and Flask
+Both Django and Flask base their testing environments on `unittest` so there will be few differences to worry about.  In Django's case, we'll use the `manage.py` utility to run tests like so: `python manage.py test`.  [Django has great integration for testing](https://docs.djangoproject.com/en/5.0/topics/testing/overview/) that we will put to good use.
+
+## Testing Influences Design
+As we study the principles of modularly, abstraction, coupling, and dependency, it should be come evident that testing, particularly integration and unit testing, provides up-close and empricial insight on what is really happening in your system/application.  This is so powerful that many adherents of TDD advocate for a [test-first philosophy](https://www.scrum.org/resources/blog/building-test-first-philosophy-key-agile-success).  While that can be extreme to some, there are merits in the premise.  In reality there is a fatigue in a test-first approach unless the philosophy is well internalized.
+
+If you open up to the concept that testing can shape design, then several additional possibilities also open up to you.  One advantage of testing is its ability to reveal quirks and depenencies that are sometimes called **side effects** of the functions and operations of your system.  A side effect is a condition where testing reveals tight coupling and dependencies that could negatively affect the system as it grows and evolves.  From a pure perspective, side effects complicate testing as results may vary each time a test is run for reasons not directly related to the test itself, but because of "upsteam" dependencies
+
+### Taking advantage of side effects
+As side effects are discovered, there are a vareity of opportunites to improve your code:
+
+* Can lead to a [refactor](https://refactoring.guru/refactoring) of code to become more in line with [Software Engineering best practices](https://en.wikipedia.org/wiki/SOLID). 
+* [Using Mocks, Fakes, or Stubs](https://martinfowler.com/articles/mocksArentStubs.html) to simulate the functions that lead to side effects
+* Progress to integration testing as appropriate
+
+## Integration Tests
+
+https://realpython.com/python-testing/#more-advanced-testing-scenarios
