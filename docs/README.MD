@@ -1,15 +1,26 @@
 # CIDM 6330 Documentation
 Some of the subject matter reasoning attached to the academic aims of this course are outlined and discussed here.
 
+00 – 01/16 – 01/20	Design Foundations
+01 – 01/21 – 01/27	Empirical Software Testing
+02 – 01/28 – 02/03	Paradigms and Patterns
+03 – 02/04 – 02/10	Design Principles
+04 – 02/11 – 02/17	Design Principles
+05 – 02/18 – 02/24	Components and Modularity
+06 – 02/25 – 03/02	Architectures Part 1
+09 – 03/17 – 03/23	Architectures Part 2
+11 – 03/31 – 04/06	Abstractions, Details, and Implementation
+
 # Contents
 
-1. [Orientation to the Subject](#orientation-to-the-subject)
-2. [Design](#design)
-3. [Software Architecture and Patterns](#software-architecture-and-patterns)
-4. [The Software Architect](#the-software-architect)
-5. The Empirics of Implementation
-6. Continuous Improvement
-7. The Mastery Path
+1. [Orientation to the Subject](#orientation-to-the-subject) - Design Foundations
+2. [Design](#design) - Design Foundations, Design Principles
+3. Empirical Validation and Testing - Empirical Software Testing
+4. [Software Architecture and Patterns](#software-architecture-and-patterns) - Architectures 1 and 2
+5. [The Software Architect](#the-software-architect)
+6. The Empirics of Implementation - Components, Modularity, Abstractions, Details, and Implementation
+7. Continuous Improvement
+8. The Mastery Path
 
 # Orientation to the Subject
 We are here to learn more about Software Engineering, Software Architecture, and Systems Design and Development.  These are not necessarily overlapping concepts, but they do share familial aims and purposes.
