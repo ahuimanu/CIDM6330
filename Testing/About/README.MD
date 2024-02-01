@@ -48,3 +48,131 @@ assert sum([1,2]) == 3 #expecting 3 and thus true
 ```
 
 [Assert](https://www.w3schools.com/python/ref_keyword_assert.asp) is a simple tool, but is the functional and conceptual underpinning of all unit testing.
+
+## Test Runners
+While you can easily use assert to develop your own testing plan and structure, you would quickly find that to be a full-time task and you would be, frankly, reinventing the wheel.
+
+A test runner is a software ecosystem that assist in the development and execution of your test plan.
+
+There are many test runners, but I've largely just used these:
+* unittest - comes with Python
+* PyTest - 3rd party
+
+Since unittest comes with Python, let's focus there:
+ 
+ ## `unittest`
+`unittest` will assist as a sofware testing framework, with libraries and structures to assist across your applications, and more simply to run your tests. 
+
+`unittest` has the following provisions for the development of your tests:
+
+* tests are methods in a subclass of the TestCase class
+* TestCase provides specialized assertion methods rather than the `assert` command.
+
+Thus, the simple sum example would look like this usig the unittest framework:
+
+```python
+import unittest
+
+class TestSum(unittest.TestCase):
+
+    def test_sum(self):
+        self.assertEqual(sum([1, 2, 3]), 6, "sum is 6")
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### `unittest` example
+Let's examine a more elaborate example:
+
+the project assumes the following project structure:
+```
+workspace/
+    sum_thing/
+        __init__.py
+```
+**NOTE:** 
+>The above example uses one of the many [Dunder Methods](https://www.geeksforgeeks.org/dunder-magic-methods-python/) provided out of the box in Python.  These are "global" methods that are also usually available for override when you create a new class.
+
+So, within the `__init__.py` file, which is evaluated anytime the `sum_thing` package is used, we can place a utility method that will do our summing:
+
+```python
+def sum(args):
+    sum_total = 0
+    for val in args:
+        sum_total += val
+    return total
+```
+This is a straightforward approach to creating a running sum of any [iterable](https://pythonbasics.org/iterable/) (usually linear) structure we will encounter. `args` is assumed to be a python data structure such as [lists, tuples, or sets](https://docs.python.org/3/tutorial/datastructures.html).
+
+Now, we can progress to including tests in our project:
+```
+workspace/
+    sum_thing/
+        __init__.py
+    tests/
+        test.py
+```
+
+We are likely to develop more and more tests where the [ideal coverage](https://artoftesting.com/test-coverage) of these tests will approach a one to one ratio with working/functioning code.
+
+
+
+### Test Writing Considerations
+
+There is a general flow or cadence to writing tests that goes something like this:
+
+* Q: What are we testing?
+    * A unit test or an integration test?
+
+Common test Structure - Arrange, Act, Assert
+
+* Arrange: Create inputs to the function to be tested.
+* Act: Execute the function to be tested and retrieve the output of that function
+* Assert: Compare the output with an expected result
+
+Consider the range of behaviors to plan for the cases to be tested. For the sum_thing example:
+
+* Can sum_thing sum a list integers?
+* Can sum_thing sum a tuple or set?
+* Can sum_thing sum a list of floats?
+
+We also want to iteratively explore all of the failure paths and circumstances.  What should we do when:
+* An out of specification value is passed, like a single number or a non-numeric value?
+* A given value is negative?
+
+With these steps in mind, the test can look like this:
+```python
+import unittest
+
+from my_sum import sum
+
+
+class TestSum(unittest.TestCase):
+    def test_list_int(self):
+        """
+        Test that it can sum a list of integers
+        """
+        data = [1, 2, 3]
+        result = sum(data)
+        self.assertEqual(result, 6)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### Understanding `unittest`'s Assertions
+As the heart of a unit test is in its assertion(s).  This is the validation and "pass/fail" element of the assertion - assertion results are always binary.  When developing assertions, keep the following in mind:
+
+* Manually inspect and validate that the assertion statement is valid
+* Adopt a "what if" and "what about" hypothesis orientation to discovering the various ways that your function can fail.
+
+`unittest` provides a set of common assertions that have been developed as methods that help you to assert on the values, types, and null values:
+
+|`unittest` method      | `assert` equivalent   |
+|-----------------------|-----------------------|
+|`.assertEqual(x, y)`   | `x == y`              |
+|`.assertTrue(x)`       | `x == True`           |
+|`.assertFalse(x)`      | `x == False`          |
+|`.assertIs(a, b)`      | `a is b`              |
+|`.assertIsNone(x)`     | `x is None`           |
