@@ -1,24 +1,9 @@
-# Testing Exercises
+# Testing
 
-Various demonstrations and examples of testing will be placed here.
+This folder contains examples and materials on software testing with an emphasis on Python.
 
-`pip install -U black --user`
+to start, there are a few subfolders:
 
-## Hillard's Examples
-
-Dane Hillard shows some examples of testing in chapter 5 of *Practices of the Python Pro* book.
-
-```python
-{
-    'SHOES-S-BLACK': {
-        'quantity': 2,
-        ...
-    },
-    'SHOES-M-BLUE': {
-        'quantity': 1,
-        ...
-    },
-}
-
-
-```
+* About - A more generalized set of notes and examples on testing.
+* Hillard - A few examples inspired by Dan Hillard's *Practices of the Python Pro* book. 
+* PyTesting - some basic examples featuring the [PyTest](https://docs.pytest.org/en/8.0.x/) testing framework for python. 
