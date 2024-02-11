@@ -523,10 +523,12 @@ Again Richards and Ford provide some nice examples:
 
 See also: [the ISO25010 standards on Software Product Quality](https://iso25000.com/index.php/en/iso-25000-standards/iso-25010)
 
+[Back to Contents](#contents)
+
 ## Software Architecture Patterns 1
 A design pattern is a shortcut that builds on prior knowledge gained from trial and error that culminates in common approaches to common needs and issues that arise in the design of a system. I am borrowing from a few inputs here to develop an amalgam of patterns and approaches:
 
-* The Twelve-Factor App
+* [The Twelve-Factor App](#the-twelve-factor-app)
 * Web Application Architectures
 * Event-Driven Architectures
 * Command-Query Responsibility Separation
@@ -592,6 +594,150 @@ Application systems ideally behave consistently under a range of demand loads. T
 
 ![Scalability Types](./img/VERTICAL-AND-HORIZONTAL.png)   
 
+### 12-Factor Concepts: Configuration
+
+The Twelve-Factor App encourages the view that both code and configuration are vital assets to be managed equally.  This is manifest in the concept of [Configuration as Code](https://www.cloudbees.com/blog/configuration-as-code-everything-need-know).
+
+The concept of configuration and code being equal assets is readily visible in the widespread use of virtual machines and app containers, where both exists to ensure a stable and known execution environment.  Configurations are the set of parameters used to indicate the settings and behaviors required for the system to support the application's execution:
+
+Here is a way to think of these configuration parameters:
+
+* **Operational configuration**: These parameters connect different parts of the system or that are related to monitoring: 
+    * credentials for the database
+    * service URLs 
+    * Log and system settings
+* **Feature configuration**: These parameters change external behavior, enable features or change the behaviors of the system:
+    * UI settings 
+    * Enabled app behaviors
+    * Defining constants or macros
+
+*Operational* configurations are typically concerned with deploying and running your app/system and often help distinguish between a local development environment and a production environment.
+
+Like code, operational configurations usually stored in files and organized by the referenced target environment. This also means that configuration changes are code changes. There are issues with this approach in the case of horizontal scaling where threats related to duplication and misalignment may occur between resources nodes.
+
+In general, the Twelve-Factor App suggests using Environment Variables as a result.
+
+### 12-Factor Practices
+
+We can group the 12-factor practices to better understand their practical implementations:
+
+* *Portability*: Code base, Build, release, run, and Dev/prod parity. 
+    * Git and GitHub/GitHub Actions
+    * VMs, VPSs, Containers
+    * PaaS, IaaS, SaaS
+* *Service configuration and connectivity*: Config, Dependencies, Port binding, and Backing services
+    * Favor the use of Environment Variables and similar strategies (dot env)
+    * Map services to TCP/IP ports
+* *scalability*: Processes, Disposability, and Concurrency 
+    * Processes represent conceptual/semantic areas of responsibility
+    * Work with operating system-level features to manage processes (Windows/Linux)
+* *monitoring*: Logs and Admin processes
+    * Metrics and loggin as key health, security, and performance tools
+    * major state changes
+    * Reporting
+
+The 12-factor can be restarted, within the groups above, as supporting the following principles:
+
+* **Build once, run multiple times** - Generating a single application package that runs in many environments.
+* **Dependencies and configuration** - Manage configuration, software and service dependencies of the application as an equal resource.
+* **Scalability** - Strategies to facilitate scalability.
+* **Monitoring and admin** - Manage the operation of the software and system.
+
+
+### Web Application Architectures
+It is almost redundant to speak of application architecures and then speak of the architecture of Web/HTTP server architectures as the Web is the primary application/protocol delivery "stack." As any distributed system architecture will require remote access, Web services based on HTTP are ubiquitous and will be our sole focus.  
+
+__*Our principle points of study will be*__:
+* The structure of HTTP servers
+* The HTTP request-response paradigm  
+* three-layer application design: 
+    * web server - HTTP
+    * worker processes - Work that you design, independent of HTTP
+    * service layers that direct worker processes and interact with the web server - and Application server to coordinate between HTTP and your worker processes.
+
+__*Example with Django*__:
+* HTTP Server: nginx
+* Application Service Layer: uWSGI
+* Worker Specification and Web Application Framework: Django
+* Data-only API Web Application Framework: Django REST framework
+
+#### HTTP Request and Response
+
+In general, request–response or request–reply is a basic method that computers use to communicate with each other over a network: machine A sends a request for some data and machine B responds to the request. This is duplex messaging pattern which allows two applications to have a two-way conversation with one another over a channel and is especially common in client–server architectures.
+
+![Duplex](./img/FullDuplex.jpg)
+
+The request-response pattern is often implemented  synchronously such as in our use case of interest where a web service calls over HTTP, which holds a connection open and waits until the response is delivered or the timeout period expires. Request–response may also be implemented asynchronously where a response can be received later. Even with synchronous communication, there is communications latency within the request and response cycle endemic to the nature of sending and processing electro-magnetic energy. When communications occur within the machine, latency can be measured in a few milliseconds.  However over internetworked communications, latency can be measured in hundreds of milliseconds, or worse.  These variations in time are a key component of how the HTTP, TCP, and IP protocols work together.
+
+In implementation, most requests are made synchronously such that process execution halts and waits for a response. The latency involved in waiting requires error handling that needs to consider different failure cases and provisions to reattempt the communication.
+
+The request-response is a call and response pattern where the responder does not contact the caller proactively. This simplification suggests that such communications are not truley Duplex, but effectively so. In the request-response pattern, the client is required to initiate the request where the server's role is to listen to and respond to these requests. Again, a basic request-response communication is not fully bidirectional communication. The server polls to check whether there are new messages.  Despite its drawbacks, the request-response architecture forms the basis of web services.
+
+#### The MSDN Illustration of HTTP Request and Response
+
+This is easier to comprehend if we borrow from the Mozilla Developer Network's documentation on [HTTP messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages).
+
+In the image below, we see the major components of how the [Hypertext Transfer Protocol](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview) works:
+
+![HTTP Message](./img/httpmsg2.png)
+
+Using packet sniffers such as wireshark, the payload of these messages can be examined as the protocol works with very simple plaintext messages:
+
+![Request Body](./img/httpmsgstructure2.png)
+
+##### Anatomy of the HTTP Request
+
+![Http Request Headers](./img/http_request_headers3.png)
+
+1. The client sends the HTTP a message containing a `request line`:
+    * An [HTTP Method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) is stated
+    * A `request target` is specified: a URL, or the absolute path of the protocol, port, and domain
+    * Specification of the HTTP Version
+2. The Client clarifies the request using [HTTP Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers). Generally, the types of specifications communicated in the header are:
+    * [General headers](https://developer.mozilla.org/en-US/docs/Glossary/General_header)
+    * [Request headers](https://developer.mozilla.org/en-US/docs/Glossary/Request_header)
+    * [Representational headers](https://developer.mozilla.org/en-US/docs/Glossary/Representation_header)
+3. Body - only some requests have bodies, depending on the nature of the HTTP request.  There are typically two categories of bodies:
+    * Single-resource - `Content-Type` or `Content-Length`
+    * Multi-resources - HTML Forms are a good example.
+
+##### Anatomy of the HTTP Response
+
+![HTTP Response Headers](./img/http_response_headers3.png)
+
+1. The server responds to an HTTP message starting with a `status line`
+    * `Protocol version`
+    * [HTTP Response Status Code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) - these can be key in denoting state when HTTP is coopted to develop an API.
+    * `Status text` which is an informational and informal addendum to the status code.
+2. The response also uses headers, which nearly identical in form and purpose to request headers.
+3. The `response body` forms the essence of the request-response chain as the answer contains the "value" of the transaction.  Again we have a few categories for the response body:
+    * Single-resource bodies: `Content-Type` and `Content-Length`
+    * Single-resource bodies with follow-on data: consists of a single file of unknown length, encoded by chunks with `Transfer-Encoding` set to `chunked`.
+    * Multiple-resource bodies: a multipart body with each part containing a different section of information. 
+
+### Typical FOSS Web Achitecture
+
+A common free and open source software-driven web application architecture will conceptually look like this:
+
+![FOSS Web Archicture](./img/Web%20Architecture.png)
+
+We can see the following elements:
+* Web Server
+* Web Application Server
+* Application Server (Workers)
+* Database
+
+![FOSS Web Architecture - Django](./img/Web%20Architecture%20Django.png)
+
+We'll focus on nginx, uWSGI, and Django as working examples.
+
+![Django MVT](./img/Django-MVT.png)
+
+Using a separate example, we'll see Django and the Django Rest Framework used to illustrate a full web application architecture.  In general, we'll leverage Django, the DRF, and any WSGI app container to perform key communication and data handling aspects of our archictures.  This will leave the matter of work and workers to our own design.
+
+![Load Balancing](./img/LoadBalancing.webp)
+
+We could then use [containers and other load balancing strategies](https://www.digitalocean.com/community/tutorials/how-to-scale-and-secure-a-django-application-with-docker-nginx-and-let-s-encrypt) to scale our application.
 
 [Back to Contents](#contents)
 
