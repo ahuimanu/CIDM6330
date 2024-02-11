@@ -15,7 +15,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |09: 03/17 – 03/23  | Architectures Part 2                              | Forthcoming       |
 |10: 03/24 – 03/30  | Architectures Part 2                              | Forthcoming       |
 |11: 03/31 – 04/06  | Abstractions, Details, and Implementation         | Forthcoming       |
-|12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect](#the-software-architect)   
+|12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect](#the-software-architect) |
 
 # Contents
 
