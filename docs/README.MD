@@ -21,7 +21,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 
 1. [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)
 2. [Design](#design)
-3. [Empirical Validation and Testing](../testing/About/) - Empirical Software Testing
+3. [Empirical Validation and Testing](testing/About/) - Empirical Software Testing
 4. [Software Architecture and Patterns](#software-architecture-and-patterns) - Architectures 1 and 2
 5. [The Software Architect](#the-software-architect)
 6. The Empirics of Implementation - Components, Modularity, Abstractions, Details, and Implementation
