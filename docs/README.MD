@@ -10,10 +10,10 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |04: 02/04 – 02/10	| Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns) |
 |05: 02/11 – 02/17  | Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns) |
 |06: 02/18 – 02/24	| Components and Modularity                         | Forthcoming       |
-|07: 02/25 – 03/02  | Architectures Part 1                              | Forthcoming       |
-|08: 02/03 – 03/09  | Architectures Part 1                              | Forthcoming       |
-|09: 03/17 – 03/23  | Architectures Part 2                              | Forthcoming       |
-|10: 03/24 – 03/30  | Architectures Part 2                              | Forthcoming       |
+|07: 02/25 – 03/02  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
+|08: 02/03 – 03/09  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
+|09: 03/17 – 03/23  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
+|10: 03/24 – 03/30  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
 |11: 03/31 – 04/06  | Abstractions, Details, and Implementation         | Forthcoming       |
 |12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect](#the-software-architect) |
 
