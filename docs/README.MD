@@ -22,7 +22,9 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 1. [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)
 2. [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns)
 3. [Empirical Validation and Testing](../Testing/About/README.MD) - Empirical Software Testing
-4. [Software Architecture and Patterns](#software-architecture-and-patterns) - Architectures 1 and 2
+4. [Software Architecture and Patterns](#software-architecture-and-patterns)
+    1. [Software Architecture Patterns 1](#software-architecture-patterns-1)
+    2. [Software Architecture Patterns 2](#software-architecture-patterns-2)
 5. [The Software Architect](#the-software-architect)
 6. The Empirics of Implementation - Components, Modularity, Abstractions, Details, and Implementation
 7. Continuous Improvement
@@ -737,6 +739,30 @@ Using a separate example, we'll see Django and the Django Rest Framework used to
 ![Load Balancing](./img/LoadBalancing.webp)
 
 We could then use [containers and other load balancing strategies](https://www.digitalocean.com/community/tutorials/how-to-scale-and-secure-a-django-application-with-docker-nginx-and-let-s-encrypt) to scale our application.
+
+[Back to Contents](#contents)
+
+## Software Architecture Patterns 2
+
+Our journey through patterns becomes a bit more abstract here as we examine ways to structure our modeling of data, our work and workers, and our methods for communicating within and without our software system.  We will proceed with the following subjects:
+
+* Event-Driven Architectures
+* Command-Query Responsibility Separation
+* Scope and Structures of Microservices and Monoliths
+
+### Event-Driven Architectures
+
+asedf
+
+### Command-Query Responsibility Separation
+
+asedf
+
+### Scope and Structures of Microservices and Monoliths
+
+asedf
+
+[Back to Contents](#contents)
 
 [Back to Contents](#contents)
 
