@@ -16,7 +16,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |10: 03/24 – 03/30  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
 |11: 03/31 – 04/06  | Abstractions, Details, and Implementation         | Forthcoming       |
 |12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect](#the-software-architect) |
-|12: 04/04 - 04/19  | Continuous Improvement and the Mastery Path       | | Forthcoming       |
+|13: 04/14 - 04/19  | Continuous Improvement and the Mastery Path       | | Forthcoming       |
 
 # Contents
 
