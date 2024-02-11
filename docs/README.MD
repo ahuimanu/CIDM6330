@@ -9,13 +9,15 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |03: 01/28 – 02/03  | Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns) |
 |04: 02/04 – 02/10	| Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns) |
 |05: 02/11 – 02/17  | Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns) |
-|06: 02/18 – 02/24	| Components and Modularity                         | Forthcoming       |
+|06: 02/18 – 02/24  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
 |07: 02/25 – 03/02  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
-|08: 02/03 – 03/09  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
+|08: 03/03 – 03/09	| Components and Modularity                         | Forthcoming       |
 |09: 03/17 – 03/23  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
 |10: 03/24 – 03/30  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
 |11: 03/31 – 04/06  | Abstractions, Details, and Implementation         | Forthcoming       |
-|12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect](#the-software-architect) |
+|12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect]
+(#the-software-architect) |
+|12: 04/04 - 04/19  | Continuous Improvement and the Mastery Path       | | Forthcoming       |
 
 # Contents
 
@@ -25,10 +27,11 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 4. [Software Architecture and Patterns](#software-architecture-and-patterns)
     1. [Software Architecture Patterns 1](#software-architecture-patterns-1)
     2. [Software Architecture Patterns 2](#software-architecture-patterns-2)
-5. [The Software Architect](#the-software-architect)
-6. The Empirics of Implementation - Components, Modularity, Abstractions, Details, and Implementation
-7. Continuous Improvement
-8. The Mastery Path
+5. The Empirics of Implementation
+    1. Components, Modularity
+    2. Abstractions, Details, and Implementation
+5. [The Software Architect](#the-software-architect)    
+7. Continuous Improvement and the Mastery Path
 
 # Orientation to the Subject
 We are here to learn more about Software Engineering, Software Architecture, and Systems Design and Development.  These are not necessarily overlapping concepts, but they do share familial aims and purposes.
