@@ -754,15 +754,15 @@ Our journey through patterns becomes a bit more abstract here as we examine ways
 
 ### Event-Driven Architectures
 
-asedf
+Forthcoming
 
 ### Command-Query Responsibility Separation
 
-asedf
+Forthcoming
 
 ### Scope and Structures of Microservices and Monoliths
 
-asedf
+Forthcoming
 
 [Back to Contents](#contents)
 
