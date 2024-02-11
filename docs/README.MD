@@ -475,7 +475,6 @@ Richards and Ford have a nice model of this:
 
 <img src="img/architecture-characteristics.png" alt="Architectural Characteristics" height="400">
 
-
 ### Examples of Architectural Characteristics
 
 Again Richards and Ford provide some nice examples:
@@ -523,6 +522,78 @@ Again Richards and Ford provide some nice examples:
 | Exertise/Skill    | "Expected user skill level required." |
 
 See also: [the ISO25010 standards on Software Product Quality](https://iso25000.com/index.php/en/iso-25000-standards/iso-25010)
+
+## Software Architecture Patterns 1
+A design pattern is a shortcut that builds on prior knowledge gained from trial and error that culminates in common approaches to common needs and issues that arise in the design of a system. I am borrowing from a few inputs here to develop an amalgam of patterns and approaches:
+
+* The Twelve-Factor App
+* Web Application Architectures
+* Event-Driven Architectures
+* Command-Query Responsibility Separation
+* Scope and Structures in Microservices and Monoliths
+
+### The Twelve-Factor App
+The [Twelve-Factor App](https://12factor.net/) is an methodology to facilitate that software is commonly delivered as a service.  The 12-factor approach emphasizes:
+
+* **Delarative** configurations that encourage the use of automation.
+* Configuration that ensures a **clean contract** with the underlying operating system for **portability** between execution environments.
+* Oriented towards deployment on **cloud platforms** to minimize servers and systems administration.
+* Minimize divergence between **development** and **production** environments continuous deployment.
+* Facilitataes scaling without significant changes to tooling, architecture, or development practices
+
+The twelve-factor methodology is a design patterns as it stems from solutions to common and systemic in application development.  The twelve-factor methodology provides a vocabulary and lexicon that conceptualizes common problems and solutions. The ideas in the twelve-factor methodology are inspired by Martin Fowler’s books:
+
+#### [Patterns of Enterprise Application Architecture](https://martinfowler.com/books/eaa.html)
+![Patterns of Enterprise Application Architecture](https://martinfowler.com/books/eaa.jpg)
+
+#### [Refactoring](https://martinfowler.com/books/refactoring.html)
+![Refactoring](https://martinfowler.com/books/refact2.jpg)
+
+### The Twelve Factors
+
+| Factor    | Concept |
+|-----------|---------|
+|1. [Code base](https://12factor.net/codebase): One codebase tracked in revision control, many deploys. | ![Code base](https://12factor.net/images/codebase-deploys.png) |
+| 2. [Dependencies](https://12factor.net/dependencies): Explicitly declare and isolate dependencies. | &nbsp; |
+| 3. [Config](https://12factor.net/config/): Store config in the environment. | &nbsp; |
+| 4. [Backing services](https://12factor.net/backing-services): Treat backing services as attached resources. | ![Backing services](https://12factor.net/images/attached-resources.png) |
+| 5. [Build, release, run](https://12factor.net/build-release-run): Differentiate between build and run states. | ![Build, release, run](https://12factor.net/images/release.png) |
+| 6. [Processes](https://12factor.net/processes): Execute the app as one or more stateless processes. | &nbsp; |
+| 7. [Port binding](https://12factor.net/port-binding): Export services via port binding.| &nbsp; |
+| 8. [Concurrency](https://12factor.net/concurrency): Scale out via the process model. | ![Concurrency](https://12factor.net/images/process-types.png) |
+| 9. [Disposability](https://12factor.net/disposability): Maximize robustness with fast startup and graceful shutdown. | &nbsp; |
+| 10. [Dev/prod parity](https://12factor.net/dev-prod-parity): Keep development, staging, and production as similar as possible. | &nbsp; |
+| 11. [Logs](https://12factor.net/logs): Treat logs as event streams. | &nbsp; |
+| 12. [Admin processes](https://12factor.net/admin-processes): Run admin/management tasks as one-off processes.  | &nbsp; |
+
+### 12-Factor Concepts: Continuous Integration
+Continuous Integration (CI) features compulsory automated testing when code is committed to a central repository. The objective CI is to ensure that only working code makes it to production. This is an empirical approach that favors feedback to minimize errors and increase the speed of delivery. Automated testing is designed to produce quality code by relying on quality tests which emphasizes the need for test quality.
+
+CI systems will run tests automatically upon either detecting changes or by being triggered by other workflow automation. Test area comprehensive and may be time consuming depending on the size and scope of a project. Commonly, tests are run when new changes in the code base are detected. Git, and [GitHub](https://github.com/) or [GitLab](https://about.gitlab.com/), provide "hooks" to assist in controlling test automation. We learn how to use GitHub Actions for to create conditional or event-driven CI actions.  It is common to refer to the process of CI in terms of a "pipeline," or a series of treatments and tests run in the interest of implementing CI.
+
+A pipeline may look like this:
+
+* A project workspace is configured to work with CI automation - usually 3rd party libraries and configuration files.
+* Explicit build commands are executed to prepare the code for further use.
+* Static Code Analysis ([linters](https://en.wikipedia.org/wiki/Lint_(software))) tools like [flake8](https://flake8.pycqa.org/en/latest/) or [black](https://pypi.org/project/black/) are used for linting and code style conformity.
+* Unit tests run and the pipeline stops on errors.
+* If unit tests pass, downstream integration tests can be run as well.
+
+All CI pipelines presume some, or total, automation: all stetps in the pipeline are designed to be run without monitoring or assistance.  Thus, dependencies must also be a part of the CI configuration.  It is also common to include virtual machines as a part of the automation to ensure testing environment that mirrors the expected operating environment.
+
+### 12-Factor Concepts: Scalability
+
+![System Scalability](./img/scalability-of-a-system.png)
+
+Application systems ideally behave consistently under a range of demand loads. This is a system behavior that is designed automatically increase resources to accommodate more demand.  This can be achieved using two main approaches:
+
+* **Vertical scalability**: Increase resources at each system node.
+* **Horizontal scalability**: Increase the number of system nodes at the same resource level.
+
+![Scalability Types](./img/VERTICAL-AND-HORIZONTAL.png)   
+
+
+[Back to Contents](#contents)
 
 # The Software Architect
 
