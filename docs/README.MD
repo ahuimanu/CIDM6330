@@ -529,7 +529,7 @@ See also: [the ISO25010 standards on Software Product Quality](https://iso25000.
 A design pattern is a shortcut that builds on prior knowledge gained from trial and error that culminates in common approaches to common needs and issues that arise in the design of a system. I am borrowing from a few inputs here to develop an amalgam of patterns and approaches:
 
 * [The Twelve-Factor App](#the-twelve-factor-app)
-* Web Application Architectures
+* [Web Application Architectures](#web-application-architectures)
 * Event-Driven Architectures
 * Command-Query Responsibility Separation
 * Scope and Structures in Microservices and Monoliths
@@ -642,7 +642,6 @@ The 12-factor can be restarted, within the groups above, as supporting the follo
 * **Dependencies and configuration** - Manage configuration, software and service dependencies of the application as an equal resource.
 * **Scalability** - Strategies to facilitate scalability.
 * **Monitoring and admin** - Manage the operation of the software and system.
-
 
 ### Web Application Architectures
 It is almost redundant to speak of application architecures and then speak of the architecture of Web/HTTP server architectures as the Web is the primary application/protocol delivery "stack." As any distributed system architecture will require remote access, Web services based on HTTP are ubiquitous and will be our sole focus.  
