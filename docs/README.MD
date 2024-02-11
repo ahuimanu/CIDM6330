@@ -6,9 +6,9 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |00: 01/16 – 01/20  | Design Orientation                                | [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)    |
 |01: 01/21 – 01/27  | Design Orientation                                | [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)    |
 |02: 01/28 – 02/03  | Empirical Software Testing                        | [Empirical Validation and Testing](../Testing/About/README.MD)    |
-|03: 01/28 – 02/03  | Design Principles, Paradigms, and Patterns        | [Design](#design) |
-|04: 02/04 – 02/10	| Design Principles, Paradigms, and Patterns        | [Design](#design) |
-|05: 02/11 – 02/17  | Design Principles, Paradigms, and Patterns        | [Design](#design) |
+|03: 01/28 – 02/03  | Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles,-paradigms,-and-patterns) |
+|04: 02/04 – 02/10	| Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles,-paradigms,-and-patterns) |
+|05: 02/11 – 02/17  | Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles,-paradigms,-and-patterns) |
 |06: 02/18 – 02/24	| Components and Modularity                         | Forthcoming       |
 |07: 02/25 – 03/02  | Architectures Part 1                              | Forthcoming       |
 |08: 02/03 – 03/09  | Architectures Part 1                              | Forthcoming       |
@@ -20,7 +20,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 # Contents
 
 1. [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)
-2. [Design](#design)
+2. [Design Principles, Paradigms, and Patterns](#design-principles,-paradigms,-and-patterns)
 3. [Empirical Validation and Testing](../Testing/About/README.MD) - Empirical Software Testing
 4. [Software Architecture and Patterns](#software-architecture-and-patterns) - Architectures 1 and 2
 5. [The Software Architect](#the-software-architect)
@@ -87,7 +87,7 @@ We will answer these, not necessarily in order, in the remaining sections here.
 
 [Back to Contents](#contents)
 
-# Design
+# Design Principles, Paradigms, and Patterns
 ```Design is the first stage of any successful system, and encompasses everything that you work on before you begin implementation``` - Jaime Buetla
 
 We are really here to reconcile three things:
