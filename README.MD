@@ -13,8 +13,8 @@ While the Percival and Gregory Book is older now, it has good concepts in it and
 * [APP2023](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory with some adjustments
 * [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material
 * [Docs](docs/README.MD)
-* [PyTesting](PyTesting/README.MD) - pytest basics
 * [Testing](Testing/README.MD) - Separate materials on testing in Python.
+* [PyTesting](Testing/PyTesting/README.MD) - pytest basics
 * [Django Girls Tutorial](tutorials/django-girls-tutorial/) - A good primer on Django.
 
 ## Git Crash Course for Begginers
