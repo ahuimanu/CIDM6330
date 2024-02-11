@@ -593,3 +593,9 @@ How these elements come together is illustrated in Michael Bell's model below:
 It is important to note that Michael Bell's model is not a means to understand the prototypical Software Architect, but rather to identify the type of Software Architecture competencies and capabilities required within a given design context.  This is so as an experienced architect will be, at least, the sum of their experiences.  Should the architect be a reflective practitioner, they may may realize the "synergy" that exceeds sum of parts.
 
 [Back to Contents](#contents)
+
+# MISC
+
+[Relative paths in README files at GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
+
+[Back to Contents](#contents)
