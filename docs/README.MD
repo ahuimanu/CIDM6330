@@ -1,5 +1,5 @@
 # CIDM 6330 Documentation
-Some of the subject matter reasoning attached to the academic aims of this course are outlined and discussed here.
+Some of the subject matter reasoning attached to the academic aims of this course are outlined and discussed here. Here is the Spring 2024 Schedule mapped to the contents of this README.
 
 |Schedule           | Topic                                             | Readme Section Heading    |    
 |-------------------|---------------------------------------------------|---------------------------|
