@@ -5,7 +5,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |-------------------|---------------------------------------------------|---------------------------|
 |00: 01/16 – 01/20  | Design Orientation                                | [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)    |
 |01: 01/21 – 01/27  | Design Orientation                                | [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)    |
-|02: 01/28 – 02/03  | Empirical Software Testing                        | [Empirical Validation and Testing](../testing/About/README.MD)    |
+|02: 01/28 – 02/03  | Empirical Software Testing                        | [Empirical Validation and Testing](../testing/About/)    |
 |03: 01/28 – 02/03  | Design Principles, Paradigms, and Patterns        | [Design](#design) |
 |04: 02/04 – 02/10	| Design Principles, Paradigms, and Patterns        | [Design](#design) |
 |05: 02/11 – 02/17  | Design Principles, Paradigms, and Patterns        | [Design](#design) |
