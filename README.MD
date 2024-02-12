@@ -11,11 +11,12 @@ While the Percival and Gregory Book is older now, it has good concepts in it and
 * [Acme](acme/README.MD) - Acme crew scheduling example. (updated in 2024)
 * [APP](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
 * [APP2023](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory with some adjustments
-* [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material
-* [Docs](docs/README.MD)
+* [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material. This is now optional, but still a useful guide.
+* [Docs](docs/README.MD) - Course readings are here.
 * [Testing](Testing/README.MD) - Separate materials on testing in Python.
-* [PyTesting](Testing/PyTesting/README.MD) - pytest basics
-* [Django Girls Tutorial](tutorials/django-girls-tutorial/) - A good primer on Django.
+* [PyTesting](Testing/PyTesting/README.MD) - pytest basics. We will not use PyTest, but it is very popular, so I didn't want to skip it.
+* [MDN Django Tutorial](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django) - A good overview and tutorial for Django.
+* [Django Girls Tutorial](tutorials/django-girls-tutorial/) - Another good primer on Django.
 
 ## Git Crash Course for Begginers
 [Good resource](https://gist.github.com/brandon1024/14b5f9fcfd982658d01811ee3045ff1e).
