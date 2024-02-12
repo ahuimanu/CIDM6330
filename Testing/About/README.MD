@@ -129,11 +129,11 @@ Common test Structure - Arrange, Act, Assert
 * Act: Execute the function to be tested and retrieve the output of that function
 * Assert: Compare the output with an expected result
 
-Consider the range of behaviors to plan for the cases to be tested. For the sum_thing example:
+Consider the range of behaviors to plan for the cases to be tested. For the `sum_thing` example:
 
-* Can sum_thing sum a list integers?
-* Can sum_thing sum a tuple or set?
-* Can sum_thing sum a list of floats?
+* Can `sum_thing` sum a list integers?
+* Can `sum_thing` sum a tuple or set?
+* Can `sum_thing` sum a list of floats?
 
 We also want to iteratively explore all of the failure paths and circumstances.  What should we do when:
 * An out of specification value is passed, like a single number or a non-numeric value?
