@@ -754,7 +754,28 @@ Our journey through patterns becomes a bit more abstract here as we examine ways
 
 ### Event-Driven Architectures
 
-Forthcoming
+Event-Driven Structures
+
+Whereas Request-Response implies synchronous communication, some communications are notifications where responses may not be immediate. We refer to these sorts of messages as `events`: which are commonly  asynchronous background tasks where the resulting work, and notification of its completion, is not [blocking](https://en.wikipedia.org/wiki/Blocking_(computing)).
+
+Asynchronous tasks are typically handled in a messaging or queueing system.  A variation of such a system is a scheduled task system that executes on an interval.
+
+In the Django and Python contextss, [Celery](https://github.com/celery/celery) serves as a distributed task queue and manager.  There are other event and messaging patterns to explore, including the following topics and concepts:
+
+* Events
+* Asynchronous tasks
+* Scheduled tasks
+* Queues
+* [Celery](https://github.com/celery/celery) and [Django-q2](https://github.com/django-q2/django-q2)
+
+#### Events
+An event-driven architecture facilitates an unsupervised or managed communication approach where data is sent without the expectation of an immediate response. This is in contract to Request-Response which waits and blocks for a response.  In an event-driven pattern, an event is a signal for a request where the sender does not wait for a response. An event-driven system will often return a unique ID which provides a means of querying for event results at a later time for any follow-up tasks.
+
+Events act as a notification signal which will commonly travel within elements of the system in a transmission towards a final destination.  The underlying concept is that of the message bus and works to forward messages that flow through the system. A message bus architecture acts as a central exchange to manage messages across a system - internally and externally. It is common to rely on a single bus for communicatition within all subsystems of your own applicaiton architecture and as a means of contacting external systems. The message bus that carries events through the system can be thought of as a event queue. A queue is a [FIFO](https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)) data structure that is used to seqeuence the events.
+
+![message bus](./img/message_bus.png)
+
+Clients subscribing to the message bus listen to the event queue and extract relevant events. Any client on the message bus doesn't communicate directly with the sender of the event but can react and respond back into the message bus.  Processes that put and pull into and from the event bus are called the `publisher` and the `subscriber`. Systems that provides a message bus [RabbitMQ](https://www.rabbitmq.com/), [Redis](https://redis.io/), and [Apache Kafka](https://kafka.apache.org/). 
 
 ### Command-Query Responsibility Separation
 
