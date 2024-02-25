@@ -749,12 +749,11 @@ We could then use [containers and other load balancing strategies](https://www.d
 Our journey through patterns becomes a bit more abstract here as we examine ways to structure our modeling of data, our work and workers, and our methods for communicating within and without our software system.  We will proceed with the following subjects:
 
 * Event-Driven Architectures
+* Streams, Pipelines, and Busses
 * Command-Query Responsibility Separation
 * Scope and Structures of Microservices and Monoliths
 
 ### Event-Driven Architectures
-
-Event-Driven Structures
 
 Whereas Request-Response implies synchronous communication, some communications are notifications where responses may not be immediate. We refer to these sorts of messages as `events`: which are commonly  asynchronous background tasks where the resulting work, and notification of its completion, is not [blocking](https://en.wikipedia.org/wiki/Blocking_(computing)).
 
@@ -777,15 +776,102 @@ Events act as a notification signal which will commonly travel within elements o
 
 Clients subscribing to the message bus listen to the event queue and extract relevant events. Any client on the message bus doesn't communicate directly with the sender of the event but can react and respond back into the message bus.  Processes that put and pull into and from the event bus are called the `publisher` and the `subscriber`. Systems that provides a message bus [RabbitMQ](https://www.rabbitmq.com/), [Redis](https://redis.io/), and [Apache Kafka](https://kafka.apache.org/). 
 
+#### Streamed Events
+Events are important empirical evidence and are often the basis of logged information that is typical for instrumentation and monitoring. Such events contain metadata and information about error conditions. In these cases, such error events are typically non-blocking where the system or application continues after the error.  It is also possible to capture more than just error conditions where other aspects of performance and instrumentation are needed and can be captured in an event for later querying, aggregation, and reporting.  Commonly called logs and metrics these events often simply textual representations generated according to some business logic.
+
+These logging and metric events provide a picture of the health of running systems and provides inputs to instrumentation for control or alerting according to set criteria. For instance, we may be interested in receiving an alert if number of logged exceeds a threshold.
+
+![Monitoring Events](./img/Monitoring_Events.png)
+
+It is also possible to use event monitoring to throttle or achieve throughput quotas or limits.
+
+![EVent Throttling](./img/Event_Throttling.png)
+
+#### Event Pipelines
+An event pipeline introduces the concepts of an event/messaging bus extending communication with other systems. Events that cascade forward to multiple systems can be part of a larger process design (an architecture).  These are often triggered and can be seen in [CI/CD pipelines](https://www.redhat.com/en/topics/devops/what-cicd-pipeline).
+
+![CI/CD Pipeline](./img/ci-cd-flow-desktop_0.png)
+
+We can consider how a video service like Youtube provides this sort of triggered processing when a video is rescaled as it is uploaded. Youtube will commonly (and automatically) converted the video into different versions - commonly to accommodate different resolutions. The same process could be called upon to generate the thumbnail for the uploaded video.
+
+The steps could included:
+* A queue that receives an upload triggered event to start the processing. 
+* A queues to process rescaling 
+* A queue to generate the thumbnail
+* Coordination with external storage such as AWS S3.
+
+![S3 queue](./img/S3-queue.png)
+
+#### A Message Queue as Bus
+A message queueing system can also be referred to as a bus (or message bus). Commonly associated with electrical systems, a bus describes communication channels that transmit data between different hardware components components. Semantically, we describe a centralization of multisource and multidestination communications.  As such, in software, a bus is a generalization that allows for the interconnect of several logical components.
+
+We entrust a bus architecture to order communication within the system where a message sender doesn't need to know much other than what to transmit and which queue to send the message to. The bus handles intermediary routing.  This is similar to postal and parcel post systems.
+
+The bus can also act as a message broker which can both customize, decouple, and generalize inter- and intra-systems communication and services. Most packages that provide message bus services are commonly called message brokers - a prime example being [redis](https://redis.io/) (However, a system like redis will do more than message brokering).  [Apache kafka](https://aws.amazon.com/what-is/apache-kafka/) can work this way as well and many of these systems also create additional facilities to develop a [publication/subscription approach](https://aws.amazon.com/compare/the-difference-between-kafka-and-redis/).
+
+Commonly a message broker/bus serve as a central communication hub where all the event-related communication is sent directed to. While this creates a single poit of failure, it is also convenient.  Most Django examples that show using celery for task scheduling also commonly show the use of redis.
+
+* [Asynchronous Tasks With Django and Celery](https://realpython.com/asynchronous-tasks-with-django-and-celery/)
+
+![Message Bussing](./img/messag_bus_example.jpg)
+
+A publisher/subscriber model can be thought of a being a bit more tailored in terms of routing and notification over a simple message broker/queueing system:
+
+Message Queue (AWS)
+
+![Kafka Message Queue](./img/product-page-diagram_Kafka_Queue.png)
+
+PubSub (AWS)
+
+![Kafka Message PubSub](./img/product-page-diagram_Kafka_PubSub.png)
+
+#### Advanced Bussing Architectures
+A message bussing/brokering approach allows for the architecting of higher complexity where events will filter through multiple intermediary stages in much the same manner that plugin or middleware systems can work fromo the same queue.  [Django's middleware system](https://dev.to/bikramjeetsingh/a-comprehensive-guide-to-django-middleware-2fee) works in this manner.
+
+![Django Middleware](./img/Django-Middleware.png)
+
+Complex systems can utilize the message bus to feed alerting messages back into the system based on how those messages are comprehended by other subsystems.
+
+![Messaging and Alerting](./img/Messaging_and_Alerting.png)
+
+An event-driven messaging system distributes work between several functional components or modules within the system. The components can independently respond to, and send, messages into the queue can are modularly interchangeable without impacting customer-facing front end systems.  Such systems assume that some degree of consistent formatting and structure will be developed for internal messages.
+
+Such a message structure could be expressed as XML, YAML, JSON, or other similar data structuring approaches.  Here is an example in JSON:
+
+```json
+{
+  "type": "FUEL",
+  "data": {
+    "from": "KLAX",
+    "to": "KIAD",
+    "req_date": 2024-03-01,
+    "buffer_date": null
+  }
+}
+
+```
+In the given example, the **type** field identifies the event type such that a system scanning this event could determine if it was relevant. In an airline context, a FUEL event may be ignored by a crew scheduling module, whereas a CREW event might garner notice. 
+
+#### Testing Event-Driven Systems
+Whereas this discussion has promoted the flexibility of event-driven systems, this flexibility makes software testing more challenging.
+
+We have learned that unit tests are simple and directly connected to where the system directly creates value.  However, a distributed event-driven system makes it hard to use unit tests alone to test the the event detection and handling. It is not the case that these are difficult to fake, but rahter whether, in the "wild," whether we ensure that an event has been generated.
+
+This is where the use of both [Integration](https://www.guru99.com/integration-testing.html) and [End-to-End System](https://www.guru99.com/system-testing.html) tests help.
+
+There is a variety of nomenclature and perspective on [automated testing types](https://www.guru99.com/automation-testing.html) (unit tests, integration tests, system tests, acceptance tests, etc.). It may be useful to distinguish that, while we can fake/mock data in unit tests, we want to test actual behaviors when using integration tests.  Because they are isolated from dependencies, unit tests "affordable" and can be deployed to [fully cover](https://www.guru99.com/test-coverage-in-software-testing.html) all functions within a module.
+
+Often, what an integration test seeks to achieve is to check for an optimum, or a [happy path scenario](https://www.guru99.com/regression-testing.html). In the case of integration testing, real loads must be present so that that business logic trigger generate real alerts encountered [under system stress](https://www.guru99.com/performance-vs-load-vs-stress-testing.html).  For these reasons it is common to aim for a high ratio of unit to integration tests.
+
 ### Command-Query Responsibility Separation
+In a distributed event-driven system, it might be the case that data stores may distributed. Often each module data stores and external calls. In these cases an architectural pattern such as the [Command and Query Responsibility Segregation](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs) (CQRS) may become necessary to create additional order to the messaging queue as relate to system state. This approach holds that read and write messages are handled independently as writing new data requires the generation of events which are then considered independently of the requests. This suggest that a common data model that spans modules may become a part of the message brokering system; multiple modules may contribute to the shaping of information stored in the model. Using an airline example, a query in the crewing system may require some informtion from the fleet system such that a valid response can only be developed by querying both the crew scheduling module and fleet scheduling modules.  However, the response may be related to an original query/command relevant to a model in the crew scheduling module.
 
-Forthcoming
-
-### Scope and Structures of Microservices and Monoliths
-
-Forthcoming
+In such cases, frequently accessed information may become duplicated to facilitate quicker query response.  However, these data redundancies will still consume additional processing to keep their facts reconciled. We will soon covered the [SOLID principles](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-application-layer-web-api-design) and undersanding how this degree of "[denormalization](https://en.wikipedia.org/wiki/Denormalization)" breaks the [Single Responsibility Principle].  In this case, systems architecture is about making design choices where the choice in this case is to optimized on query complexity over data reconciliation complexity. The processing of designing and dividing responsibility within the system is the essence of Software Architecture.
 
 [Back to Contents](#contents)
+
+### Scope and Structures of Microservices and Monoliths
+Forthcoming
 
 [Back to Contents](#contents)
 
