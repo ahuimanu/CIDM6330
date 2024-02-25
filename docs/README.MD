@@ -871,7 +871,71 @@ In such cases, frequently accessed information may become duplicated to facilita
 [Back to Contents](#contents)
 
 ### Scope and Structures of Microservices and Monoliths
-Forthcoming
+A dichotomy has arisen in softwre engineering and architecture where questions related to cohesion, coupling, distribution, and modularization are manifest in the "Microservices" vs. "Monolith" continuum.
+
+![monolithic vs. microservices](./img/monolith_1-monolith-microservices.png)
+
+Amazon has this to say:
+>A monolithic architecture is a traditional software development model that uses one code base to perform multiple business functions. All the software components in a monolithic system are interdependent due to the data exchange mechanisms within the system. It’s restrictive and time-consuming to modify monolithic architecture as small changes impact large areas of the code base. In contrast, microservices are an architectural approach that composes software into small independent components or services. Each service performs a single function and communicates with other services through a well-defined interface. Because they run independently, you can update, modify, deploy, or scale each service as required.
+
+#### The Monolith
+A system is often thought as an integral whole such that most designs capture and express the whole of the system.  This is a logical and natural way to "see" the software system as its design is often incrementally realized in small and simple design explorations. Over time, both through use, reflection, and refactoring, the design (and understanding) of a system grows.  This growth includes additional features, evolved/modified features, and deprecate features. As original design concepts are often unitary, it is common to keep adding to the same code and design structure. Modulary, when it is introduced, and with some exceptionsl, is frequently a post hoc rationalization of how code maintenance could be improved.  Even with modularization, these modules are often designed to remain within the system's boundaries.  Aspects of the [design of Django](https://www.djangoproject.com/) are akin to a monolith, but that is not entirely the case either (which will create the argument in favor of balance)
+
+![The Monolith](./img/monolith.png)
+
+Conceptually, the "monolith" assumes both code and functionality are tied together in a single "monolithic" architecture.  The "monolith" is a common where each has a good degree of internal modularity and structure. In this sense, the "monolith" is a slight  misnomer as such systems are commonly divided logically into different logical component parts and modules with distributed responsibilities.
+
+As we have examined earlier, [Django is built on a variant of the MVC architecture](https://overiq.com/django-1-10/mvc-pattern-and-django/), which is often expressed as a monolithic architecture. In the MVC pattern, Models, Views, and Controllers are designed to run within the same process, where it is the structures within that process that specify and differentiate responsibilities and functions within the pattern.
+
+![MVC](./img/the-mvc-pattern.png)
+
+In this regard, it is important to be fair and keep in mind that a monolithic architecture does not construe the absence of structures and patterns.  Rather, the key characteristic of a monolith module intercommunicaiton happens via internal APIs using the same overall execution process. There is significant flexibility in this approach where deployment is easier given the expectation of a common execution process.  As a result, most web application frameworks - Ruby on Rails (Ruby), Django (Python), ASP.NET Core (C#), Spring (Java), Laravel (PHP) - have design cues and assumptions that are closer to a monolithic design.  This is not to say that these frameworks are not vastly extensible and configurable, often containing impressive capabilities to leverage extensive internal and third party frameworks.  In each case, the application framework can be updated simply by restarting the main host (often HTTP-driven) services.  Nearly all of these systems do not co-locate the data access layer as an internal dependency.
+
+In the case of a web application framework, a monolithic application can run across multiple and cooperative instances of the same sytem.  A monolithic web application would commonly run multiple instances of the same software running in parallel to achieve load balancing to better distribute higher reqeuest loads. Even in the case of a restart, each instance can return to a known state in a relatively straightforward manner.
+
+These monolithic architectures are simpler to manage as all code resides within the same structure and in the same code management repository.  In nearly all cases, web application monoliths provide a means for the developers and designers to extend the framework as a part of the application effort.
+
+
+#### Microservices
+A microservices architecture is an alternative the single block and extends patterns of reuse and modularity within the monolith such that modules and components do not commonly share the same execution context.  The major attraction of microservices architecture is its foundation on the use of very loosely coupled and distributed services that work in together as a comprehensive service. 
+
+There are some key concepts in this definition that may not be immediately distint from the monolith and require further elaboration.
+
+* The collection of services are well-defined modules that are commonly deployed in separate execution contexts - what is particularly common is to use [PaaS](https://aws.amazon.com/types-of-cloud-computing/)/[IaaS](https://aws.amazon.com/what-is/iaas/) services such as Amazon and Azure to run these.
+* The services are loosely coupled so each microservice can be independently deployed and developed.
+* The services in a microservice architecture are expected to be later orchestrated so that they work in unison.
+* A collective and comprehensive service then exists such that the whole system is created from these distributed parts.
+
+As opposed to the monolith microservices do not suppose running under the same process, and rather use  uses multiple and separate modules (microservices) that cooperate well-defined APIs. The interoperabilty achieved relies on standardization and an ability to swap component implementation and deployment with ease to allow system scaling.
+
+![microservice](./img/microservice.webp)
+
+In a microservice architecture calls between different services are brokered through external APIs. These APIs serve as identifiable boundaries between functionalities. A microservices architecture heavily assumes the use of cloud services and advanced planning, advanced knowledge of how to configure and operate these cloud services, and requires careful planning to coordinate components.  This mandates upfront design to ensure that the modules will align and connect.  The microservices architecture is the tool commonly utilized when high and distributed loads are expected where the "brittle" nature of the monolith is infeasible.  This makes for careful upfront planning as opposed to the more organic nature of the growth and evolution behind most monoliths.  The microservices architecture a common end state for that migrate from from extant and mature monolithic architecture.
+
+#### Choosing Architecture
+Regardless of being an advanced system architecture the microservices architecture is not necessarily better than the monolithic approach as each has merits and demerits:
+
+* Most applications will start as monolithic.
+* Microservices require careful planning and prior experience.
+* There are no silver bullets and no design is future-proof. 
+* The proper balance is a constant challenge and art.
+* Mature monoliths often suffer from unpaid [technical and design debt](https://www.agilealliance.org/introduction-to-the-technical-debt-concept/)
+* [Refactoring](https://refactoring.guru/refactoring) to manage complexity and technical debt is [its own art](https://scholarspace.manoa.hawaii.edu/items/855fccea-ca56-44ec-9033-3226325ec481) \
+* The redevelopent of clear and strict boundaries can often be accomplished by extracting out of the monolith
+* Microservices encourages flavor-the-month and look-squirrel technical innovation tail chasing (although all innovations typically have their own merit)
+
+A reasonable justification for microservices lies within the fact that their modularization may accommodate different domain-specific knowledge such that expertise can concentrate on a component in isolation. The modules themselves can now evolve organically where they only have to respect clear communication expectaions into and out of the module.  However, code standards, programming languages choice, technology stack selection, and deployment can be tailored for the nature of the task. 
+
+Monoliths can also be a bit heavy on resources as the execution context is combined.  The system resources to run the monoligth will often assume worst-case and high-load scenarios, which is only compounded as more instances are run in parallel. 
+
+Microservices are, by contrast, able to require a minimally feasible footprint where high-demand and worst-case scenarios can evolved and their own pace.
+
+##### Deployment
+Deployment works differently between monoliths and microservices. Monolithic applications may need more resources, but are somewhat easier to managed in a CI/CD pipeline that includes extensive testing.  Monoliths often have more tightly coupled modules where the teams maintaining them work closely together.
+
+By contrast microservices can be indenpdently deployed assuming that the APIs that connect each service is stable. With clear system boundaries microservices are very isolated from the failure of other modules and can be deployed independently.
+
+Also, whereas monolithic applications communicate with other modules through internal operations, there is an overhead related microservices' realiance on external APIs and communicationCareful consideration presents a fair bit of overhead.
 
 [Back to Contents](#contents)
 
