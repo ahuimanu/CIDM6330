@@ -39,8 +39,20 @@ CREATE TABLE IF NOT EXISTS bookmarks
 );
 ```
 
-## Barky Refactored
+## Using this Example
+The example requires the [requests](https://docs.python-requests.org/en/latest/index.html) python package and this dependency is indicated within the `requirements.txt` file.
 
+So, the basic steps will be:
+1. If you don't have a virtual environment to work with: `python -m venv venv` #creates a new virtual environment called `./venv`
+2. Activate the virtual environment:
+    1. Windows: `./venv/Scripts/activate` (or if using gitbash: `source ./venv/Scripts/activate`)
+    2. Mac/*nix: `source ./venv/bin/activate`
+3. install the dependencies: `pip install -r requirements.txt`
+4. Run the code: `python barky.py`
+
+You fill find that the database module handles itself, so there is nothing left to do but run the project.  We'll use Barky as an example from which we can learn more about applying architectural patterns to our work.
+
+## Refactoring Barky
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
 1. Replace the custom data handling (the DatabaseManager module) with the [Django O/RM](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
