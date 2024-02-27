@@ -749,22 +749,193 @@ We could then use [containers and other load balancing strategies](https://www.d
 Our journey through patterns becomes a bit more abstract here as we examine ways to structure our modeling of data, our work and workers, and our methods for communicating within and without our software system.  We will proceed with the following subjects:
 
 * Event-Driven Architectures
+* Streams, Pipelines, and Busses
 * Command-Query Responsibility Separation
 * Scope and Structures of Microservices and Monoliths
 
 ### Event-Driven Architectures
 
-Forthcoming
+Whereas Request-Response implies synchronous communication, some communications are notifications where responses may not be immediate. We refer to these sorts of messages as `events`: which are commonly  asynchronous background tasks where the resulting work, and notification of its completion, is not [blocking](https://en.wikipedia.org/wiki/Blocking_(computing)).
+
+Asynchronous tasks are typically handled in a messaging or queueing system.  A variation of such a system is a scheduled task system that executes on an interval.
+
+In the Django and Python contextss, [Celery](https://github.com/celery/celery) serves as a distributed task queue and manager.  There are other event and messaging patterns to explore, including the following topics and concepts:
+
+* Events
+* Asynchronous tasks
+* Scheduled tasks
+* Queues
+* [Celery](https://github.com/celery/celery) and [Django-q2](https://github.com/django-q2/django-q2)
+
+#### Events
+An event-driven architecture facilitates an unsupervised or managed communication approach where data is sent without the expectation of an immediate response. This is in contract to Request-Response which waits and blocks for a response.  In an event-driven pattern, an event is a signal for a request where the sender does not wait for a response. An event-driven system will often return a unique ID which provides a means of querying for event results at a later time for any follow-up tasks.
+
+Events act as a notification signal which will commonly travel within elements of the system in a transmission towards a final destination.  The underlying concept is that of the message bus and works to forward messages that flow through the system. A message bus architecture acts as a central exchange to manage messages across a system - internally and externally. It is common to rely on a single bus for communicatition within all subsystems of your own applicaiton architecture and as a means of contacting external systems. The message bus that carries events through the system can be thought of as a event queue. A queue is a [FIFO](https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)) data structure that is used to seqeuence the events.
+
+![message bus](./img/message_bus.png)
+
+Clients subscribing to the message bus listen to the event queue and extract relevant events. Any client on the message bus doesn't communicate directly with the sender of the event but can react and respond back into the message bus.  Processes that put and pull into and from the event bus are called the `publisher` and the `subscriber`. Systems that provides a message bus [RabbitMQ](https://www.rabbitmq.com/), [Redis](https://redis.io/), and [Apache Kafka](https://kafka.apache.org/). 
+
+#### Streamed Events
+Events are important empirical evidence and are often the basis of logged information that is typical for instrumentation and monitoring. Such events contain metadata and information about error conditions. In these cases, such error events are typically non-blocking where the system or application continues after the error.  It is also possible to capture more than just error conditions where other aspects of performance and instrumentation are needed and can be captured in an event for later querying, aggregation, and reporting.  Commonly called logs and metrics these events often simply textual representations generated according to some business logic.
+
+These logging and metric events provide a picture of the health of running systems and provides inputs to instrumentation for control or alerting according to set criteria. For instance, we may be interested in receiving an alert if number of logged exceeds a threshold.
+
+![Monitoring Events](./img/Monitoring_Events.png)
+
+It is also possible to use event monitoring to throttle or achieve throughput quotas or limits.
+
+![EVent Throttling](./img/Event_Throttling.png)
+
+#### Event Pipelines
+An event pipeline introduces the concepts of an event/messaging bus extending communication with other systems. Events that cascade forward to multiple systems can be part of a larger process design (an architecture).  These are often triggered and can be seen in [CI/CD pipelines](https://www.redhat.com/en/topics/devops/what-cicd-pipeline).
+
+![CI/CD Pipeline](./img/ci-cd-flow-desktop_0.png)
+
+We can consider how a video service like Youtube provides this sort of triggered processing when a video is rescaled as it is uploaded. Youtube will commonly (and automatically) converted the video into different versions - commonly to accommodate different resolutions. The same process could be called upon to generate the thumbnail for the uploaded video.
+
+The steps could included:
+* A queue that receives an upload triggered event to start the processing. 
+* A queues to process rescaling 
+* A queue to generate the thumbnail
+* Coordination with external storage such as AWS S3.
+
+![S3 queue](./img/S3-queue.png)
+
+#### A Message Queue as Bus
+A message queueing system can also be referred to as a bus (or message bus). Commonly associated with electrical systems, a bus describes communication channels that transmit data between different hardware components components. Semantically, we describe a centralization of multisource and multidestination communications.  As such, in software, a bus is a generalization that allows for the interconnect of several logical components.
+
+We entrust a bus architecture to order communication within the system where a message sender doesn't need to know much other than what to transmit and which queue to send the message to. The bus handles intermediary routing.  This is similar to postal and parcel post systems.
+
+The bus can also act as a message broker which can both customize, decouple, and generalize inter- and intra-systems communication and services. Most packages that provide message bus services are commonly called message brokers - a prime example being [redis](https://redis.io/) (However, a system like redis will do more than message brokering).  [Apache kafka](https://aws.amazon.com/what-is/apache-kafka/) can work this way as well and many of these systems also create additional facilities to develop a [publication/subscription approach](https://aws.amazon.com/compare/the-difference-between-kafka-and-redis/).
+
+Commonly a message broker/bus serve as a central communication hub where all the event-related communication is sent directed to. While this creates a single poit of failure, it is also convenient.  Most Django examples that show using celery for task scheduling also commonly show the use of redis.
+
+* [Asynchronous Tasks With Django and Celery](https://realpython.com/asynchronous-tasks-with-django-and-celery/)
+
+![Message Bussing](./img/messag_bus_example.jpg)
+
+A publisher/subscriber model can be thought of a being a bit more tailored in terms of routing and notification over a simple message broker/queueing system:
+
+Message Queue (AWS)
+
+![Kafka Message Queue](./img/product-page-diagram_Kafka_Queue.png)
+
+PubSub (AWS)
+
+![Kafka Message PubSub](./img/product-page-diagram_Kafka_PubSub.png)
+
+#### Advanced Bussing Architectures
+A message bussing/brokering approach allows for the architecting of higher complexity where events will filter through multiple intermediary stages in much the same manner that plugin or middleware systems can work fromo the same queue.  [Django's middleware system](https://dev.to/bikramjeetsingh/a-comprehensive-guide-to-django-middleware-2fee) works in this manner.
+
+![Django Middleware](./img/Django-Middleware.png)
+
+Complex systems can utilize the message bus to feed alerting messages back into the system based on how those messages are comprehended by other subsystems.
+
+![Messaging and Alerting](./img/Messaging_and_Alerting.png)
+
+An event-driven messaging system distributes work between several functional components or modules within the system. The components can independently respond to, and send, messages into the queue can are modularly interchangeable without impacting customer-facing front end systems.  Such systems assume that some degree of consistent formatting and structure will be developed for internal messages.
+
+Such a message structure could be expressed as XML, YAML, JSON, or other similar data structuring approaches.  Here is an example in JSON:
+
+```json
+{
+  "type": "FUEL",
+  "data": {
+    "from": "KLAX",
+    "to": "KIAD",
+    "req_date": 2024-03-01,
+    "buffer_date": null
+  }
+}
+
+```
+In the given example, the **type** field identifies the event type such that a system scanning this event could determine if it was relevant. In an airline context, a FUEL event may be ignored by a crew scheduling module, whereas a CREW event might garner notice. 
+
+#### Testing Event-Driven Systems
+Whereas this discussion has promoted the flexibility of event-driven systems, this flexibility makes software testing more challenging.
+
+We have learned that unit tests are simple and directly connected to where the system directly creates value.  However, a distributed event-driven system makes it hard to use unit tests alone to test the the event detection and handling. It is not the case that these are difficult to fake, but rahter whether, in the "wild," whether we ensure that an event has been generated.
+
+This is where the use of both [Integration](https://www.guru99.com/integration-testing.html) and [End-to-End System](https://www.guru99.com/system-testing.html) tests help.
+
+There is a variety of nomenclature and perspective on [automated testing types](https://www.guru99.com/automation-testing.html) (unit tests, integration tests, system tests, acceptance tests, etc.). It may be useful to distinguish that, while we can fake/mock data in unit tests, we want to test actual behaviors when using integration tests.  Because they are isolated from dependencies, unit tests "affordable" and can be deployed to [fully cover](https://www.guru99.com/test-coverage-in-software-testing.html) all functions within a module.
+
+Often, what an integration test seeks to achieve is to check for an optimum, or a [happy path scenario](https://www.guru99.com/regression-testing.html). In the case of integration testing, real loads must be present so that that business logic trigger generate real alerts encountered [under system stress](https://www.guru99.com/performance-vs-load-vs-stress-testing.html).  For these reasons it is common to aim for a high ratio of unit to integration tests.
 
 ### Command-Query Responsibility Separation
+In a distributed event-driven system, it might be the case that data stores may distributed. Often each module data stores and external calls. In these cases an architectural pattern such as the [Command and Query Responsibility Segregation](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs) (CQRS) may become necessary to create additional order to the messaging queue as relate to system state. This approach holds that read and write messages are handled independently as writing new data requires the generation of events which are then considered independently of the requests. This suggest that a common data model that spans modules may become a part of the message brokering system; multiple modules may contribute to the shaping of information stored in the model. Using an airline example, a query in the crewing system may require some informtion from the fleet system such that a valid response can only be developed by querying both the crew scheduling module and fleet scheduling modules.  However, the response may be related to an original query/command relevant to a model in the crew scheduling module.
 
-Forthcoming
-
-### Scope and Structures of Microservices and Monoliths
-
-Forthcoming
+In such cases, frequently accessed information may become duplicated to facilitate quicker query response.  However, these data redundancies will still consume additional processing to keep their facts reconciled. We will soon covered the [SOLID principles](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-application-layer-web-api-design) and undersanding how this degree of "[denormalization](https://en.wikipedia.org/wiki/Denormalization)" breaks the [Single Responsibility Principle].  In this case, systems architecture is about making design choices where the choice in this case is to optimized on query complexity over data reconciliation complexity. The processing of designing and dividing responsibility within the system is the essence of Software Architecture.
 
 [Back to Contents](#contents)
+
+### Scope and Structures of Microservices and Monoliths
+A dichotomy has arisen in softwre engineering and architecture where questions related to cohesion, coupling, distribution, and modularization are manifest in the "Microservices" vs. "Monolith" continuum.
+
+![monolithic vs. microservices](./img/monolith_1-monolith-microservices.png)
+
+Amazon has this to say:
+>A monolithic architecture is a traditional software development model that uses one code base to perform multiple business functions. All the software components in a monolithic system are interdependent due to the data exchange mechanisms within the system. It’s restrictive and time-consuming to modify monolithic architecture as small changes impact large areas of the code base. In contrast, microservices are an architectural approach that composes software into small independent components or services. Each service performs a single function and communicates with other services through a well-defined interface. Because they run independently, you can update, modify, deploy, or scale each service as required.
+
+#### The Monolith
+A system is often thought as an integral whole such that most designs capture and express the whole of the system.  This is a logical and natural way to "see" the software system as its design is often incrementally realized in small and simple design explorations. Over time, both through use, reflection, and refactoring, the design (and understanding) of a system grows.  This growth includes additional features, evolved/modified features, and deprecate features. As original design concepts are often unitary, it is common to keep adding to the same code and design structure. Modulary, when it is introduced, and with some exceptionsl, is frequently a post hoc rationalization of how code maintenance could be improved.  Even with modularization, these modules are often designed to remain within the system's boundaries.  Aspects of the [design of Django](https://www.djangoproject.com/) are akin to a monolith, but that is not entirely the case either (which will create the argument in favor of balance)
+
+![The Monolith](./img/monolith.png)
+
+Conceptually, the "monolith" assumes both code and functionality are tied together in a single "monolithic" architecture.  The "monolith" is a common where each has a good degree of internal modularity and structure. In this sense, the "monolith" is a slight  misnomer as such systems are commonly divided logically into different logical component parts and modules with distributed responsibilities.
+
+As we have examined earlier, [Django is built on a variant of the MVC architecture](https://overiq.com/django-1-10/mvc-pattern-and-django/), which is often expressed as a monolithic architecture. In the MVC pattern, Models, Views, and Controllers are designed to run within the same process, where it is the structures within that process that specify and differentiate responsibilities and functions within the pattern.
+
+![MVC](./img/the-mvc-pattern.png)
+
+In this regard, it is important to be fair and keep in mind that a monolithic architecture does not construe the absence of structures and patterns.  Rather, the key characteristic of a monolith module intercommunicaiton happens via internal APIs using the same overall execution process. There is significant flexibility in this approach where deployment is easier given the expectation of a common execution process.  As a result, most web application frameworks - Ruby on Rails (Ruby), Django (Python), ASP.NET Core (C#), Spring (Java), Laravel (PHP) - have design cues and assumptions that are closer to a monolithic design.  This is not to say that these frameworks are not vastly extensible and configurable, often containing impressive capabilities to leverage extensive internal and third party frameworks.  In each case, the application framework can be updated simply by restarting the main host (often HTTP-driven) services.  Nearly all of these systems do not co-locate the data access layer as an internal dependency.
+
+In the case of a web application framework, a monolithic application can run across multiple and cooperative instances of the same sytem.  A monolithic web application would commonly run multiple instances of the same software running in parallel to achieve load balancing to better distribute higher reqeuest loads. Even in the case of a restart, each instance can return to a known state in a relatively straightforward manner.
+
+These monolithic architectures are simpler to manage as all code resides within the same structure and in the same code management repository.  In nearly all cases, web application monoliths provide a means for the developers and designers to extend the framework as a part of the application effort.
+
+
+#### Microservices
+A microservices architecture is an alternative the single block and extends patterns of reuse and modularity within the monolith such that modules and components do not commonly share the same execution context.  The major attraction of microservices architecture is its foundation on the use of very loosely coupled and distributed services that work in together as a comprehensive service. 
+
+There are some key concepts in this definition that may not be immediately distint from the monolith and require further elaboration.
+
+* The collection of services are well-defined modules that are commonly deployed in separate execution contexts - what is particularly common is to use [PaaS](https://aws.amazon.com/types-of-cloud-computing/)/[IaaS](https://aws.amazon.com/what-is/iaas/) services such as Amazon and Azure to run these.
+* The services are loosely coupled so each microservice can be independently deployed and developed.
+* The services in a microservice architecture are expected to be later orchestrated so that they work in unison.
+* A collective and comprehensive service then exists such that the whole system is created from these distributed parts.
+
+As opposed to the monolith microservices do not suppose running under the same process, and rather use  uses multiple and separate modules (microservices) that cooperate well-defined APIs. The interoperabilty achieved relies on standardization and an ability to swap component implementation and deployment with ease to allow system scaling.
+
+![microservice](./img/microservice.webp)
+
+In a microservice architecture calls between different services are brokered through external APIs. These APIs serve as identifiable boundaries between functionalities. A microservices architecture heavily assumes the use of cloud services and advanced planning, advanced knowledge of how to configure and operate these cloud services, and requires careful planning to coordinate components.  This mandates upfront design to ensure that the modules will align and connect.  The microservices architecture is the tool commonly utilized when high and distributed loads are expected where the "brittle" nature of the monolith is infeasible.  This makes for careful upfront planning as opposed to the more organic nature of the growth and evolution behind most monoliths.  The microservices architecture a common end state for that migrate from from extant and mature monolithic architecture.
+
+#### Choosing Architecture
+Regardless of being an advanced system architecture the microservices architecture is not necessarily better than the monolithic approach as each has merits and demerits:
+
+* Most applications will start as monolithic.
+* Microservices require careful planning and prior experience.
+* There are no silver bullets and no design is future-proof. 
+* The proper balance is a constant challenge and art.
+* Mature monoliths often suffer from unpaid [technical and design debt](https://www.agilealliance.org/introduction-to-the-technical-debt-concept/)
+* [Refactoring](https://refactoring.guru/refactoring) to manage complexity and technical debt is [its own art](https://scholarspace.manoa.hawaii.edu/items/855fccea-ca56-44ec-9033-3226325ec481) \
+* The redevelopent of clear and strict boundaries can often be accomplished by extracting out of the monolith
+* Microservices encourages flavor-the-month and look-squirrel technical innovation tail chasing (although all innovations typically have their own merit)
+
+A reasonable justification for microservices lies within the fact that their modularization may accommodate different domain-specific knowledge such that expertise can concentrate on a component in isolation. The modules themselves can now evolve organically where they only have to respect clear communication expectaions into and out of the module.  However, code standards, programming languages choice, technology stack selection, and deployment can be tailored for the nature of the task. 
+
+Monoliths can also be a bit heavy on resources as the execution context is combined.  The system resources to run the monoligth will often assume worst-case and high-load scenarios, which is only compounded as more instances are run in parallel. 
+
+Microservices are, by contrast, able to require a minimally feasible footprint where high-demand and worst-case scenarios can evolved and their own pace.
+
+##### Deployment
+Deployment works differently between monoliths and microservices. Monolithic applications may need more resources, but are somewhat easier to managed in a CI/CD pipeline that includes extensive testing.  Monoliths often have more tightly coupled modules where the teams maintaining them work closely together.
+
+By contrast microservices can be indenpdently deployed assuming that the APIs that connect each service is stable. With clear system boundaries microservices are very isolated from the failure of other modules and can be deployed independently.
+
+Also, whereas monolithic applications communicate with other modules through internal operations, there is an overhead related microservices' realiance on external APIs and communicationCareful consideration presents a fair bit of overhead.
 
 [Back to Contents](#contents)
 
