@@ -1,6 +1,6 @@
 # Barky 
 
-Barky is inspired by Dane Hillard's Bark example of an application that demonstrates some basic software engineering principles such as:
+Barky is inspired by Dane Hillard's (https://github.com/daneah/practices-of-the-python-pro) Bark example of an application that demonstrates some basic software engineering principles such as:
 
 * Separation of concerns
 * Loose Coupling
@@ -9,7 +9,7 @@ Barky is inspired by Dane Hillard's Bark example of an application that demonstr
 * Abstraction
 * Refactoring
 
-This repository is an extension of Dane's example to also include testing.
+This repository is an extension of Dane's example to also include testing.  This is all inspired by Dane's [Practices fo the Python Pro](https://www.manning.com/books/practices-of-the-python-pro) book, which I have found to be a great read.
 
 # Layered Architecture
 
