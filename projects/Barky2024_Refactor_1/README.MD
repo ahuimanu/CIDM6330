@@ -55,7 +55,11 @@ class Bookmark (models.Model):
 
 ```
 
-## Refactoring Barky
+## Django REST Framework
+
+[Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
+
+## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
 1. Replace the custom data handling (the DatabaseManager module) with the [Django O/RM](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
