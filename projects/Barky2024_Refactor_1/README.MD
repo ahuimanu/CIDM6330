@@ -46,12 +46,15 @@ CREATE TABLE IF NOT EXISTS bookmarks
 We also create a Django model class that mirrors the SQL Schema:
 
 ```python
-class Bookmark (models.Model):
-    id = models.IntegerField()
-    title = models.CharField(max=255)
+class Bookmark(models.Model):
+    id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=255)
     url = models.URLField()
     notes = models.TextField()
-    date_added = models.DateField()
+    date_added = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title}"
 
 ```
 
