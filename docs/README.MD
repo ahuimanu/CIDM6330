@@ -895,7 +895,6 @@ In the case of a web application framework, a monolithic application can run acr
 
 These monolithic architectures are simpler to manage as all code resides within the same structure and in the same code management repository.  In nearly all cases, web application monoliths provide a means for the developers and designers to extend the framework as a part of the application effort.
 
-
 #### Microservices
 A microservices architecture is an alternative the single block and extends patterns of reuse and modularity within the monolith such that modules and components do not commonly share the same execution context.  The major attraction of microservices architecture is its foundation on the use of very loosely coupled and distributed services that work in together as a comprehensive service. 
 
@@ -936,6 +935,20 @@ Deployment works differently between monoliths and microservices. Monolithic app
 By contrast microservices can be indenpdently deployed assuming that the APIs that connect each service is stable. With clear system boundaries microservices are very isolated from the failure of other modules and can be deployed independently.
 
 Also, whereas monolithic applications communicate with other modules through internal operations, there is an overhead related microservices' realiance on external APIs and communicationCareful consideration presents a fair bit of overhead.
+
+##### Containerization
+
+It is common to deploy to a [VPS](https://cloud.google.com/learn/what-is-a-virtual-private-server) using an operating system such as Linux.  Once set up, we would then install our required languages and platforms (such as.NET, Python, or PHP) and required services such as [nginx](https://nginx.org/en/), [gunicorn](https://gunicorn.org/). Once deployed, these technologies work together and the VPS needs to be managed by you.
+
+A VPS is still hosted on a physical via the use of virtual machines where a physical server hosts multiple VMs. There are many approaches to assist with VPS/VM  management where some help with configuration (Chef or Puppet) to help manage multiple servers with coordinated and correct dependency versions.
+
+Another approach is to use containers. Containers extend the VPS/VM concept but are even more specific to just a single application's dependencies. Each container will establish its own filesystem that houses  the Operating System, service dependencies, platform packages, and source code. Containers combine all needed elements to support a single application in a self-containing manner. This allows for the host machine to simply supply compute, disk, and memory capabilities to run the container.  As with VMs and VPS', many  containers can run on the same physical machine where each container's environment is idependent.
+
+Docker (https://www.docker.com/) is a common and ubiquitous example of a container platform.
+
+The following graphic shows how to distinguish between a VM and a container.
+
+![VMs vs. Containers](./img/vmvsdocker.jpg)
 
 [Back to Contents](#contents)
 
