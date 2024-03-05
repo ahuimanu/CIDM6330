@@ -11,10 +11,10 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 |05: 02/11 – 02/17  | Design Principles, Paradigms, and Patterns        | [Design Principles, Paradigms, and Patterns](#design-principles-paradigms-and-patterns) |
 |06: 02/18 – 02/24  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
 |07: 02/25 – 03/02  | Architectures Part 1                              | [Software Architecture Patterns 1](#software-architecture-patterns-1)       |
-|08: 03/03 – 03/09	| Components and Modularity                         | Forthcoming       |
+|08: 03/03 – 03/09	| Implementations Details Part 1 | [Implementation Details 1](#implementation-details)       |
 |09: 03/17 – 03/23  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
 |10: 03/24 – 03/30  | Architectures Part 2                              | [Software Architecture Patterns 2](#software-architecture-patterns-2)       |
-|11: 03/31 – 04/06  | Abstractions, Details, and Implementation         | Forthcoming       |
+|11: 03/31 – 04/06  | Implementations Details Part 2        | Forthcoming       |
 |12: 04/07 - 04/13  | The Software Architect                            | [The Software Architect](#the-software-architect) |
 |13: 04/14 - 04/19  | Continuous Improvement and the Mastery Path       | | Forthcoming       |
 
@@ -895,7 +895,6 @@ In the case of a web application framework, a monolithic application can run acr
 
 These monolithic architectures are simpler to manage as all code resides within the same structure and in the same code management repository.  In nearly all cases, web application monoliths provide a means for the developers and designers to extend the framework as a part of the application effort.
 
-
 #### Microservices
 A microservices architecture is an alternative the single block and extends patterns of reuse and modularity within the monolith such that modules and components do not commonly share the same execution context.  The major attraction of microservices architecture is its foundation on the use of very loosely coupled and distributed services that work in together as a comprehensive service. 
 
@@ -936,6 +935,165 @@ Deployment works differently between monoliths and microservices. Monolithic app
 By contrast microservices can be indenpdently deployed assuming that the APIs that connect each service is stable. With clear system boundaries microservices are very isolated from the failure of other modules and can be deployed independently.
 
 Also, whereas monolithic applications communicate with other modules through internal operations, there is an overhead related microservices' realiance on external APIs and communicationCareful consideration presents a fair bit of overhead.
+
+##### Containerization
+
+It is common to deploy to a [VPS](https://cloud.google.com/learn/what-is-a-virtual-private-server) using an operating system such as Linux.  Once set up, we would then install our required languages and platforms (such as.NET, Python, or PHP) and required services such as [nginx](https://nginx.org/en/), [gunicorn](https://gunicorn.org/). Once deployed, these technologies work together and the VPS needs to be managed by you.
+
+A VPS is still hosted on a physical via the use of virtual machines where a physical server hosts multiple VMs. There are many approaches to assist with VPS/VM  management where some help with configuration (Chef or Puppet) to help manage multiple servers with coordinated and correct dependency versions.
+
+Another approach is to use containers. Containers extend the VPS/VM concept but are even more specific to just a single application's dependencies. Each container will establish its own filesystem that houses  the Operating System, service dependencies, platform packages, and source code. Containers combine all needed elements to support a single application in a self-containing manner. This allows for the host machine to simply supply compute, disk, and memory capabilities to run the container.  As with VMs and VPS', many  containers can run on the same physical machine where each container's environment is idependent.
+
+Docker (https://www.docker.com/) is a common and ubiquitous example of a container platform.
+
+The following graphic shows how to distinguish between a VM and a container.
+
+![VMs vs. Containers](./img/vmvsdocker.jpg)
+
+There are a few tutorials that cover the "containerization" of a Django project:
+* [Docker python django tutorial](https://dockerize.io/guides/python-django-guide)
+* [How to Dockerize Django in 5 minutes](https://justdjango.com/blog/django-docker-tutorial)
+
+##### Orchestration and Kubernetes
+At some point, once you are running multiple containers, you will look for a tool to assist with th is and that process is known as [orchestration](https://www.ibm.com/topics/container-orchestration). Since a containerization approach is very common when opting for a microservices approach, the management of these containers also assists in the process of ensuring that these microservices can communicate across or within a container.  In orchestration, it is common for microservces to discover containers, dependencies, and redundancies.
+
+As with Docker, the most commmon orchestration tools are [docker-compose](https://docs.docker.com/compose/) and [Kubernetes].
+
+[`docker-compose`](https://docs.docker.com/compose/) comes with Docker and is considered effective for small deployments and/or local development. As with most orchestration tools, `docker-compose` relies on a [YAML](https://yaml.org/) to specify services and requirements which drives the docker build and run processes.
+
+[Kubernetes](https://kubernetes.io/) is common for larger and more complex projects and container clusters. K8s allows you to specify a full logical and abstract layout for containers and needed infrastructure.Kubernetes describes resources as nodes where the set of nodes specifies the container cluster. K8s will manage each node and connect nodes within a virtual network. All details are abstracted by k8s and are not managed by the deployed microservices. A K8s cluster defines the following logical layer elements:
+
+* **Pod**: A Pod is a group of containers that run together as a unit. At a minimu, a pods consists of a single container. The pod is the basic management unit in Kubernetes.
+* **Deployment**: A deployment is a collection of Pods. The Deployment defines the number of needed replicas to create the required Pods. Each Pod within a deployment can exist in different nodes.
+* **Service**: Metadata used identify common routing to Pods and acts as a unique name for discovery much as how DNS works. A shared service name allows Pods to find the correct destination for requests. Requests are often load-balanced.
+* **Ingress**: Used to define external access to a service. This maps incoming DNS requests to a service. Ingresses is used to provide external access to a pod. External requests are routed through Ingress and are subsequently directed to a Service, and any corresponding pods.
+
+[Back to Contents](#contents)
+
+# Implementation Details
+
+Application and systems architectures must lead to implementation, which is never fully removed from design.
+
+An implemented architecture is an empirical test that will both support and validate smaller design decisions.  Code structures and development approaches are just as much a part of a successful design.
+
+We focus briefly on a few implementation issues for the purposes of establishing definitions of done and valid acceptance criteria to appraise when an implemented architecture is effective. This entails activities to ensure correctness through testing approaches like [Test-Driven Design (TDD)](https://www.guru99.com/test-driven-development.html) and [Behavior-Driven Design (BDD)](https://cucumber.io/docs/bdd/).
+
+Additional topics include modularity and resuse, which are well supported in Python as modules and packages. We cab design, create, and maintain Python modules and upload them to PyPI even if we design them to interoperate with Django.
+
+## Test-Driven Development and Behavior-Driven Development
+
+Mike Tyson on plans and designs...
+
+![tyson](./img/tyson.jpg)
+
+To err is to be human and to write code that misses the mark is normal.  This is true no matter how much code you use [Co-pilot](https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot) and [ChatGPT](https://openai.com/chatgpt) to write for you. However, if this fact is accepted, then as with a Co-pilot, we can develop "checklists" in the form of tests that we run to validate and verify the assumptions and outputs of the code we write.  Testing, validation, and verification are normal parts of the designs process as they assist in clarifying design assumptions and promote a [discussion that refines](https://www.sciencedirect.com/science/article/abs/pii/095070519290020G).
+
+Software testing is an error detection function that is meant to accompany design with an empirical approach that involves:
+
+* Code testing basics
+* Levels of testing
+* Philosophical underpinnings of software testing
+* Test-Driven Development
+* Unit testing (Python and Django)
+* Testing dependencies
+
+### Testing Code
+It is hard to predict when AI/ML/Automation will take use to the realm of Star Trek and remove our need to define and configure software with programming code.  However, our need to remain intimate with code and its expectations necessitates testing code.  The same routines that will generate code for us will generate tests, but we must remain as ["human in the loop"](https://en.wikipedia.org/wiki/Human-in-the-loop) to confirm and validate the sanity of generated code and generated tests.
+
+>What exactly is meant by **testing code**?
+
+>Testing code: "any procedure that probes the application to check that it works correctly before it reaches the final customers." - Jaime Buelta
+
+From the earliest time of using code, we are testing our code to some informal degree where informal "run it, check it" tests are common when you want to ensure that something you just wrote works as expected.  This approach may work for homework and coding assignments, or for small, simple applications, but it won't scale well.  Also, we must be wary of errors of regression where new features have the potential to break older features that previously worked.  This is what can be frustrating as beginniner progress away from early guided and tutorial learning and into unscructured and abstract learning.
+
+Rather than "run it, break it testing," we need better tools to be able to write complex and high-quality software. In this case, a first step to a disciplined approach to testing is to understand testing as  documented and automataed procedures that confirm the proper function of all elements of an application prior to intended use (e.g. when the actual customer will use it).
+
+### Levels of Testing
+Since a test must covered the elements of a software system, it is important to understand the software system at multiple levels of detail and abstraciton.  This means that a good system is designed with abstractions that collate and simplify lower level and detailed elements of the system such that both details and abstractions should be tested.
+
+When testing smaller/detailed part of the system we would employe a simpler test and narrower scope. A well designed system will be comprised of many mutually-supportive smaller and simpler units.  We can best understand levels of the software system by describing the levels of testing we'll employ:
+
+* **Unit tests** - tests that validate the basic logical units of a system (often the methods/functions we write)
+* **Integration tests** - tests that validate the coordination and interoperation of units that provide a single and integrate service.
+* **System tests** tests that validate that multiple services work harmoniously (also called end-to-end tests)
+
+#### Unit tests
+The `unit test` is the most basic and smallest test that validates the behavior a unit of code and is frequently used to test methods/functions. The unit is commonly a single function or a single API endpoint As unit tests validate often atomic part of the functionality of the system, they should be easy to setup and run. The full set of unit tests can thoroughly test system in the case that all functions are covered by tests.  These won't capture interaction effects, but will ensure that each individual component is correct.  Since a unit test validates a service in isolation, it is common to simulate or fake external requests or inputs as a part of the test.
+
+#### Integration tests
+An integration test validates the whole and collective behavior of complex service or series of inter-dependent services.  Integration testing ensures the mutually-dependent modules within a service can interoperate successfully. While we could fake inputs and outputs in unit tests, integration tests must use real data as much as would be practible.  This makes the design of APIs important as connected services must have reliable assumptions about communication.
+
+Given their nature, integration test setup can be more complex than with unit tests, making integration tests more "expensive."  Integration tests may not be as thorough and exhaustive as unit tests as they  focus on checking for base/default cases that are often referred to as [following a happy path](https://en.wikipedia.org/wiki/Happy_path) with no errors, exceptions, or edge cases.  This is so as errors and exceptions handled in unit testing. In general integration testing exists to define and validate "happy path" tests of expected and normal general behavior of a feature.
+
+#### End-to-end system tests
+A system, or end-to-end, test validates the overall effectiveness of all services to ensure the they work correctly together to facilitate the overall function of the broader system.
+
+A system test assumes that the system provides multiple services where the objective is that theseservices can cooperate and are correctly configured.  Given their encompassing nature, system tests expensive: they require the operation of a correctly-configured whole system. The overhead of standing up a full environment that is tantamount to testing a live environment.  This places greater emphasis on correct environment configuration and the need to validate each possible environment configuration.
+
+#### Testing philosophy
+Testing can be a matter of philosophy as there is no universal imperative for when, how often, and where.  Even deeper would be question related to whether testing is worth the effort as it can seem to be "double work."
+
+Questions of worth have to do with how time and effort are valued and can only be addressed if the costs of software defects are appraised.  These defects can be distinguished from "bugs" in software. Whereas a "bug" is a kind of defect where the software behaves in a way that it's not expected to, a defect could be something that behaves correctly but provides the wrong answer - this is a flaw of design. Test are generally better at detecting bugs than design assumption defects.
+
+Arguably more insidious, deployed defects can be more expensive to repair as their damage has already impacted real users. Deployed applications are active with users which will make defect/error detection more challenging as it will be an end-user who will likely detect the defect but may not communicate the error and may simply abandon the system and/or deem it unreliable. This may also cause regression errors where the cycle between detection and fix happens in parallel with the introduction and fixing of features.   Thus, the objective of softare testing is to improve system quality by fixing defects earlier. 
+
+The levels of testing meantioner earlier each have a different impact on the cost of defects: defects detected by unit testing presents an earier, and cheaper fix. Generally, a unit test is cheaper than an integration test, and an integration test is cheaper than a system test.  The cost of fixing defects increases the farther away it is from what can be controlled during development.
+
+![Early Testing](./img/early-testing-defect-fixing-cost.png)
+
+##### Test Design
+We use the following pattern to develop unit tests:
+
+* **Arrange**: Prepare the environment for the tests. This includes all the setup to get the system right at the point before performing the next step, at a stable moment.
+* **Act**: Perform the action that is the objective of the test.
+* **Assert**: Check that the result of the action is the expected one.
+
+We can arrange the same structure into a phrase or sentence:
+
+>GIVEN (Arrange) an environment known, the ACTION (Act) produces the specified RESULT (Assert)
+
+This pattern is also known as the  **GIVEN, WHEN, THEN** and is formalizedin the [Ghekin syntax](https://cucumber.io/docs/gherkin/) that is common with [BDD](https://cucumber.io/docs/bdd/) tools such as [Cucumber](https://cucumber.io/).
+
+Here is an example:.
+
+```python
+def the_test():
+    # Arrange
+    # Create object to test
+    test_object = TestClass(arg1='val', 
+                            arg2='val')
+    # Act step
+    answer = test_object.work_method(arg1='val')
+    
+    # Assert step
+    assert answer == 'expected value'
+```
+
+### Test-Driven Development
+Test-Driven Development (TDD) is a philosophy on software testing where tests are the center of software design and development.  TDD works in the following rough pattern of development:
+
+1. Needed new functionality is identified.
+2. A test is written to define the new functionality.
+3. Tests are run resulting in the new test(s) failing.
+4. New functionality is then added to the main code intended to make the test pass.
+5. Tests are run to show that the new feature work.
+6. With passing tests, new functionality is ready for use! 
+7. Repeat the process for any new functionality.
+
+TDD is based on three main principles:
+
+* **Write tests before writing code** - test early
+* **Run the tests often** - test often.
+* **Work in very small increments** - fail early and often.
+
+![red green refactor](./img/red-gree-refactor.png)
+
+This is also called "red/green/refactor" pattern: red when the test is failing and green when all tests are passing.
+
+Refactoring is a key aspect of TDD as the technique presumes a high degree of flux where the need to improve code quality is nearly constant. Improvements made possible by refactoring would include improving code readability, usability, and consistency.
+
+### Python `unittest`
+The Python standard library provides the `unittest` package for unit testing.  To use it, we create a test class wherein we define severage testing methods. Being a part of Python, `unittest` is widely available and works by provided a number of known assert functions.  `unittest` also provides test setup and teardown methods to configure tests before and after test execution.  More on unit testing can be found in the [python documentation](https://docs.python.org/3/library/unittest.html).
 
 [Back to Contents](#contents)
 
