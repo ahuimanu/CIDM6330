@@ -1,0 +1,95 @@
+# Player Class
+class Player:
+    def __init__(self, playerID, name, age, position, skillLevel):
+        self.__playerID = playerID  # private attribute
+        self.name = name  # public attribute
+        self.age = age  # public attribute
+        self.position = position  # public attribute
+        self.skillLevel = skillLevel  # public attribute
+        self.statistics = {}  # Store player statistics as a dictionary (e.g., games played, wins)
+
+    # Getter for playerID
+    def getPlayerID(self):
+        return self.__playerID
+
+    # Method to register the player
+    def register(self):
+        print(f"Player {self.name} registered.")
+
+    # Method to join a team
+    def joinTeam(self, team):
+        team.addPlayer(self)
+        print(f"Player {self.name} joined the team {team.teamName}.")
+
+    # View statistics
+    def viewStatistics(self):
+        return self.statistics
+
+
+# Team Class
+class Team:
+    def __init__(self, teamID, teamName, captain):
+        self.teamID = teamID
+        self.teamName = teamName
+        self.captain = captain  # Captain is a Player instance
+        self.players = []  # List to store players on the team
+        self.wins = 0
+        self.losses = 0
+
+    # Add a player to the team
+    def addPlayer(self, player):
+        self.players.append(player)
+
+    # Schedule a game with another team
+    def scheduleGame(self, opponent, date, location):
+        game = Game(self, opponent, date, location)
+        return game
+
+    # Update team info (example: add win/loss)
+    def updateTeamInfo(self, wins, losses):
+        self.wins = wins
+        self.losses = losses
+
+
+# Game Class
+class Game:
+    def __init__(self, team1, team2, date, location):
+        self.gameID = id(self)  # Unique ID for the game
+        self.date = date
+        self.location = location
+        self.team1 = team1  # Reference to Team 1
+        self.team2 = team2  # Reference to Team 2
+        self.team1Score = 0
+        self.team2Score = 0
+        self.status = "Scheduled"
+
+    # Update score after the game
+    def updateScore(self, team1Score, team2Score):
+        self.team1Score = team1Score
+        self.team2Score = team2Score
+        self.status = "Completed"
+        print(f"Game completed: {self.team1.teamName} {team1Score} - {self.team2.teamName} {team2Score}")
+
+    # View game history (returns a simple history string)
+    def viewGameHistory(self):
+        return f"{self.team1.teamName} {self.team1Score} - {self.team2.teamName} {self.team2Score} at {self.location} on {self.date}"
+
+# Create players
+player1 = Player(1, "Mariam Ade", 25, "Quarterback", "Intermediate")
+player2 = Player(2, "Hadiza Ade", 23, "Wide Receiver", "Beginner")
+
+# Create a team and add players
+team1 = Team(101, "Knights", player1)
+team2 = Team(102, "Rebels", player2)
+
+player1.joinTeam(team1)
+player2.joinTeam(team2)
+
+# Schedule a game between two teams
+game = team1.scheduleGame(team2, "2024-10-23", "WT Stadium")
+
+# Update the game score
+game.updateScore(21, 14)
+
+# View game history
+print(game.viewGameHistory())

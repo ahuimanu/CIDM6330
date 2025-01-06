@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item List</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <a href="{% url 'home' %}">Add New Item</a>
+    <h1>Item List</h1>
+    <div class="items_listed">
+        <ul>
+            {% for item in items %}
+                <li>
+                    <b>Item: </b>{{ item.name }} <br> 
+                    <b>Description: </b>{{ item.description }} <br> 
+                    <b>Price: </b>${{ item.price }} <br> 
+                    (<b>Quantity: </b>{{ item.quantity }})
+                    <a href="{% url 'edit_item' item.id %}">Edit</a>
+                    <a href="{% url 'delete_item' item.id %}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

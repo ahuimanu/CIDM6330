@@ -1,0 +1,119 @@
+class Cake:
+    def __init__(self, cake_id, name, category, base_price, available_sizes, available_flavors):
+        self.cake_id = cake_id
+        self.name = name
+        self.category = category
+        self.base_price = base_price
+        self.available_sizes = available_sizes
+        self.available_flavors = available_flavors
+
+class Customization:
+    def __init__(self, customization_id, cake_id, size, flavor, decorations, special_message, final_price):
+        self.customization_id = customization_id
+        self.cake_id = cake_id
+        self.size = size
+        self.flavor = flavor
+        self.decorations = decorations
+        self.special_message = special_message
+        self.final_price = final_price
+
+class Order:
+    def __init__(self, order_id, user_id, customization_id, delivery_date, order_status, total_price):
+        self.order_id = order_id
+        self.user_id = user_id
+        self.customization_id = customization_id
+        self.delivery_date = delivery_date
+        self.order_status = order_status
+        self.total_price = total_price
+
+class Payment:
+    def __init__(self, payment_id, order_id, amount, payment_status):
+        self.payment_id = payment_id
+        self.order_id = order_id
+        self.amount = amount
+        self.payment_status = payment_status
+
+class User:
+    def __init__(self, user_id, name, email, address):
+        self.user_id = user_id
+        self.name = name
+        self.email = email
+        self.address = address
+
+# Sample data for Cakes, Customizations, Orders, and Payments
+
+cakes = [
+    Cake(1, "Vanilla Delight", "Birthday", 20, ["Small", "Medium", "Large"], ["Vanilla", "Chocolate"]),
+    Cake(2, "Chocolate Fudge", "Wedding", 30, ["Small", "Large"], ["Chocolate", "Strawberry"])
+]
+
+customizations = []
+orders = []
+payments = []
+
+# Function to GET available cakes
+def get_cakes():
+    cake_list = [{"cake_id": cake.cake_id, "name": cake.name, "category": cake.category, "base_price": cake.base_price} for cake in cakes]
+    return cake_list
+
+# Function to POST cake customization
+def customize_cake(cake_id, size, flavor, decorations, special_message):
+    customization_id = len(customizations) + 1
+    cake = next((cake for cake in cakes if cake.cake_id == cake_id), None)
+    if cake:
+        final_price = cake.base_price + 5  # Simplified price calculation
+        new_customization = Customization(customization_id, cake_id, size, flavor, decorations, special_message, final_price)
+        customizations.append(new_customization)
+        return {"customization_id": customization_id, "final_price": final_price}
+    return {"error": "Cake not found"}
+
+# Function to POST an order
+def place_order(user_id, customization_id, delivery_date):
+    customization = next((c for c in customizations if c.customization_id == customization_id), None)
+    if customization:
+        order_id = len(orders) + 1
+        total_price = customization.final_price
+        new_order = Order(order_id, user_id, customization_id, delivery_date, "Pending", total_price)
+        orders.append(new_order)
+        return {"order_id": order_id, "total_price": total_price, "order_status": "Pending"}
+    return {"error": "Customization not found"}
+
+# Function to GET order status
+def get_order_status(order_id):
+    order = next((o for o in orders if o.order_id == order_id), None)
+    if order:
+        return {"order_id": order.order_id, "order_status": order.order_status, "total_price": order.total_price, "delivery_date": order.delivery_date}
+    return {"error": "Order not found"}
+
+# Function to POST payment
+def process_payment(order_id, amount):
+    order = next((o for o in orders if o.order_id == order_id), None)
+    if order and amount == order.total_price:
+        payment_id = len(payments) + 1
+        new_payment = Payment(payment_id, order_id, amount, "Successful")
+        payments.append(new_payment)
+        order.order_status = "Paid"
+        return {"payment_id": payment_id, "payment_status": "Successful"}
+    return {"error": "Payment failed"}
+
+# Example Usage of the API functions
+
+# Get available cakes
+available_cakes = get_cakes()
+print("Available Cakes:", available_cakes)
+
+# Customize a cake
+customization_result = customize_cake(1, "Large", "Vanilla", ["Sprinkles"], "Happy Birthday!")
+print("Customization Result:", customization_result)
+
+# Place an order with the customization
+order_result = place_order(1, customization_result["customization_id"], "2024-10-25")
+print("Order Result:", order_result)
+
+# Get order status
+order_status = get_order_status(order_result["order_id"])
+print("Order Status:", order_status)
+
+# Process payment for the order
+payment_result = process_payment(order_result["order_id"], order_result["total_price"])
+print("Payment Result:", payment_result)
