@@ -1,3 +1,0 @@
-# Barky Library
-
-Barky

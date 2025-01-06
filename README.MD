@@ -1,25 +1,20 @@
-# CIDM6330 Spring 2024
+# CIDM6330 Spring 2025
 
-This repository will contain all supplemental materials and code for CIDM6330 for the Spring 2024 semester.
+This repository will contain all supplemental materials and code for CIDM6330 for the Spring 2025 semester.
 
-## APP Code CIDM 6330 Spring 2024
+## Code for CIDM 6330 Spring 2025
 
-[Harry Percival and Bob Gregory's Code Repository for the Book](https://github.com/cosmicpython/code.git)
-While the Percival and Gregory Book is older now, it has good concepts in it and can be reviewed for free at [Cosmic Python](https://www.cosmicpython.com/).
+We are using Jaime Buelta's Python Architecture Patterns as our guide.
 
-`git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.git`
-
-## Course Supplemental Material on Architecture - Spring 2024
+## Course Supplemental Material on Architecture - Spring 2025
 
 The [docs](docs/README.MD) folder contains several files with supplemental and foundational knowledge for the course.
 
 # Components of this Repo:
 
-- [Acme](projects/acme/README.MD) - Acme crew scheduling example. (updated in 2024)
-- [APP](projects/APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
-- [APP2023](projects/APP2023/README.MD) - Arhictecture Patterns in Python - Percival and Gregory with some adjustments
-- [Barky](projects/Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material. This is now optional, but still a useful guide.
-- [Barky2024 and Refactors](projects/Barky2024/) - Spring 2024 updates for Barky.
+- [Acme](projects/acme/README.MD) - Acme crew scheduling example. (updated in 2025)
+- [Portal](projects/portal/README.MD) - Captive Portal project for WT
+- [CIDM6330-Spring2025](CIDM6330-Spring2025) - Code from Fall 2024
 - [Docs](docs/README.MD) - Course readings are here.
 - [Testing](Testing/README.MD) - Separate materials on testing in Python.
 - [PyTesting](Testing/PyTesting/README.MD) - pytest basics. We will not use PyTest, but it is very popular, so I didn't want to skip it.
@@ -45,12 +40,7 @@ PyPi packages used:
 - setuptools
 - coverage
 
-## Percival's First Book on TDD
+## Harry Percival's First Book on TDD
 
 [Test-Driven Development with Python](https://www.obeythetestinggoat.com/)
 
-## Regarding Barky
-
-There are four branches related to Barky that show the progression in Barky in consideration of the design principles we are studying.
-
-You can see these branches with the `git branch` command.
