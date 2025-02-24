@@ -4,12 +4,12 @@ from pydantic import BaseModel
 
 """
 For this example, we'll use uvicorn to run the API:
-1. uvicorn main2:app --reload
+1. uvicorn main3:app --reload
 """
 
 app = FastAPI()
 
-# brush up on Python dictionaries: https://www.w3schools.com/python/python_dictionaries.asp
+# brush up on Pydantic Models: https://docs.pydantic.dev/latest/
 
 
 class Pet(BaseModel):
@@ -19,9 +19,9 @@ class Pet(BaseModel):
 
 
 pets = {
-    "1": Pet("sparky", 3, "dog"),
-    "2": Pet("whiskers", 5, "cat"),
-    "3": Pet("tweety", 2, "bird"),
+    "1": Pet(name="sparky", age=3, type="dog"),
+    "2": Pet(name="whiskers", age=5, type="cat"),
+    "3": Pet(name="tweety", age=2, type="bird"),
 }
 
 
