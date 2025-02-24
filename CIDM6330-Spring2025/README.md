@@ -1,5 +1,5 @@
-# CIDM6330-Fall2024
-CIDM6330-Fall2024
+# CIDM6330-Spring 2025
+CIDM6330-Spring 2025
 
 # EVOLUTION FORMAT
 1. Lectures/Dicussion from FSA/PAP
