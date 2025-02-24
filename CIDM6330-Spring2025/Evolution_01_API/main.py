@@ -21,9 +21,11 @@ app = FastAPI()
 def greet():
     return {"message": "Ahoy, World!"}
 
+
 @app.get("/api/greet/{name}")
 def greet(name: str):
     return {"message": f"Ahoy, {name}!"}
+
 
 if __name__ == "__main__":
     import uvicorn
