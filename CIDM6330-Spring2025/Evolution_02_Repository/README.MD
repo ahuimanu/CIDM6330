@@ -52,7 +52,7 @@ For the 2025 version, I'll follow the original article from Pybites and use sqlm
 1. Ensure you have a virtual environment (`python -m venv .venv`) and, if you do, activate it:
     1. Unix/Linux/Mac: `. ./.venv/bin/activate`
     2. Windows with Git-Bash: `. ./.venv/Scripts/activate`
-2. Install Redbid: `pip install sqlmodel`
+2. Install [SQLModel](https://sqlmodel.tiangolo.com/): `pip install sqlmodel`
 3. [Read/Follow Pybites article](https://pybit.es/articles/repository-pattern-in-python/)
 
 
