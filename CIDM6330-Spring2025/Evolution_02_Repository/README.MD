@@ -54,7 +54,7 @@ For the 2025 version, I'll follow the original article from Pybites and use sqlm
     2. Windows with Git-Bash: `. ./.venv/Scripts/activate`
 2. Install [SQLModel](https://sqlmodel.tiangolo.com/): `pip install sqlmodel`
 3. [Read/Follow Pybites article](https://pybit.es/articles/repository-pattern-in-python/)
-
+4. Review this repository, which also covered the [Repository Pattern](https://github.com/bbelderbos/design_patterns/tree/main)
 
 ## Next Steps
 
