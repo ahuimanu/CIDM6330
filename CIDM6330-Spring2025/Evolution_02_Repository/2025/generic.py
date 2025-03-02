@@ -67,7 +67,7 @@ class MyCSVRepo(BaseProductRepository):
 
     def __init__(self, filename: str, id_field: str, fieldnames: list):
 
-        self.repo = list[Product]
+        self.repo = list[Product] # this is a typehint for a list of Product objects
         self.filename = filename
         self.fieldnames = fieldnames
 
@@ -88,9 +88,15 @@ class MyCSVRepo(BaseProductRepository):
 
     def do_update(self, id, product: Product):
         self.repo[str(id)] = product
+        self.do_save_file()
 
     def do_delete(self, id):
-        del self.repo[str(id)]
+        for product in self.repo:
+            if int(product.id) == int(id):
+                self.repo.remove(product)
+                break
+
+        self.do_save_file()
 
     def do_save_file(self):
         with open(self.filename, mode="w", newline="") as file:
@@ -119,12 +125,16 @@ class MyMemoryRepo(BaseProductRepository):
         self.repo[id] = product
 
     def do_delete(self, id):
-        self.remove(id)
+        for product in self.repo:
+            if int(product.id) == int(id):
+                self.repo.remove(product)
+                break
+        
 
 
 # Defining main function
 def main():
-    print("hey there")
+    print("generic repository example")
     csv_repo = MyCSVRepo("products.csv", "id", ["id", "name", "price"])
     # csv_repo.do_create(Product(1, "apple", 1.99))
     # csv_repo.do_create(Product(2, "banana", 0.99))
@@ -133,6 +143,9 @@ def main():
     # csv_repo.do_create(Product(4, "pear", 1.59))
     # csv_repo.do_create(Product(5, "raspberry", 1.09))
     # csv_repo.do_create(Product(6, "lemon", 0.59))
+
+    # csv_repo.do_create(Product(7, "pineapple", 5.99))
+    csv_repo.do_delete(3)
 
     print(csv_repo.read_all())
 

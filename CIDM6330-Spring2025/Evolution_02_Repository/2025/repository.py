@@ -60,7 +60,7 @@ class BaseFPRepo(ABC):
         pass
 
     @abstractmethod
-    def do_read_flight(self, airline: str, flightnum: str):
+    def do_read_flight(self, operator: str, flight_number: str):
         pass
 
     @abstractmethod
@@ -99,9 +99,9 @@ class MySQLModelRepo(BaseFPRepo):
         result = self.session.exec(statement)
         return result.one()
 
-    def do_read_flight(self, airline: str, flightnum: str):
+    def do_read_flight(self, operator: str, flight_number: str):
         statement = select(FlightPlan).where(
-            FlightPlan.airline == airline, FlightPlan.flightnum == flightnum
+            FlightPlan.operator == operator, FlightPlan.flight_number == flight_number
         )
         result = self.session.exec(statement)
         return result.one()
