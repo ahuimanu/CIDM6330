@@ -94,7 +94,7 @@ windows with greenlets
 
 NOTE: the last option requires that greenlet is installed as a Python package.
 ```bash
-pip install greenlet
+pip install gevent
 ```
 
 ### Windows Stop Worker (should work on *nux too)
