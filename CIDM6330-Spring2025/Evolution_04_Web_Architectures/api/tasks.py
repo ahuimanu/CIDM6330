@@ -10,13 +10,16 @@ def send_email_to_reader_members_about_book_discounts_task(
 ):
 
     # print (f"list of readers: {list_of_readers}")
-    
+
     sleep(2)  # Simulate expensive operation(s) that freeze Django
     for reader in list_of_readers:
         email_address = reader["email"]
 
         message = f"Dear {reader["first_name"]}, here are some discounted books\n".join(
-            [f"{book["title"]} - {book["discount"]}\n" for book in list_of_discounted_books]
+            [
+                f"{book["title"]} - {book["discount"]}\n"
+                for book in list_of_discounted_books
+            ]
         )
 
         send_mail(

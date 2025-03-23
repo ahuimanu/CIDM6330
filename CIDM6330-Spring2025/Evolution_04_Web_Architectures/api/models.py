@@ -18,7 +18,12 @@ class Book(models.Model):
 
     # https://stackoverflow.com/a/18108586/13355500
     def get_authors(self):
-        return f"authors: ".join([f"{author.first_name} {author.last_name} " for author in self.authors.all()])    
+        return f"authors: ".join(
+            [
+                f"{author.first_name} {author.last_name} "
+                for author in self.authors.all()
+            ]
+        )
 
     def __str__(self):
         return f"{self.title} by {self.get_authors()}"
