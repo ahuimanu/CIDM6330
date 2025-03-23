@@ -92,6 +92,11 @@ windows single thread approach
 windows with greenlets
 `celery -A tasks worker -l INFO --pool=gevent --concurrency=2`
 
+NOTE: the last option requires that greenlet is installed as a Python package.
+```bash
+pip install greenlet
+```
+
 ### Windows Stop Worker (should work on *nux too)
 
 find celery process
