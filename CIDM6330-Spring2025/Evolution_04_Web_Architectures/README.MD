@@ -7,6 +7,59 @@ Eventually, we'll figure out that many others have tackled the basics of facilit
 ## Django
 We'll want to see if we can combine both the API and the Event/Message Queueing with Django.
 
+### NEW IN 2025
+
+It would seem that [Django-Ninja](https://django-ninja.dev/) is much more FastAPI-like and may be worth exploring.
+
+Django-Ninja does seem straight-forward:
+
+```bash
+pip install django-ninja
+```
+And then, make a new project
+
+```bash
+django-admin startproject api
+```
+
+Then, within the api app
+
+```python
+from django.contrib import admin
+from django.urls import path
+from ninja import NinjaAPI
+
+api = NinjaAPI()
+
+
+@api.get("/add")
+def add(request, a: int, b: int):
+    return {"result": a + b}
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/", api.urls),
+]
+```
+
+Then, normal Django:
+
+```bash
+./manage.py runserver
+```
+Now, in the browser: `http://127.0.0.1:8000/api/add?a=1&b=2`
+
+And result:
+
+```json
+{"result": 3}
+```
+
+You do not have to use Django-Ninja and can stick to the DRF examples from below, but it is more FastAPI-like than the DRF discussed from 2024.
+
+### FROM 2024
+
 - [Official Django REST Framework Tutorial - A Beginners Guide](https://learndjango.com/tutorials/official-django-rest-framework-tutorial-beginners)
 - [Asynchronous Tasks With Django and Celery](https://realpython.com/asynchronous-tasks-with-django-and-celery/)
 - [How to Use Celery with Django for Asynchronous and Periodic Tasks : A Comprehensive Guide](https://djangocentral.com/how-to-use-celery-with-django/)
