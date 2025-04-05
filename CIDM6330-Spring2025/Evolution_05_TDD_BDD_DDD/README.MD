@@ -30,6 +30,9 @@ The full pip install list is:
 pip install django django-celery-results celery redis django-redis
 ```
 
+PROMPT for the project:
+"Create an API where you select two cities in the US:  location, destination, and travel date. Compare temperatures for those two cities at 2 PM on that day and return a response deciding whether they should travel there. Hint: You might need to periodically fetch data and store it somewhere."
+
 ### Running Redis without Docker
 
 #### Windows
