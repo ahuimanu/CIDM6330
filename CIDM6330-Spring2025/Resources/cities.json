@@ -1,0 +1,427 @@
+{
+    "cities": [
+        {
+            
+            "id": "1",
+            "name": "New York,NY",
+            "lat": "40.66",
+            "long": "-73.94",
+            "estimated_population": "8,336,817",
+        },
+        {
+            "id": "2",
+            "name": "Los Angeles,CA",
+            "lat": "34.02",
+            "long": "-118.41",
+            "estimated_population": "3,979,576"
+        },
+        {
+            "id": "3",
+            "name": "Chicago,IL",
+            "lat": "41.84",
+            "long": "-87.68",
+            "estimated_population": "2,693,976"
+        },
+        {
+            "id": "4",
+            "name": "Houston,TX",
+            "lat": "29.76",
+            "long": "-95.36",
+            "estimated_population": "2,320,268"
+        },
+        {
+            "id": "5",
+            "name": "Phoenix,AZ",
+            "lat": "33.45", 
+            "long": "-112.07",
+            "estimated_population": "1,608,139"
+        },
+        {
+            "id": "6",
+            "name": "Philadelphia,PA",
+            "lat": "39.95",
+            "long": "-75.16",
+            "estimated_population": "1,584,064"
+        },
+        {
+            "id": "7",
+            "name": "San Antonio,TX",
+            "lat": "29.42",
+            "long": "-98.49",
+            "estimated_population": "1,532,233"
+        
+        },
+        {
+            "id": "8",
+            "name": "San Diego,CA",
+            "lat": "32.72",
+            "long": "-117.16",
+            "estimated_population": "1,423,851"
+        },
+        {
+            "id": "9",
+            "name": "Dallas,TX",
+            "lat": "32.78",
+            "long": "-96.8",
+            "estimated_population": "1,343,573"
+        },
+        {
+            "id": "10",
+            "name": "Jacksonville,FL",
+            "lat": "30.33",
+            "long": "-81.65",
+            "estimated_population": "911,507"
+        },
+        {
+            "id": "11",
+            "name": "Austin,TX",
+            "lat": "30.27",
+            "long": "-97.74",
+            "estimated_population": "978,908"
+        },
+        {
+            "id": "12",
+            "name": "Fort Worth,TX",
+            "lat": "32.75",
+            "long": "-97.33",
+            "estimated_population": "909,585"
+        },
+        {
+            "id": "13",
+            "name": "San jose,CA",
+            "lat": "37.33",
+            "long": "-121.89",
+            "estimated_population": "1,021,795"
+        },
+        {
+            "id": "14",
+            "name": "Columbus,OH",
+            "lat": "39.96",
+            "long": "-82.99",
+            "estimated_population": "898,553"
+        },
+        {
+            "id": "15",
+            "name": "Charlotte,NC",
+            "lat": "35.23",
+            "long": "-80.84",
+            "estimated_population": "885,708"
+        },
+        {
+            "id": "16",
+            "name": "Indianapolis,IN",
+            "lat": "39.79",
+            "long": "-86.14",
+            "estimated_population": "876,384"
+        },
+        {
+            "id": "17",
+            "name": "San Francisco,CA",
+            "lat": "37.77",
+            "long": "-122.42",
+            "estimated_population": "883,305"
+        },
+        {
+            "id": "18",
+            "name": "Seattle,WA",
+            "lat": "47.61",
+            "long": "-122.33",
+            "estimated_population": "744,955"
+        },
+        {
+            "id": "19",
+            "name": "Denver,CO",
+            "lat": "39.74",
+            "long": "-104.99",
+            "estimated_population": "727,211"
+        },
+        {
+            "id": "20",
+            "name": "Oklahoma City,OK",
+            "lat": "35.46",
+            "long": "-97.52",
+            "estimated_population": "655,057"
+        },
+        {
+            "id": "21",
+            "name": "Nashville,TN",
+            "lat": "36.16",
+            "long": "-86.78",
+            "estimated_population": "670,820"
+        },
+        {
+            "id": "22",
+            "name": "Washington,DC",
+            "lat": "38.91",
+            "long": "-77.04",
+            "estimated_population": "705,749"
+        },
+        {
+            "id": "23",
+            "name": "El Paso,TX",
+            "lat": "31.76",
+            "long": "-106.49",
+            "estimated_population": "681,728"
+        },
+        {
+            "id": "24",
+            "name": "Las Vegas,NV",
+            "lat": "36.17",
+            "long": "-115.14",
+            "estimated_population": "651,319"
+        },
+        {
+            "id": "25",
+            "name": "Boston,MA",
+            "lat": "42.36",
+            "long": "-71.06",
+            "estimated_population": "692,600"
+            
+        },
+        {
+            "id": "26",
+            "name": "Detroit,MI",
+            "lat": "42.33",
+            "long": "-83.05",
+            "estimated_population": "670,031"
+        },
+        {
+            "id": "27",
+            "name": "Portland,OR",
+            "lat": "45.52",
+            "long": "-122.68",
+            "estimated_population": "654,741"
+        },
+        {
+            "id": "28",
+            "name": "Louisville,KY",
+            "lat": "38.25",
+            "long": "-85.76",
+            "estimated_population": "617,638"
+        },
+        {
+            "id": "29",
+            "name": "Memphis,TN",
+            "lat": "35.15",
+            "long": "-90.05",
+            "estimated_population": "651,073"
+        },
+        {
+            "id": "30",
+            "name": "Baltimore,MD",
+            "lat": "39.29",
+            "long": "-76.61",
+            "estimated_population": "602,495"
+        },
+        {
+            "id": "31",
+            "name": "Milwaukee,WI",
+            "lat": "43.04",
+            "long": "-87.91",
+            "estimated_population": "592,025"
+        },
+        {
+            "id": "32",
+            "name": "Albuquerque,NM",
+            "lat": "35.11",
+            "long": "-106.65",
+            "estimated_population": "560,218"
+        },
+        {
+            "id": "33",
+            "name": "Tucson,AZ",
+            "lat": "32.22",
+            "long": "-110.97",
+            "estimated_population": "548,073"   
+        },
+        {
+            "id": "34",
+            "name": "Fresno,CA",
+            "lat": "36.74",
+            "long": "-119.78",
+            "estimated_population": "530,093"
+        },
+        {
+            "id": "35",
+            "name": "Sacramento,CA",
+            "lat": "38.58",
+            "long": "-121.49",
+            "estimated_population": "513,624"
+        },
+        {
+            "id": "36",
+            "name": "Mesa,AZ",
+            "lat": "33.42",
+            "long": "-111.82",
+            "estimated_population": "518,012"
+        },
+        {
+            "id": "37",
+            "name": "Atlanta,GA",
+            "lat": "33.75",
+            "long": "-84.39",
+            "estimated_population": "506,811"
+        },
+        {
+            "id": "38",
+            "name": "Kansas City,MO",
+            "lat": "39.10",
+            "long": "-94.58",
+            "estimated_population": "495,327"
+        },
+        {
+            "id": "39",
+            "name": "Colorado Springs,CO",
+            "lat": "38.83",
+            "long": "-104.82",
+            "estimated_population": "478,221"
+        },
+        {
+            "id": "40",
+            "name": "Omaha,NE",
+            "lat": "41.26",
+            "long": "-95.94",
+            "estimated_population": "478,192"
+        },
+        {
+            "id": "41",
+            "name": "Raleigh,NC",
+            "lat": "35.78",
+            "long": "-78.64",
+            "estimated_population": "474,579"
+        },
+        {
+            "id": "42",
+            "name": "Miami,FL",
+            "lat": "25.76",
+            "long": "-80.19",
+            "estimated_population": "467,963"
+        },
+        {
+            "id": "43",
+            "name": "Virgina Beach,VA",
+            "lat": "36.85",
+            "long": "-75.98",
+            "estimated_population": "449,974"
+        },
+        {
+            "id": "44",
+            "name": "Long Beach,CA",
+            "lat": "33.77",
+            "long": "-118.19",
+            "estimated_population": "467,354"
+        },
+        {
+            "id": "45",
+            "name": "Oakland,CA",
+            "lat": "37.80",
+            "long": "-122.27",
+            "estimated_population": "433,031"
+        },
+        {
+            "id": "46",
+            "name": "Minneapolis,MN",
+            "lat": "44.98",
+            "long": "-93.26",
+            "estimated_population": "429,606"
+        },
+        {
+            "id": "47",
+            "name": "Bakersfield,CA",
+            "lat": "35.37",
+            "long": "-119.02",
+            "estimated_population": "403,455"
+        },
+        {
+            "id": "48",
+            "name": "Tulsa,OK",
+            "lat": "36.15",
+            "long": "-95.99",
+            "estimated_population": "401,190"
+        },
+        {
+            "id": "49",
+            "name": "Tampa,FL",
+            "lat": "27.95",
+            "long": "-82.46",
+            "estimated_population": "399,700"
+        },
+        {
+            "id": "50",
+            "name": "Alrington,TX",
+            "lat": "32.73",
+            "long": "-97.11",
+            "estimated_population": "396,394"
+        },
+        {
+            "id": "51",
+            "name": "Wichita,KS",
+            "lat": "37.69",
+            "long": "-97.34",
+            "estimated_population": "389,938"   
+        },
+        {
+            "id": "52",
+            "name": "Aurora,CO",
+            "lat": "39.73",
+            "long": "-104.83",
+            "estimated_population": "379,289"
+        },
+        {
+            "id": "53",
+            "name": "New Orleans,LA",
+            "lat": "29.95",
+            "long": "-90.07",
+            "estimated_population": "390,144"
+        },
+        {
+            "id": "54",
+            "name": "Cleveland,OH",
+            "lat": "41.50",
+            "long": "-81.69",
+            "estimated_population": "372,624"
+        },
+        {
+            "id": "55",
+            "name": "Honolulu,HI",
+            "lat": "21.31",
+            "long": "-157.86",
+            "estimated_population": "345,064"
+        },
+        {
+            "id": "56",
+            "name": "Anaheim,CA",
+            "lat": "33.84",
+            "long": "-117.91",
+            "estimated_population": "352,005"
+        },
+        {
+            "id": "57",
+            "name": "Henderson,NV",
+            "lat": "36.05",
+            "long": "-114.98",
+            "estimated_population": "302,539"
+        },
+        {
+            "id": "58",
+            "name": "Orlando,FL",
+            "lat": "28.54",
+            "long": "-81.38",
+            "estimated_population": "307,573"
+        },
+        {
+            "id": "59",
+            "name": "Lexington,KY",
+            "lat": "38.04",
+            "long": "-84.50",
+            "estimated_population": "323,780"
+        },
+        {
+            "id": "60",
+            "name": "Stockton,CA",
+            "lat": "37.96",
+            "long": "-121.29",
+            "estimated_population": "311,178"
+        }
+    ]
+}

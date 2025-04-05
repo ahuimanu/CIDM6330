@@ -24,6 +24,12 @@ We should have made this the first evolution, but there are cart and horse issue
 
 A Django Ninja version of Afroza Nowshin's [How to Do Periodic Tasks in a Django REST API Using Celery and Redis? - A Beginner-Friendly Guide](https://dev.to/afrozansenjuti/how-to-do-periodic-tasks-in-a-django-app-using-celery-and-redis-a-beginner-friendly-guide-3bp3)
 
+ERRATA:
+The full pip install list is:
+```shell
+pip install django django-celery-results celery redis django-redis
+```
+
 ### Running Redis without Docker
 
 #### Windows
