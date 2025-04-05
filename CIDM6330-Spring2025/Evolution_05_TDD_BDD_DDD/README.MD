@@ -54,8 +54,8 @@ pip install matplotlib
 
 Celery commands:
 ```shell
-celery -A travelmanagement beat -l info
 celery -A travelmanagement worker -l INFO --pool=gevent --concurrency=2
+celery -A travelmanagement beat -l info
 ```
 
 ### Running Redis without Docker
