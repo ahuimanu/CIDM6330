@@ -19,3 +19,21 @@ We should have made this the first evolution, but there are cart and horse issue
 1. For DDD create a ubiquitous language glossary: [https://thedomaindrivendesign.io/developing-the-ubiquitous-language/](https://thedomaindrivendesign.io/developing-the-ubiquitous-language/)
 2. For BDD create A Gherkin Notation expression for each test: [Gherkin Syntax](https://cucumber.io/docs/gherkin/)
 3. For TDD create tests that correspond with your Gherkin Statements.
+
+## 2025 Example
+A Django Ninja version of Afroza Nowshin's [How to Do Periodic Tasks in a Django REST API Using Celery and Redis? - A Beginner-Friendly Guide](https://dev.to/afrozansenjuti/how-to-do-periodic-tasks-in-a-django-app-using-celery-and-redis-a-beginner-friendly-guide-3bp3)
+
+### Running Redis without Docker
+
+#### Windows
+- [Install Ubuntu on WSL2](https://documentation.ubuntu.com/wsl/en/latest/howto/install-ubuntu-wsl2/)
+- Install redis:
+
+```shell
+sudo apt update && apt upgrade
+
+sudo apt install redis-server
+```
+
+#### Mac
+[Install Redis on macOS](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/)
