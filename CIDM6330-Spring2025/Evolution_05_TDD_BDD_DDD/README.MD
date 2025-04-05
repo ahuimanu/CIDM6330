@@ -21,6 +21,7 @@ We should have made this the first evolution, but there are cart and horse issue
 3. For TDD create tests that correspond with your Gherkin Statements.
 
 ## 2025 Example
+
 A Django Ninja version of Afroza Nowshin's [How to Do Periodic Tasks in a Django REST API Using Celery and Redis? - A Beginner-Friendly Guide](https://dev.to/afrozansenjuti/how-to-do-periodic-tasks-in-a-django-app-using-celery-and-redis-a-beginner-friendly-guide-3bp3)
 
 ### Running Redis without Docker
