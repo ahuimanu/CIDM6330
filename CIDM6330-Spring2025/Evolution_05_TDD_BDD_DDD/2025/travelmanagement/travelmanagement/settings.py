@@ -129,31 +129,31 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_IMPORTS = ('apilist.tasks',) 
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_IMPORTS = ("apilist.tasks",)
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE', 'UTC')
+CELERY_TIMEZONE = os.getenv("CELERY_TIMEZONE", "UTC")
 
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CACHES = {
-   'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': CELERY_BROKER_URL,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'CONNECTION_POOL_KWARGS': {'max_connections': 100},
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": CELERY_BROKER_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
         },
-        'KEY_PREFIX': 'my_cache_prefix',  # Add a prefix to your cache keys
-        'TIMEOUT': 300,  # Cache timeout in seconds (adjust as needed)
-        'VERSION': 1,  # Cache version (change this if you change your cache keys structure)
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'IGNORE_EXCEPTIONS': True,  # Ignore cache-related exceptions
+        "KEY_PREFIX": "my_cache_prefix",  # Add a prefix to your cache keys
+        "TIMEOUT": 300,  # Cache timeout in seconds (adjust as needed)
+        "VERSION": 1,  # Cache version (change this if you change your cache keys structure)
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "IGNORE_EXCEPTIONS": True,  # Ignore cache-related exceptions
         },
     }
 }
