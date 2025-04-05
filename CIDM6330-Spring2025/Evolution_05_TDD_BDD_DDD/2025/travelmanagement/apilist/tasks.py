@@ -1,11 +1,35 @@
 from django.core.cache import cache
+from prophet.serialize import model_to_json, model_from_json
 from celery import shared_task
 import requests
+import datetime
 
 """
 This module contains the Celery task to fetch and store temperature data for cities.
 Credit to: Afroza Nowshin
 """
+
+
+@shared_task
+def load_model(city: str):
+    try:
+        if city == "LA":
+            # Load the model from the file and return it.
+            with open("./apilist/utils/la_model.json", "r") as fin:
+                la_m = model_from_json(fin.read())
+
+            # Load the model from the file and return it.
+            cache.set("serialized_model_la", la_m, timeout=None)  # infinite caching
+        elif city == "NY":
+            # Load the model from the file and return it.
+            with open("./apilist/utils/nyc_model.json", "r") as fin:
+                ny_m = model_from_json(fin.read())
+
+            # Load the model from the file and return it.
+            cache.set("serialized_model_ny", ny_m, timeout=None)
+
+    except FileNotFoundError:
+        print("Model file not found.")
 
 
 @shared_task

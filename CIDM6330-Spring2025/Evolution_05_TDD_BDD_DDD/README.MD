@@ -52,6 +52,11 @@ pip install notebook
 pip install matplotlib
 ```
 
+Celery commands:
+```shell
+celery -A travelmanagement beat -l info
+celery -A travelmanagement worker -l INFO --pool=gevent --concurrency=2
+```
 
 ### Running Redis without Docker
 There are other ways to run redis rather than rely on Docker.

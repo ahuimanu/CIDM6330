@@ -34,5 +34,15 @@ app.conf.beat_schedule = {
         "task": "apilist.tasks.fetch_and_store_temperature",  # app_name.tasks.function_name
         "schedule": crontab(minute="*/15"),  # crontab() is checked every minute
         # 'args' : (..., ...) In case function takes parameters, add them here
-    }
+    },
+    "load-model-contrab-la": {
+        "task": "apilist.tasks.load_model",
+        "schedule": crontab(minute="*/15"),
+        "args": ("LA",),
+    },
+    "load-model-contrab-ny": {
+        "task": "apilist.tasks.load_model",
+        "schedule": crontab(minute="*/15"),
+        "args": ("NY",),
+    },
 }
