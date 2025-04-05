@@ -75,3 +75,8 @@ sudo apt install redis-server
 
 #### Mac
 [Install Redis on macOS](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/)
+
+
+## Useful Wikipedia to CSV tool
+
+[Convert Wiki Tables to CSV](https://wikitable2csv.ggor.de/)
