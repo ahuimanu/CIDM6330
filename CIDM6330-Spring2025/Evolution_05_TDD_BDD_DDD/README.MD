@@ -42,7 +42,7 @@ PROMPT for the API project:
 ### Data Analytics component
 
 PROMPT for Analytics:
-"Train a simple model that forecasts weather conditions for a given time. We will train on the top 60 cities in the USA. After training the model, create a simple APU to query the trained model. Our API will predict the temperature at any future date beyond the 7 to 16 days provided by the OpenMeteo Forecast data."
+"Train a simple model that forecasts weather conditions for a given time. We will train on the top 60 cities in the USA. After training the model, create a simple API to query the trained model. Our API will predict the temperature at any future date beyond the 7 to 16 days provided by the OpenMeteo Forecast data."
 
 To do this, we need to adjust to use open-meteo's archival data: https://archive-api.open-meteo.com/v1/archive
 
