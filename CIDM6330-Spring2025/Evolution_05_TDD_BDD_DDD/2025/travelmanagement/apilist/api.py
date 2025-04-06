@@ -36,6 +36,14 @@ class CityWeatherPredictionResponse(Schema):
         ..., description="Weather prediction for the specified city and date"
     )
 
+@router.get("hello/", url_name="hello")
+def hello(request):
+    return {"message": "Hello, World!"}   
+
+@router.get("/v1/", url_name="welcome")
+def welcome(request):
+    return {"message": "Welcome to the Travel Management API"}
+
 
 @router.post("/cities_recommendation/")
 def show_cities_travel_recommendation(request, data: CityRecommendationRequestSchema):
