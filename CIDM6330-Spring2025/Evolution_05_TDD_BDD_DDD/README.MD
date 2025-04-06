@@ -17,6 +17,8 @@ We should have made this the first evolution, but there are cart and horse issue
 # Requirements
 
 1. For DDD create a ubiquitous language glossary: [https://thedomaindrivendesign.io/developing-the-ubiquitous-language/](https://thedomaindrivendesign.io/developing-the-ubiquitous-language/)
+    1. wayback archive: [https://web.archive.org/web/20241122220908/https://thedomaindrivendesign.io/developing-the-ubiquitous-language/](https://web.archive.org/web/20241122220908/https://thedomaindrivendesign.io/developing-the-ubiquitous-language/)
+
 2. For BDD create A Gherkin Notation expression for each test: [Gherkin Syntax](https://cucumber.io/docs/gherkin/)
 3. For TDD create tests that correspond with your Gherkin Statements.
 
