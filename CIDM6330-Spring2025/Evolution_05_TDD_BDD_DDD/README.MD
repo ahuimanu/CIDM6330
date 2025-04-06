@@ -73,7 +73,7 @@ There are other ways to run redis rather than rely on Docker.
 - Install redis:
 
 ```shell
-sudo apt update && apt upgrade
+sudo apt update && sudo apt upgrade
 
 sudo apt install redis-server
 ```
