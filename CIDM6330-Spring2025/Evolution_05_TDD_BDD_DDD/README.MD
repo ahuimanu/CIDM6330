@@ -85,3 +85,6 @@ sudo apt install redis-server
 ## Useful Wikipedia to CSV tool
 
 [Convert Wiki Tables to CSV](https://wikitable2csv.ggor.de/)
+
+## "Vibe Coding" 
+[As mentioned in my video](https://en.wikipedia.org/wiki/Vibe_coding)

@@ -5,6 +5,7 @@ from django.test import Client
 
 from .api import router as list_router
 
+# built-in Django Test Client
 class ViewTest(TestCase):
     def setUp(self):
         # This method is called before each test
@@ -40,6 +41,7 @@ class ViewTest(TestCase):
         }, "Unexpected response message"
 
 # Create your tests here.
+# built-in DjangoNinja Test Client
 class BasicTest(TestCase):
 
     def setUp(self):
