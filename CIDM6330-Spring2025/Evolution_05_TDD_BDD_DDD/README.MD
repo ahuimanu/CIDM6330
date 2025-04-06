@@ -57,6 +57,9 @@ pip install matplotlib
 ```
 
 Celery commands:
+
+The best method to run Celery workers with by installing `gevent`: `pip install gevent`
+
 ```shell
 celery -A travelmanagement worker -l INFO --pool=gevent --concurrency=2
 celery -A travelmanagement beat -l info
