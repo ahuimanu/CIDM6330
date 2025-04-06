@@ -140,6 +140,7 @@ CELERY_TIMEZONE = os.getenv("CELERY_TIMEZONE", "UTC")
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
+# using redis with Djanog - django-redis package
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

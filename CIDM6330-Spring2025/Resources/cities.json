@@ -1,7 +1,6 @@
 {
     "cities": [
         {
-            
             "id": "1",
             "name": "New York,NY",
             "lat": "40.66",
