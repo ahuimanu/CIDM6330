@@ -1,0 +1,62 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="sprintGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="driftGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.4"/>
+    </pattern>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+
+  <!-- Horizontal strata lines -->
+  <line x1="50" y1="100" x2="750" y2="100" stroke="#334155" stroke-width="1" opacity="0.2"/>
+  <line x1="50" y1="200" x2="750" y2="200" stroke="#334155" stroke-width="1" opacity="0.2"/>
+  <line x1="50" y1="300" x2="750" y2="300" stroke="#334155" stroke-width="1" opacity="0.2"/>
+  <line x1="50" y1="400" x2="750" y2="400" stroke="#334155" stroke-width="1" opacity="0.2"/>
+
+  <!-- Sprint waveform -->
+  <path d="M 50 250 L 100 250 L 120 180 L 140 320 L 160 210 L 180 290 L 200 250 L 280 250 L 300 150 L 320 350 L 340 190 L 360 310 L 400 250" fill="none" stroke="url(#sprintGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <!-- Drift waveform -->
+  <path d="M 400 250 Q 450 220 500 250 Q 550 280 600 250 Q 650 230 700 250 Q 730 260 750 250" fill="none" stroke="url(#driftGrad)" stroke-width="3" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Nodes -->
+  <circle cx="120" cy="250" r="5" fill="#0ea5e9" filter="url(#glow)"/>
+  <circle cx="300" cy="250" r="5" fill="#0ea5e9" opacity="0.8"/>
+  <circle cx="400" cy="250" r="7" fill="#38bdf8" filter="url(#glow)"/>
+  <circle cx="550" cy="250" r="4" fill="#38bdf8" opacity="0.5"/>
+  <circle cx="700" cy="250" r="3" fill="#38bdf8" opacity="0.3"/>
+
+  <!-- Corner brackets -->
+  <path d="M 50 70 L 50 50 L 70 50" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.6"/>
+  <path d="M 750 70 L 750 50 L 730 50" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.6"/>
+  <path d="M 50 430 L 50 450 L 70 450" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.6"/>
+  <path d="M 750 430 L 750 450 L 730 450" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.6"/>
+
+  <!-- Title -->
+  <text x="400" y="80" text-anchor="middle" font-family="'Courier New', monospace" font-size="48" font-weight="300" letter-spacing="12" fill="#f1f5f9">SPRINT</text>
+  <text x="400" y="130" text-anchor="middle" font-family="'Courier New', monospace" font-size="48" font-weight="300" letter-spacing="12" fill="#f1f5f9">&amp; DRIFT</text>
+
+  <!-- Tagline -->
+  <text x="400" y="430" text-anchor="middle" font-family="'Courier New', monospace" font-size="14" letter-spacing="6" fill="#64748b">NOTES FROM THE JUDGMENT LAYER</text>
+</svg>

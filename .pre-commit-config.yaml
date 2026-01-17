@@ -5,6 +5,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-added-large-files
+        args: ['--maxkb=1024']
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
@@ -19,7 +20,4 @@ repos:
       # Formatter (replaces black)
       - id: ruff-format
 
-  - repo: https://github.com/astral-sh/ty
-    rev: 0.0.1-alpha.9
-    hooks:
-      - id: ty
+  # ty pre-commit hook not yet available - run manually with: uv run ty check .
