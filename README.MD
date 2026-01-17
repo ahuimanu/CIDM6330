@@ -1,46 +1,31 @@
-# CIDM6330 Spring 2025
+# CIDM 6330 Spring 2026
 
-This repository will contain all supplemental materials and code for CIDM6330 for the Spring 2025 semester.
+This repository contains supplemental materials and code for CIDM 6330, Spring 2026.
 
-## Code for CIDM 6330 Spring 2025
+## Primary Text
 
-We are using Jaime Buelta's Python Architecture Patterns as our guide.
+We are using *Fundamentals of Software Architecture, 2nd Edition* as our guide.
 
-## Course Supplemental Material on Architecture - Spring 2025
+## Course Materials
 
-The [docs](docs/README.MD) folder contains several files with supplemental and foundational knowledge for the course.
+The [docs](docs/README.MD) folder contains supplemental readings and foundational content organized across four Foundations covering software architecture concepts and distributed systems.
 
-# Components of this Repo:
+## Resources
 
-- [Acme](projects/acme/README.MD) - Acme crew scheduling example. (updated in 2025)
-- [Portal](projects/portal/README.MD) - Captive Portal project for WT
-- [CIDM6330-Spring2025](CIDM6330-Spring2025) - Code from Fall 2024
-- [Docs](docs/README.MD) - Course readings are here.
-- [Testing](Testing/README.MD) - Separate materials on testing in Python.
-- [PyTesting](Testing/PyTesting/README.MD) - pytest basics. We will not use PyTest, but it is very popular, so I didn't want to skip it.
-- [MDN Django Tutorial](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django) - A good overview and tutorial for Django.
-- [Django Girls Tutorial](tutorials/django-girls-tutorial/) - Another good primer on Django.
+- [Git Crash Course](https://gist.github.com/brandon1024/14b5f9fcfd982658d01811ee3045ff1e) - Good resource for beginners
+- [MDN Django Tutorial](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django) - Overview and tutorial for Django
 
-## Git Crash Course for Begginers
+## Python Tooling
 
-[Good resource](https://gist.github.com/brandon1024/14b5f9fcfd982658d01811ee3045ff1e).
+This course uses [Astral](https://astral.sh/) tools for Python development:
 
-## Visual Studio Code Python Extension
+- **uv** - Package and environment management
+- **ruff** - Linting and formatting
+- **ty** - Type checking
 
-It may become necessary for you to encourage the Python and Pylance extensions on how to find your virtual environment in VSCode.
+To create a virtual environment and install dependencies:
 
-The following can be added to a 'settings.json' file to accompany your project:
-
-`"python.pythonPath": "/my/project/path/.venv/bin/python",`
-
-## PyPi Packages
-
-PyPi packages used:
-
-- setuptools
-- coverage
-
-## Harry Percival's First Book on TDD
-
-[Test-Driven Development with Python](https://www.obeythetestinggoat.com/)
-
+```bash
+uv venv
+uv pip install -r requirements.txt
+```

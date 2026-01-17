@@ -1,20 +1,25 @@
 # See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
+# Uses uv for fast installation and Astral's ruff/ty toolchain
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
     hooks:
-    -   id: check-added-large-files
-    -   id: check-toml
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
--   repo: https://github.com/psf/black
-    rev: 22.1.0
+      - id: check-added-large-files
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
     hooks:
-    -   id: black
--   repo: https://github.com/pycqa/isort
-    rev: 5.10.1
+      # Linter (replaces flake8, isort, pylint, etc.)
+      - id: ruff
+        args: [--fix]
+      # Formatter (replaces black)
+      - id: ruff-format
+
+  - repo: https://github.com/astral-sh/ty
+    rev: 0.0.1-alpha.9
     hooks:
-    -   id: isort
-        name: isort (python)
+      - id: ty
