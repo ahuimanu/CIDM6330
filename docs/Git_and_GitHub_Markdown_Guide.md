@@ -229,7 +229,7 @@ Include:
   ```bash
   git status
   ```
-  
+
 * For config: `yaml`, `toml`, `json`, `ini`.
 * For diffs:
 
