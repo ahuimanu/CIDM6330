@@ -54,4 +54,5 @@ I rejected two because the scope was too wide and would require multiple dataset
 
 **My judgement calls:**
 
+
 My third business problem would require one more dataset, which should not be hard to retrieve. The data would have to contain year,state, median income by household.
