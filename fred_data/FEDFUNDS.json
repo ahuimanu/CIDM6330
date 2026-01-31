@@ -1,0 +1,84 @@
+{
+  "id": "FEDFUNDS",
+  "title": "Federal Funds Effective Rate",
+  "units": "Percent",
+  "frequency": "Monthly",
+  "seasonal_adjustment": "Not Seasonally Adjusted",
+  "last_updated": "2026-01-02T15:18:33-06:00",
+  "popularity": 98,
+  "notes": " Daily Federal Funds Rate from 1928-1954 (https://fred.stlouisfed.org/categories/33951).\n\nThe federal funds rate is the interest rate at which depository institutions trade federal funds (balances held at Federal Reserve Banks) with each other overnight. When a depository institution has surplus balances in its reserve account, it lends to other banks in need of larger balances. In simpler terms, a bank with excess cash, which is often referred to as liquidity, will lend to another bank that needs to quickly raise liquidity. (1) The rate that the borrowing institution pays to the lending institution is determined between the two banks; the weighted average rate for all of these types of negotiations is called the effective federal funds rate.(2) The effective federal funds rate is essentially determined by the market but is influenced by the Federal Reserve as it uses the Interest on Reserve Balances rate to steer the federal funds rate toward the target range.(2)\n\nThe Federal Open Market Committee (FOMC) meets eight times a year to determine the federal funds target range. The Fed's primary tool for influencing the federal funds rate is the interest the Fed pays on the funds that banks hold as reserve balances at their Federal Reserve Bank, which is the Interest on Reserves Balances (IORB) rate. Because banks are unlikely to lend funds in the federal funds market for less than they get paid in their reserve balance account at the Federal Reserve, the Interest on Reserve Balances (IORB) is an effective tool for guiding the federal funds rate. (3) Whether the Federal Reserve raises or lowers the target range for the federal funds rate depends on the state of the economy. If the FOMC believes the economy is growing too fast and inflation pressures are inconsistent with the dual mandate of the Federal Reserve, the Committee may temper economic activity by raising the target range for federal funds rate, and increasing the IORB rate to steer the federal funds rate into the target range. In the opposing scenario, the FOMC may spur greater economic activity by lowering the target range for federal funds rate, and decreasing the IORB rate to steer the federal funds rate into the target range. (3) Therefore, the FOMC must observe the current state of the economy to determine the best course of monetary policy that will maximize economic growth while adhering to the dual mandate set forth by Congress. In making its monetary policy decisions, the FOMC considers a wealth of economic data, such as: trends in prices and wages, employment, consumer spending and income, business investments, and foreign exchange markets.\n\nThe federal funds rate is the central interest rate in the U.S. financial market. It influences other interest rates such as the prime rate, which is the rate banks charge their customers with higher credit ratings. Additionally, the federal funds rate indirectly influences longer- term interest rates such as mortgages, loans, and savings, all of which are very important to consumer wealth and confidence.(2)\n\nReferences\n(1) Federal Reserve Bank of New York. \"Federal funds.\" Fedpoints, August 2007.\n(2) Monetary Policy (https://www.federalreserve.gov/monetarypolicy.htm), Board of Governors of the Federal Reserve System.\n(3) The Fed Explained (https://www.federalreserve.gov/aboutthefed/files/the-fed-explained.pdf), Board of Governors of the Federal Reserve System\n\nFor further information, see The Fed's New Monetary Policy Tools (https://www.stlouisfed.org/publications/page-one-economics/2020/08/03/the-feds-new-monetary-policy-tools), Page One Economics, Federal Reserve Bank of St. Louis. \n\nFor questions on the data, please contact the data source (https://www.federalreserve.gov/apps/ContactUs/feedback.aspx?refurl=/releases/h15/%). For questions on FRED functionality, please contact us here (https://fred.stlouisfed.org/contactus/).</p>",
+  "observations": [
+    {
+      "date": "1954-07-01",
+      "value": 0.8,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1954-08-01",
+      "value": 1.22,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1954-09-01",
+      "value": 1.07,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1954-10-01",
+      "value": 0.85,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1954-11-01",
+      "value": 0.83,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1954-12-01",
+      "value": 1.28,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1955-01-01",
+      "value": 1.39,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1955-02-01",
+      "value": 1.29,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1955-03-01",
+      "value": 1.35,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1955-04-01",
+      "value": 1.43,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1955-05-01",
+      "value": 1.43,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "1955-06-01",
+      "value": 1.64,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    }
+  ]
+}

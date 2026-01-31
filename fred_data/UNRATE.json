@@ -1,0 +1,72 @@
+{
+  "id": "UNRATE",
+  "title": "Unemployment Rate",
+  "units": "Percent",
+  "frequency": "Monthly",
+  "seasonal_adjustment": "Seasonally Adjusted",
+  "last_updated": "2026-01-09T08:10:37-06:00",
+  "popularity": 98,
+  "notes": "The unemployment rate represents the number of unemployed as a percentage of the labor force. Labor force data are restricted to people 16 years of age and older, who currently reside in 1 of the 50 states or the District of Columbia, who do not reside in institutions (e.g., penal and mental facilities, homes for the aged), and who are not on active duty in the Armed Forces.\r\n\r\nThis rate is also defined as the U-3 measure of labor underutilization.\r\n\r\nThe series comes from the 'Current Population Survey (Household Survey)'\r\n\r\nThe source code is: LNS14000000",
+  "observations": [
+    {
+      "date": "2020-01-01",
+      "value": 3.6,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-02-01",
+      "value": 3.5,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-03-01",
+      "value": 4.4,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-04-01",
+      "value": 14.8,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-05-01",
+      "value": 13.2,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-06-01",
+      "value": 11.0,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-07-01",
+      "value": 10.2,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-08-01",
+      "value": 8.4,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-09-01",
+      "value": 7.8,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    },
+    {
+      "date": "2020-10-01",
+      "value": 6.9,
+      "realtime_start": "2026-01-31",
+      "realtime_end": "2026-01-31"
+    }
+  ]
+}
