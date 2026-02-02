@@ -96,4 +96,3 @@ CLI-first is a course requirement.
 ## Final Assertion
 
 > If a rule matters, it must be enforced by GitHub settings—not memory or goodwill.
-

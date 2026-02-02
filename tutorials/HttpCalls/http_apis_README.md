@@ -68,12 +68,12 @@ try:
         # Response info
         print(f"Status: {response.status}")
         print(f"Headers: {response.headers}")
-        
+
         # Read body
         body = response.read()  # bytes
         text = body.decode("utf-8")  # string
         data = json.loads(text)  # dict
-        
+
 except HTTPError as e:
     print(f"HTTP Error: {e.code} {e.reason}")
 except URLError as e:
@@ -473,7 +473,7 @@ async def fetch_with_semaphore(
 async def fetch_many_limited(urls: list[str], max_concurrent: int = 5) -> list[dict]:
     """Fetch many URLs with limited concurrency."""
     semaphore = asyncio.Semaphore(max_concurrent)
-    
+
     async with httpx.AsyncClient(timeout=10) as client:
         tasks = [fetch_with_semaphore(client, semaphore, url) for url in urls]
         return await asyncio.gather(*tasks)
@@ -540,7 +540,7 @@ class Airport:
     name: str
     city: str
     state: str
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> "Airport":
         return cls(
@@ -580,12 +580,12 @@ def fetch_all_airports(state: str) -> Iterator[dict]:
             )
             response.raise_for_status()
             data = response.json()
-            
+
             if not data["airports"]:
                 break
-                
+
             yield from data["airports"]
-            
+
             if page >= data["total_pages"]:
                 break
             page += 1
@@ -639,18 +639,18 @@ def fetch_airport(stationid: str) -> dict | None:
         )
         response.raise_for_status()
         return response.json()
-        
+
     except httpx.TimeoutException:
         print(f"Request timed out for {stationid}")
         return None
-        
+
     except httpx.HTTPStatusError as e:
         if e.response.status_code == 404:
             print(f"Airport {stationid} not found")
         else:
             print(f"HTTP error: {e.response.status_code}")
         return None
-        
+
     except httpx.RequestError as e:
         print(f"Request failed: {e}")
         return None
@@ -672,11 +672,11 @@ def fetch_with_retry(
 ) -> httpx.Response:
     """Fetch with exponential backoff retry."""
     last_exception = None
-    
+
     for attempt in range(max_retries + 1):
         try:
             response = httpx.get(url, timeout=10)
-            
+
             # Retry on 5xx errors
             if response.status_code >= 500:
                 raise httpx.HTTPStatusError(
@@ -684,17 +684,17 @@ def fetch_with_retry(
                     request=response.request,
                     response=response,
                 )
-            
+
             return response
-            
+
         except (httpx.TimeoutException, httpx.HTTPStatusError) as e:
             last_exception = e
-            
+
             if attempt < max_retries:
                 delay = base_delay * (2 ** attempt)  # Exponential backoff
                 print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
                 time.sleep(delay)
-    
+
     raise last_exception
 ```
 
@@ -712,20 +712,20 @@ async def fetch_with_retry_async(
 ) -> httpx.Response:
     """Async fetch with exponential backoff retry."""
     last_exception = None
-    
+
     for attempt in range(max_retries + 1):
         try:
             response = await client.get(url)
             response.raise_for_status()
             return response
-            
+
         except (httpx.TimeoutException, httpx.HTTPStatusError) as e:
             last_exception = e
-            
+
             if attempt < max_retries:
                 delay = base_delay * (2 ** attempt)
                 await asyncio.sleep(delay)
-    
+
     raise last_exception
 ```
 
@@ -809,21 +809,21 @@ import hashlib
 
 class HMACAuth(httpx.Auth):
     """Custom HMAC authentication."""
-    
+
     def __init__(self, api_key: str, secret: str):
         self.api_key = api_key
         self.secret = secret
-    
+
     def auth_flow(self, request):
         timestamp = str(int(time.time()))
         signature = hashlib.sha256(
             f"{timestamp}{self.secret}".encode()
         ).hexdigest()
-        
+
         request.headers["X-API-Key"] = self.api_key
         request.headers["X-Timestamp"] = timestamp
         request.headers["X-Signature"] = signature
-        
+
         yield request
 
 # Use custom auth
@@ -926,7 +926,7 @@ import time
 def fetch_with_rate_limit(urls: list[str], requests_per_second: float = 2):
     """Fetch URLs respecting rate limits."""
     delay = 1.0 / requests_per_second
-    
+
     with httpx.Client() as client:
         for url in urls:
             response = client.get(url)

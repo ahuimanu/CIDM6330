@@ -1,5 +1,3 @@
-import pytest
-
 from dectorom import number_to_numeral
 
 

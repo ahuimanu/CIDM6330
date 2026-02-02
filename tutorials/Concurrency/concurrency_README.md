@@ -78,7 +78,7 @@ class Counter:
     def __init__(self):
         self._value = 0
         self._lock = threading.Lock()
-    
+
     def increment(self):
         with self._lock:
             self._value += 1
@@ -117,9 +117,9 @@ def fetch_weather(stationid: str) -> dict:
     return {"stationid": stationid, "temp": 72}
 
 with ThreadPoolExecutor(max_workers=5) as executor:
-    futures = {executor.submit(fetch_weather, sid): sid 
+    futures = {executor.submit(fetch_weather, sid): sid
                for sid in ["KAMA", "KLBB", "KMAF"]}
-    
+
     for future in as_completed(futures):
         result = future.result()
         print(f"{result['stationid']}: {result['temp']}°F")

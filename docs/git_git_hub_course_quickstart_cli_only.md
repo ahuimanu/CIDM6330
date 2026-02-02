@@ -149,4 +149,3 @@ This feedback becomes part of your repo history.
 ## One Rule to Remember
 
 > If it didn’t go through a branch, a PR, and `gh`, it didn’t happen.
-

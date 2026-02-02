@@ -182,12 +182,12 @@ conn.commit()
 ```python
 # Create index for frequently queried columns
 cursor.execute("""
-    CREATE INDEX IF NOT EXISTS idx_airports_stationid 
+    CREATE INDEX IF NOT EXISTS idx_airports_stationid
     ON airports(stationid)
 """)
 
 cursor.execute("""
-    CREATE INDEX IF NOT EXISTS idx_runways_airport_id 
+    CREATE INDEX IF NOT EXISTS idx_runways_airport_id
     ON runways(airport_id)
 """)
 
@@ -258,7 +258,7 @@ cursor.execute("""
 ```python
 # Update single row
 cursor.execute("""
-    UPDATE airports 
+    UPDATE airports
     SET name = ?, city = ?
     WHERE stationid = ?
 """, ("Amarillo International Airport", "Amarillo", "KAMA"))
@@ -268,7 +268,7 @@ print(f"Updated {cursor.rowcount} rows")
 
 # Update with condition
 cursor.execute("""
-    UPDATE airports 
+    UPDATE airports
     SET state = 'Texas'
     WHERE state = 'TX'
 """)
@@ -318,7 +318,7 @@ cursor.execute("SELECT * FROM airports WHERE stationid = ?", ("KAMA",))
 
 # Multiple parameters
 cursor.execute("""
-    SELECT * FROM airports 
+    SELECT * FROM airports
     WHERE state = ? AND latitude > ?
 """, ("TX", 33.0))
 ```
@@ -341,7 +341,7 @@ cursor.execute("""
 
 # Named parameters with SELECT
 cursor.execute("""
-    SELECT * FROM airports 
+    SELECT * FROM airports
     WHERE state = :state AND latitude BETWEEN :min_lat AND :max_lat
 """, {"state": "TX", "min_lat": 30.0, "max_lat": 35.0})
 ```
@@ -360,29 +360,29 @@ conn.execute("PRAGMA foreign_keys = ON")
 
 try:
     cursor = conn.cursor()
-    
+
     # Start transaction (implicit with first statement)
     cursor.execute("""
         INSERT INTO airports (stationid, name, city, state)
         VALUES (?, ?, ?, ?)
     """, ("KHOU", "William P. Hobby Airport", "Houston", "TX"))
-    
+
     airport_id = cursor.lastrowid
-    
+
     cursor.execute("""
         INSERT INTO runways (airport_id, identifier, length_ft, surface)
         VALUES (?, ?, ?, ?)
     """, (airport_id, "12R/30L", 7602, "concrete"))
-    
+
     # Commit transaction
     conn.commit()
     print("Transaction committed successfully")
-    
+
 except sqlite3.Error as e:
     # Rollback on error
     conn.rollback()
     print(f"Transaction rolled back: {e}")
-    
+
 finally:
     conn.close()
 ```
@@ -393,7 +393,7 @@ finally:
 # The connection context manager handles commit/rollback
 with sqlite3.connect("airports.db") as conn:
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO airports (stationid, name) VALUES (?, ?)", 
+    cursor.execute("INSERT INTO airports (stationid, name) VALUES (?, ?)",
                    ("KSAT", "San Antonio International"))
     # Commits automatically if no exception
 # Rolls back automatically if exception occurs
@@ -409,10 +409,10 @@ try:
     # Outer transaction
     cursor.execute("INSERT INTO airports (stationid, name) VALUES (?, ?)",
                    ("KAUS", "Austin-Bergstrom International"))
-    
+
     # Create savepoint
     cursor.execute("SAVEPOINT add_runways")
-    
+
     try:
         cursor.execute("INSERT INTO runways (airport_id, identifier, length_ft) VALUES (?, ?, ?)",
                        (cursor.lastrowid, "17L/35R", 12250))
@@ -423,10 +423,10 @@ try:
         # Rollback to savepoint (keeps outer transaction)
         cursor.execute("ROLLBACK TO SAVEPOINT add_runways")
         print("Runway insert failed, rolled back to savepoint")
-    
+
     cursor.execute("RELEASE SAVEPOINT add_runways")
     conn.commit()
-    
+
 finally:
     conn.close()
 ```
@@ -453,13 +453,13 @@ if row:
     # Access by column name
     print(row["stationid"])
     print(row["name"])
-    
+
     # Access by index still works
     print(row[0])
-    
+
     # Get column names
     print(row.keys())
-    
+
     # Convert to dict
     airport_dict = dict(row)
 ```
@@ -545,23 +545,23 @@ class Airport:
 
 class AirportRepository(ABC):
     """Abstract repository defining the interface."""
-    
+
     @abstractmethod
     def get_by_id(self, id: int) -> Airport | None:
         pass
-    
+
     @abstractmethod
     def get_by_stationid(self, stationid: str) -> Airport | None:
         pass
-    
+
     @abstractmethod
     def get_all(self) -> list[Airport]:
         pass
-    
+
     @abstractmethod
     def save(self, airport: Airport) -> Airport:
         pass
-    
+
     @abstractmethod
     def delete(self, id: int) -> bool:
         pass
@@ -569,29 +569,29 @@ class AirportRepository(ABC):
 
 class SQLiteAirportRepository(AirportRepository):
     """SQLite implementation of the airport repository."""
-    
+
     def __init__(self, connection: sqlite3.Connection):
         self._conn = connection
         self._conn.row_factory = sqlite3.Row
-    
+
     def get_by_id(self, id: int) -> Airport | None:
         cursor = self._conn.execute(
             "SELECT * FROM airports WHERE id = ?", (id,)
         )
         row = cursor.fetchone()
         return self._row_to_airport(row) if row else None
-    
+
     def get_by_stationid(self, stationid: str) -> Airport | None:
         cursor = self._conn.execute(
             "SELECT * FROM airports WHERE stationid = ?", (stationid,)
         )
         row = cursor.fetchone()
         return self._row_to_airport(row) if row else None
-    
+
     def get_all(self) -> list[Airport]:
         cursor = self._conn.execute("SELECT * FROM airports ORDER BY stationid")
         return [self._row_to_airport(row) for row in cursor.fetchall()]
-    
+
     def save(self, airport: Airport) -> Airport:
         if airport.id is None:
             # Insert new
@@ -603,19 +603,19 @@ class SQLiteAirportRepository(AirportRepository):
         else:
             # Update existing
             self._conn.execute("""
-                UPDATE airports 
+                UPDATE airports
                 SET stationid = ?, name = ?, city = ?, state = ?
                 WHERE id = ?
             """, (airport.stationid, airport.name, airport.city, airport.state, airport.id))
-        
+
         self._conn.commit()
         return airport
-    
+
     def delete(self, id: int) -> bool:
         cursor = self._conn.execute("DELETE FROM airports WHERE id = ?", (id,))
         self._conn.commit()
         return cursor.rowcount > 0
-    
+
     def _row_to_airport(self, row: sqlite3.Row) -> Airport:
         return Airport(
             id=row["id"],
@@ -660,30 +660,30 @@ for airport in repo.get_all():
 ```python
 class InMemoryAirportRepository(AirportRepository):
     """In-memory implementation for testing."""
-    
+
     def __init__(self):
         self._airports: dict[int, Airport] = {}
         self._next_id = 1
-    
+
     def get_by_id(self, id: int) -> Airport | None:
         return self._airports.get(id)
-    
+
     def get_by_stationid(self, stationid: str) -> Airport | None:
         for airport in self._airports.values():
             if airport.stationid == stationid:
                 return airport
         return None
-    
+
     def get_all(self) -> list[Airport]:
         return sorted(self._airports.values(), key=lambda a: a.stationid)
-    
+
     def save(self, airport: Airport) -> Airport:
         if airport.id is None:
             airport.id = self._next_id
             self._next_id += 1
         self._airports[airport.id] = airport
         return airport
-    
+
     def delete(self, id: int) -> bool:
         if id in self._airports:
             del self._airports[id]
@@ -706,18 +706,18 @@ Coordinate multiple repository operations in a single transaction.
 ```python
 class UnitOfWork:
     """Manages transactions across multiple repositories."""
-    
+
     def __init__(self, db_path: str):
         self._db_path = db_path
         self._conn: sqlite3.Connection | None = None
-    
+
     def __enter__(self):
         self._conn = sqlite3.connect(self._db_path)
         self._conn.execute("PRAGMA foreign_keys = ON")
         self.airports = SQLiteAirportRepository(self._conn)
         self.runways = SQLiteRunwayRepository(self._conn)
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is None:
             self._conn.commit()
@@ -730,10 +730,10 @@ class UnitOfWork:
 with UnitOfWork("airports.db") as uow:
     airport = Airport(None, "KDEN", "Denver International", "Denver", "CO")
     saved_airport = uow.airports.save(airport)
-    
+
     runway = Runway(None, saved_airport.id, "16R/34L", 16000, "concrete")
     uow.runways.save(runway)
-    
+
     # Both operations commit together or roll back together
 ```
 
@@ -744,50 +744,50 @@ For complex dynamic queries.
 ```python
 class AirportQuery:
     """Build complex queries fluently."""
-    
+
     def __init__(self):
         self._conditions: list[str] = []
         self._params: list = []
         self._order_by: str | None = None
         self._limit: int | None = None
-    
+
     def in_state(self, state: str) -> "AirportQuery":
         self._conditions.append("state = ?")
         self._params.append(state)
         return self
-    
+
     def name_contains(self, text: str) -> "AirportQuery":
         self._conditions.append("name LIKE ?")
         self._params.append(f"%{text}%")
         return self
-    
+
     def with_min_runway(self, length_ft: int) -> "AirportQuery":
         self._conditions.append("""
             id IN (SELECT airport_id FROM runways WHERE length_ft >= ?)
         """)
         self._params.append(length_ft)
         return self
-    
+
     def order_by(self, column: str) -> "AirportQuery":
         self._order_by = column
         return self
-    
+
     def limit(self, n: int) -> "AirportQuery":
         self._limit = n
         return self
-    
+
     def build(self) -> tuple[str, list]:
         sql = "SELECT * FROM airports"
-        
+
         if self._conditions:
             sql += " WHERE " + " AND ".join(self._conditions)
-        
+
         if self._order_by:
             sql += f" ORDER BY {self._order_by}"
-        
+
         if self._limit:
             sql += f" LIMIT {self._limit}"
-        
+
         return sql, self._params
 
 # Usage
@@ -878,11 +878,11 @@ cursor.execute("CREATE INDEX IF NOT EXISTS idx_stationid ON airports(stationid)"
 def migrate(conn: sqlite3.Connection) -> None:
     """Apply database migrations."""
     cursor = conn.cursor()
-    
+
     # Check current version
     cursor.execute("PRAGMA user_version")
     version = cursor.fetchone()[0]
-    
+
     if version < 1:
         cursor.execute("""
             CREATE TABLE airports (
@@ -892,12 +892,12 @@ def migrate(conn: sqlite3.Connection) -> None:
             )
         """)
         cursor.execute("PRAGMA user_version = 1")
-    
+
     if version < 2:
         cursor.execute("ALTER TABLE airports ADD COLUMN city TEXT")
         cursor.execute("ALTER TABLE airports ADD COLUMN state TEXT")
         cursor.execute("PRAGMA user_version = 2")
-    
+
     conn.commit()
 ```
 
