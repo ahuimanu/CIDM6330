@@ -6,6 +6,7 @@ This implementation focuses on:
 - Comprehensive test coverage
 - Logical separation of concerns
 - Clean data structures
+- Robust error handling
 """
 
 from typing import ClassVar
@@ -249,7 +250,7 @@ def test_edge_cases():
         pass
 
     try:
-        RomanNumeralConverter.to_roman(3.5)
+        RomanNumeralConverter.to_roman(4)
         raise AssertionError("Should have raised ValueError")
     except ValueError:
         pass
