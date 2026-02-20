@@ -4,15 +4,17 @@ import time
 import requests
 from dotenv import load_dotenv
 
-def fetch_fred_data_with_retry(base_url, params, max_retries=3):
+def fetch_fred_data_with_retry(base_url, params, max_retries=4):
     """
     Fetch data from FRED API with retry logic and exponential backoff.
+
+    Maximum of 4 retries balances resilience with reasonable timeout duration.
     
     Returns: response object or None if all retries failed
     """
     for attempt in range(max_retries):
         try:
-            response = requests.get(base_url, params=params, timeout=5)
+            response = requests.get(base_url, params=params, timeout=4)
             
             # If successful (200), return it
             if response.status_code == 200:
@@ -60,4 +62,8 @@ if response and response.status_code == 200:
         json.dump(observations, f, indent=2)
     print("Data saved to unrate_data.json")
 else:
-    print(f"Error: {response.status_code} - {response.text}")
+    if response:
+        print(f"Error: {response.status_code} - {response.text}")
+    else:
+        print("Error: Failed to fetch data after all retries exhausted")
+    
