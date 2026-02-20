@@ -4,17 +4,17 @@ import time
 import requests
 from dotenv import load_dotenv
 
-def fetch_fred_data_with_retry(base_url, params, max_retries=4):
+def fetch_fred_data_with_retry(base_url, params, max_retries=6):
     """
     Fetch data from FRED API with retry logic and exponential backoff.
 
-    Maximum of 4 retries balances resilience with reasonable timeout duration.
+    Maximum of 6 retries for maximum resilience in production environment.
     
     Returns: response object or None if all retries failed
     """
     for attempt in range(max_retries):
         try:
-            response = requests.get(base_url, params=params, timeout=4)
+            response = requests.get(base_url, params=params, timeout=10)
             
             # If successful (200), return it
             if response.status_code == 200:
