@@ -58,12 +58,11 @@ if response and response.status_code == 200:
     observations = data['observations']
     print(f"Success! Got {len(observations)} observations")
         # Save to JSON file
-    with open('unrate_data.json', 'w') as f:
+    with open('../data/unrate_data.json', 'w') as f:
         json.dump(observations, f, indent=2)
-    print("Data saved to unrate_data.json")
+    print("Data saved to data/unrate_data.json")
 else:
     if response:
         print(f"Error: {response.status_code} - {response.text}")
     else:
         print("Error: Failed to fetch data after all retries exhausted")
-    
