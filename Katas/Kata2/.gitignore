@@ -1,0 +1,19 @@
+# Ignore sqlite databases created during testing
+*.db
+*.sqlite
+
+# Python cache and virtual env
+__pycache__/
+*.pyc
+.venv/
+
+# Ignore runtime output folder for demos/tests
+output/
+# Ignore sqlite databases created during testing
+*.db
+*.sqlite
+
+# Python cache and virtual env
+__pycache__/
+*.pyc
+.venv/
