@@ -735,3 +735,105 @@ This log will continue through Foundations 2-4, tracking how AI collaboration ev
 **Repository:** `Foundation-1-Zane-Hill` branch  
 **Commit:** All Foundation 1 deliverables  
 **Date:** January 31, 2026
+
+---
+
+## Foundation 2 AI Log
+
+**Student:** Zane Hill  
+**Course:** CIDM 6330 - Software Architecture  
+**Foundation:** 2 - Problem Definition and Architecture Decisions  
+**Date Range:** February 21, 2026  
+**AI Tool:** GitHub Copilot (GPT-5.2-Codex)
+
+### Purpose of This Log
+This section documents how I used AI to refine decisions, not to replace them. I drove the scope, selected the final problem, and approved changes. AI helped structure the work, surface alternatives, and keep the document aligned with the current codebase.
+
+---
+
+### Step-by-step collaboration
+
+**Step 1: Problem commitment**
+- What I asked: I asked AI to propose concrete problem options rather than a vague list of candidates so I could commit to one.
+- What AI did: It suggested four realistic options grounded in the FRED work (macro dashboard, inflation monitor, labor market tracker, rate sensitivity tracker) and summarized each.
+- My decision: I chose a labor-market-first tracker, but required GDP, CPI, and FEDFUNDS remain in scope to reflect what the current script actually retrieves.
+
+**Step 2: Problem statement and scope**
+- What I asked: I asked AI to draft a one-paragraph problem statement, scope boundaries, and success criteria.
+- What AI did: It produced a clear statement and a scope list, initially leaning into a labor-only scope.
+- My decision: I revised the scope to include the macro context series and kept the statement anchored to the current codebase.
+
+**Step 3: Data pipeline definition**
+- What I asked: I asked AI to document the data sources, relationships, transformations, and output shape.
+- What AI did: It described a richer labor pipeline (including series not in code) and extra transformations such as rolling averages and threshold flags.
+- My decision: I instructed AI to align the section with the actual script: endpoints used (`series`, `series/observations`, `series/search`, `category/children`), series IDs (GDP, UNRATE, FEDFUNDS, CPIAUCSL), and outputs (JSON files + console summaries). The section was updated accordingly.
+
+**Step 4: Architecture characteristics**
+- What I asked: I asked AI to identify driving characteristics with measurement and failure impact, plus implicit characteristics and trade-offs.
+- What AI did: It proposed accuracy, reliability of retrieval, and simplicity/maintainability, with explicit trade-offs.
+- My decision: I accepted these because they match the risks of API-driven data retrieval and a small codebase, and I ensured the trade-offs were concrete.
+
+**Step 5: Architecture style selection**
+- What I asked: I asked AI to select a style and defend it against the driving characteristics, including real alternatives and costs.
+- What AI did: It recommended a pipeline architecture with a thin layered structure and compared it to layered monolith, microkernel, and microservices.
+- My decision: I accepted pipeline because it maps to the data flow, and I required explicit costs (cross-cutting concerns, linear flow constraints, limited scalability).
+
+**Step 6: Component identification**
+- What I asked: I asked AI to identify components, responsibilities, and boundaries.
+- What AI did: It mapped components to the current code (domain models, API client, repository, orchestration).
+- My decision: I accepted this mapping since it directly mirrors the actual script structure.
+
+**Step 7: Constraint confirmation**
+- What I asked: I asked AI to confirm we are within Foundation 2 boundaries and not engaging advanced distributed topics.
+- What AI did: It added a constraints confirmation section aligned to the assignment rules.
+- My decision: I accepted it after ensuring it referenced a single committed problem and explicit trade-offs.
+
+---
+
+### Problem refinement summary
+
+**Other potential problems discussed:**
+- Macro dashboard to track GDP, unemployment, and rates for class decisions.
+- Inflation monitor focused on CPI acceleration and alerts.
+- Rate sensitivity tracker centered on FEDFUNDS changes.
+
+**Final commitment:**
+- Labor-market-first tracker with macro context (GDP, CPI, FEDFUNDS) to reflect the current script.
+
+---
+
+### Style selection dialogue (detailed)
+
+**AI recommendation:**
+- Pipeline with thin layered structure inside a single module.
+
+**Why I accepted it:**
+- The pipeline structure matches the FRED flow (retrieve -> normalize -> compute -> save/print).
+- It supports accuracy and reliability by making each step explicit and testable.
+- It keeps the design simple, which is a driving characteristic for this foundation.
+
+**Alternatives I considered and rejected:**
+- Layered monolith: good separation but unnecessary ceremony for a small script.
+- Microkernel: overkill without multiple data sources or plug-in needs.
+- Microservices/service-based: introduces deployment and ops complexity that conflicts with simplicity and scope.
+
+---
+
+### Where AI was wrong or unhelpful
+
+**Mismatch with the current codebase:**
+- AI initially described labor series not implemented. I corrected the section to the actual series in the script.
+
+**Over-assumption of future capabilities:**
+- AI suggested rolling averages and threshold flags. I removed those because they are not in the current implementation.
+
+---
+
+### How I led the collaboration
+
+- I set constraints up front: one committed problem, explicit trade-offs, and no advanced distributed system content.
+- I required a tight alignment to the actual FRED codebase and corrected any drift.
+- I used AI for structured drafts and alternatives, but made the final decisions and edits.
+
+### Outcome
+AI accelerated drafting and surfaced options, but I made the final calls and ensured accuracy. The Foundation 2 document reflects a single committed problem, explicit trade-offs, and an architecture style that fits the current FRED application.
