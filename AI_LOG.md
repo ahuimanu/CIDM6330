@@ -71,4 +71,36 @@ I made several judgment calls where I overrode or extended AI suggestions:
 
 
 
+# AI Collaboration Log - Foundation 2
+
+## Style selection dialogue: 
+If you asked AI about architecture styles, what did you ask? What did it recommend? Did you follow, modify, or reject its guidance?
+
+Based on my project, I asked AI to show me the pros and cons of all architectural styles. 
+
+It recommended the pipeline architectural style below and I followed the guidance because it seems logical as it pertains to my project.
+
+## Architecture Style Selection Analysis
+
+
+| Architectural Style | **Pros for The Talent Sentinel** | **Cons for The Talent Sentinel** |
+| :--- | :--- | :--- |
+| **Layered** | Simple to understand and cheap to build, making it ideal for small teams or simple domains. | High risk of the "Architecture Sinkhole" anti-pattern where requests pass through layers without adding value. |
+| **Modular Monolith** | Localizes changes to specific business capabilities, providing a clear evolution path to distributed services. | Adds unnecessary structural complexity for a project that is primarily a data transformation flow. |
+| **Pipeline (Selected)** | **Best Fit.** Optimizes for sequential data transformation workflows and allows filters to be tested in isolation. | A single slow stage bottlenecks the entire system, and stage failure stalls the pipeline. |
+| **Microkernel** | Ideal if the project needs to support variable "plug-ins" for different public agency data formats while keeping the core stable. | If the "Delta" logic is not properly isolated, the core system can become bloated and difficult to maintain. |
+
+
+## Problem refinement: 
+How did AI help (or not help) you narrow from candidates to commitment?
+AI helped by discovering and identifying the secondary public sector portals such as California's State Controller (Open Payroll) or City of Austin Open Data.
+
+
+## Where AI was wrong or unhelpful: 
+Specific instances where AI suggestions didn't fit your context. What did you do instead?
+
+I know that I can't access private organizational HR Database because of confidential information so I had to restrict the problem scope to what I can resolve using public data that is available online.
+
+AI refined my intial problem statement and made it more global to include workforce retention of private companies which HR dataset that contains confidential employees information and unavailable online. Therefore, this was an unhelpful suggestion that didn't fit the context of my project and was out of scope.
+
 
