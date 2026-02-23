@@ -1,0 +1,7 @@
+pytest
+black==25.1.0
+mdformat==0.7.22
+pydantic==2.10.6
+pydantic-core==2.27.2
+pandas
+requests
