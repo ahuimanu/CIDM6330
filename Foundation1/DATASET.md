@@ -41,4 +41,4 @@ This project requires joining high-frequency and mixed-domain datasets:
 * **Granularity:** Monthly observations.
 
 ## Why This Dataset?
-The inclusion of both **Semiconductor production** and **Consumer sentiment** creates a unique architectural challenge. It moves the project beyond a simple dashboard into a complex "Sense-and-Respond" architecture—modeling how psychological data (Sentiment) interacts with hardware supply chains (Semiconductors).
+The inclusion of sets like **Semiconductor production** and **Consumer sentiment** creates a unique architectural challenge. It moves the project beyond a simple dashboard into a complex "Sense-and-Respond" architecture—modeling how psychological data (Sentiment) interacts with hardware supply chains (Semiconductors).
