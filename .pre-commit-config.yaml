@@ -1,0 +1,23 @@
+# See https://pre-commit.com for more information
+# Uses uv for fast installation and Astral's ruff/ty toolchain
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      # Linter (replaces flake8, isort, pylint, etc.)
+      - id: ruff
+        args: [--fix]
+      # Formatter (replaces black)
+      - id: ruff-format
+
+  # ty pre-commit hook not yet available - run manually with: uv run ty check .
