@@ -41,6 +41,8 @@ def list_org_repositories(org: str, token: str | None) -> list[dict]:
         if not batch:
             return repos
         repos.extend(batch)
+        if len(batch) < 100:
+            return repos
         page += 1
 
 

@@ -34,6 +34,21 @@ class MissingRepoDetectionTests(unittest.TestCase):
 
         self.assertEqual(missing, ["repo-a"])
 
+    @patch("check_foundation1_feedback.repo_has_foundation1_feedback")
+    @patch("check_foundation1_feedback.list_org_repositories")
+    def test_returns_missing_repositories_sorted(
+        self, mock_list_org_repositories, mock_repo_has_feedback
+    ) -> None:
+        mock_list_org_repositories.return_value = [
+            {"name": "z-repo", "default_branch": "main"},
+            {"name": "a-repo", "default_branch": "main"},
+        ]
+        mock_repo_has_feedback.side_effect = [False, False]
+
+        missing = find_missing_repositories("WTAMU-CIDM6330", token=None)
+
+        self.assertEqual(missing, ["a-repo", "z-repo"])
+
 
 if __name__ == "__main__":
     unittest.main()
