@@ -1,0 +1,10 @@
+{
+  "pool_size": 3,
+  "timeout": 10,
+  "series": [
+    "CPIAUCSL",
+    "FEDFUNDS",
+    "IPG3344S",
+    "UMCSENT"
+  ]
+}
