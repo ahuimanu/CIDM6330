@@ -32,7 +32,8 @@ def process_chunk(chunk: List[int]) -> Dict[str, int]:
             heavy += (x * i) % (i + 1)
         # a math op to keep CPU busy
         _ = math.sqrt(x + 0.0001)
-    return {"count": len(chunk), "sum": sum(chunk), "heavy": heavy}
+    # Intentional bug: off-by-one error in the sum (for git-bisect exercise)
+    return {"count": len(chunk), "sum": sum(chunk) - 1, "heavy": heavy}
 
 
 def run(total_items: int = 5000, chunk_size: int = 500, workers: int | None = None):
