@@ -13,12 +13,3 @@
 
 ## What I Don't Know Yet
 I cannot yet assess **Deployment** or **Cost** characteristics until I decide if this system will provide real-time dashboards (high compute) or weekly PDF reports (low compute).
-
-## FSA Mapping & Concrete Scenarios
-Below are explicit mappings to Foundation of Software Architecture (FSA) quality-attribute vocabulary with short, testable scenarios.
-
-- **Auditability (Point-in-Time Reproducibility):** Given a data-driven recommendation produced on 2026-02-01, the system can reproduce the exact input series and the derived feature values used to make that recommendation within 5 minutes of retrieval.
-- **Availability (Batch Availability):** The monthly batch pipeline must complete within a 2-hour window with retries; failures must trigger alerts and preserve partial outputs for diagnosis.
-- **Performance (Analytical Read Throughput):** Analytical queries over 50 years of monthly observations (≈600 rows × 6 series) should return combined CSVs in under 30 seconds on a developer laptop.
-- **Modifiability / Extensibility:** Adding one new FRED series and wiring it into the pipeline should require no schema migration and be achievable with a single configuration change plus one unit test.
-- **Observability / Audit Trail:** Every transformed CSV must include metadata header lines (series id, retrieval timestamp, API revision token) and a manifest file capturing which commit and `.env` (redacted) were used to produce it.
