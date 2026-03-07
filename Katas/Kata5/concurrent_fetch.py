@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 from concurrent.futures import ThreadPoolExecutor
 import threading
+import time
 
 # Load environment variables
 dotenv_path = Path(__file__).resolve().parents[2] / ".env"
@@ -155,8 +156,11 @@ if __name__ == "__main__":
     config = json.load(open("config.json"))
     api_key = os.getenv("FRED_API_KEY")
     
+    # Time the concurrent fetch
     print("Fetching all series concurrently...")
+    start_time = time.time()
     results = fetch_all_concurrent(config, api_key)
+    elapsed_time = time.time() - start_time
     
     print("\n" + "="*50)
     print("RESULTS:")
@@ -173,3 +177,16 @@ if __name__ == "__main__":
     print("WRITING TO FILES:")
     print("="*50)
     write_results(results)
+    
+    # Performance metrics
+    print("\n" + "="*50)
+    print("PERFORMANCE METRICS:")
+    print("="*50)
+    num_series = len(config["series"])
+    pool_size = config["pool_size"]
+    print(f"Total series fetched: {num_series}")
+    print(f"Thread pool size: {pool_size}")
+    print(f"Total time: {elapsed_time:.2f} seconds")
+    print(f"Average time per series: {elapsed_time/num_series:.2f} seconds")
+    print(f"\nNote: With {pool_size} threads, {num_series} series executed")
+    print(f"in parallel, reducing total time significantly.")
