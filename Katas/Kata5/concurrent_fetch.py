@@ -5,12 +5,18 @@ from typing import Tuple, List, Any
 from dotenv import load_dotenv
 import os
 from concurrent.futures import ThreadPoolExecutor
+import threading
 
 # Load environment variables
 dotenv_path = Path(__file__).resolve().parents[2] / ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
 FRED_BASE = "https://api.stlouisfed.org/fred/series/observations"
+
+# Lock for thread-safe file writing
+write_lock = threading.Lock()
+RESULTS_DIR = Path(__file__).parent / "results"
+LOGS_DIR = Path(__file__).parent / "logs"
 
 def fetch_series(series_id: str, api_key: str, timeout: int) -> Tuple[str, Any]:
     """
@@ -76,6 +82,45 @@ def fetch_series(series_id: str, api_key: str, timeout: int) -> Tuple[str, Any]:
         return (series_id, error_msg)
 
 
+def write_results(results: dict):
+    """
+    Write successful results to combined JSON and errors to log file.
+    Thread-safe using Lock.
+    
+    Args:
+        results: Dict mapping series_id -> (observations_list or error_string)
+    """
+    success_data = {}
+    errors_list = []
+    
+    # Separate successes from errors
+    for series_id, result in results.items():
+        if isinstance(result, str):
+            # Error message
+            errors_list.append(f"{series_id}: {result}")
+        else:
+            # Successful observations
+            success_data[series_id] = result
+    
+    # Write successful results to JSON file
+    if success_data:
+        with write_lock:
+            output_file = RESULTS_DIR / "combined_results.json"
+            with open(output_file, "w") as f:
+                json.dump(success_data, f, indent=2)
+            print(f"✓ Wrote {len(success_data)} successful series to {output_file}")
+    
+    # Write errors to log file
+    if errors_list:
+        with write_lock:
+            log_file = LOGS_DIR / "errors.log"
+            with open(log_file, "w") as f:
+                f.write("\n".join(errors_list))
+            print(f"✓ Wrote {len(errors_list)} errors to {log_file}")
+    else:
+        print("✓ No errors encountered!")
+
+
 def fetch_all_concurrent(config: dict, api_key: str) -> dict:
     """
     Fetch all series concurrently using ThreadPoolExecutor.
@@ -91,8 +136,7 @@ def fetch_all_concurrent(config: dict, api_key: str) -> dict:
     
     # Create thread pool with size from config
     with ThreadPoolExecutor(max_workers=config["pool_size"]) as executor:
-        # TODO: Submit all series as tasks to the executor
-        # Create a list of futures by calling executor.submit() for each series
+        # Submit all series as tasks to the executor
         futures = [
             executor.submit(fetch_series, series_id, api_key, config["timeout"])
             for series_id in config["series"]
@@ -123,3 +167,9 @@ if __name__ == "__main__":
             print(f"  ❌ ERROR: {result}")
         else:
             print(f"  ✓ SUCCESS: {len(result)} observations")
+    
+    # Write results to files
+    print("\n" + "="*50)
+    print("WRITING TO FILES:")
+    print("="*50)
+    write_results(results)
