@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Tuple, List, Any
 from dotenv import load_dotenv
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 # Load environment variables
 dotenv_path = Path(__file__).resolve().parents[2] / ".env"
@@ -75,16 +76,50 @@ def fetch_series(series_id: str, api_key: str, timeout: int) -> Tuple[str, Any]:
         return (series_id, error_msg)
 
 
+def fetch_all_concurrent(config: dict, api_key: str) -> dict:
+    """
+    Fetch all series concurrently using ThreadPoolExecutor.
+    
+    Args:
+        config: Configuration dict with "series", "pool_size", "timeout"
+        api_key: FRED API key
+    
+    Returns:
+        Dict mapping series_id -> (observations or error_string)
+    """
+    results = {}
+    
+    # Create thread pool with size from config
+    with ThreadPoolExecutor(max_workers=config["pool_size"]) as executor:
+        # TODO: Submit all series as tasks to the executor
+        # Create a list of futures by calling executor.submit() for each series
+        futures = [
+            executor.submit(fetch_series, series_id, api_key, config["timeout"])
+            for series_id in config["series"]
+        ]
+        
+        # Collect results as they complete
+        for future in futures:
+            series_id, result = future.result()
+            results[series_id] = result
+    
+    return results
+
+
 if __name__ == "__main__":
     # Load config
     config = json.load(open("config.json"))
     api_key = os.getenv("FRED_API_KEY")
     
-    # Test with one series
-    series_id, result = fetch_series("CPIAUCSL", api_key, config["timeout"])
-    print(f"Series: {series_id}")
-    if isinstance(result, str):
-        print(f"Error: {result}")
-    else:
-        print(f"Success! Got {len(result)} observations")
-        print(f"First obs: {result[0] if result else 'None'}")
+    print("Fetching all series concurrently...")
+    results = fetch_all_concurrent(config, api_key)
+    
+    print("\n" + "="*50)
+    print("RESULTS:")
+    print("="*50)
+    for series_id, result in results.items():
+        print(f"\n{series_id}:")
+        if isinstance(result, str):
+            print(f"  ❌ ERROR: {result}")
+        else:
+            print(f"  ✓ SUCCESS: {len(result)} observations")
