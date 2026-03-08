@@ -20,11 +20,22 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install dependencies (non-Windows)
+        if: runner.os != 'Windows'
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then grep -vE '^twisted-iocpsupport' requirements.txt > /tmp/req.txt || true; pip install -r /tmp/req.txt; fi
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+      - name: Install dependencies (Windows only)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          python -m pip install --upgrade pip
+          if (Test-Path requirements.txt) { pip install -r requirements.txt }
+          if (Test-Path requirements-dev.txt) { pip install -r requirements-dev.txt }
+          # Allow installing Windows-only package when running on Windows runners
+          pip install twisted-iocpsupport || true
 
       - name: Run Foundation3 tests
         run: |
