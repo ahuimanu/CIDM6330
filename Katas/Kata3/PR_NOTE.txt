@@ -1,1 +1,1 @@
-Kata3: add mocked tests (unittest.mock + responses), guard main, document tests
+Ready to review.
