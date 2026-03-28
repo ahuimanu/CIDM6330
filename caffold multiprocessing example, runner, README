@@ -1,0 +1,39 @@
+[33m2b89986[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mSPRING2026[m[33m, [m[1;31morigin/SPRING2026[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: rebase (abort): returning to refs/heads/SPRING2026
+[33m918faba[m HEAD@{1}: rebase (start): checkout HEAD~7
+[33m2b89986[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mSPRING2026[m[33m, [m[1;31morigin/SPRING2026[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: commit: Add exercise description for concurrency and git bisect in README
+[33m0419d66[m HEAD@{3}: reset: moving to HEAD
+[33m0419d66[m HEAD@{4}: commit: Add .gitignore for generated output files
+[33m41d1421[m HEAD@{5}: reset: moving to HEAD
+[33m41d1421[m HEAD@{6}: commit: Phase 5: Add performance timing metrics to measure concurrency benefits
+[33m76052a5[m HEAD@{7}: commit: Phase 4: Add comprehensive README documenting concurrency and thread safety
+[33m4855a81[m HEAD@{8}: commit: Test Phase 3: Verify error logging works with invalid series
+[33m918faba[m HEAD@{9}: commit: Phase 3: Add thread-safe file writing for results and error logging
+[33m28639d7[m HEAD@{10}: commit: Phase 2: Add ThreadPoolExecutor for concurrent FRED series fetching
+[33mec4f42f[m HEAD@{11}: commit: Phase 1: Implement single-threaded FRED series fetcher with error handling
+[33m15bba30[m HEAD@{12}: pull --tags origin SPRING2026: Merge made by the 'ort' strategy.
+[33me78d4f7[m HEAD@{13}: commit: F1-Drift: [Patrick Perez] — Video Consultation
+[33mfb5f31f[m HEAD@{14}: pull --tags origin SPRING2026: Fast-forward
+[33m6d33a12[m HEAD@{15}: commit: Update coursework files and reorganize project structure
+[33mb12a9a6[m[33m ([m[1;32mfeature/kata4-pipeline[m[33m)[m HEAD@{16}: merge feature/kata4-pipeline: Fast-forward
+[33mb79a93c[m HEAD@{17}: checkout: moving from feature/kata4-pipeline to SPRING2026
+[33mb12a9a6[m[33m ([m[1;32mfeature/kata4-pipeline[m[33m)[m HEAD@{18}: commit: Implement data transformation pipeline with extract, transform, load, and report functions
+[33mb79a93c[m HEAD@{19}: checkout: moving from SPRING2026 to feature/kata4-pipeline
+[33mb79a93c[m HEAD@{20}: checkout: moving from SPRING2026 to SPRING2026
+[33mb79a93c[m HEAD@{21}: commit: Restructure Kata3 with subfolders
+[33m2e36ded[m HEAD@{22}: commit: Update Kata3 exercise description
+[33m23d06b1[m HEAD@{23}: commit: feat: Add Kata 4 exercise description for data transformation pipeline
+[33ma1b029d[m HEAD@{24}: commit: docs: Learn merge conflict resolution from branch-a and branch-b
+[33m3e7d0b8[m HEAD@{25}: commit: chore: Document successful merge conflict resolution
+[33m0e82676[m HEAD@{26}: merge branch-b: Merge made by the 'ort' strategy.
+[33m52c0696[m[33m ([m[1;32mbranch-a[m[33m)[m HEAD@{27}: merge branch-a: Fast-forward
+[33m074e1e3[m HEAD@{28}: checkout: moving from branch-b to SPRING2026
+[33mfb06866[m[33m ([m[1;32mbranch-b[m[33m)[m HEAD@{29}: commit: refactor: Set max_retries to 4 for balanced timeout/resilience tradeoff
+[33m074e1e3[m HEAD@{30}: checkout: moving from SPRING2026 to branch-b
+[33m074e1e3[m HEAD@{31}: checkout: moving from branch-a to SPRING2026
+[33m52c0696[m[33m ([m[1;32mbranch-a[m[33m)[m HEAD@{32}: commit: refactor: Increase max_retries to 5 for improved resilience
+[33m074e1e3[m HEAD@{33}: checkout: moving from SPRING2026 to branch-a
+[33m074e1e3[m HEAD@{34}: commit: feat: Add retry logic with exponential backoff for FRED API
+[33mf08118a[m HEAD@{35}: commit: Added Agents.MD
+[33mff4b723[m HEAD@{36}: commit: Update CIDM6330 contents
+[33mc96290b[m HEAD@{37}: checkout: moving from SPRING2026 to SPRING2026
+[33mc96290b[m HEAD@{38}: clone: from https://github.com/ryanperez11/CIDM6330.git

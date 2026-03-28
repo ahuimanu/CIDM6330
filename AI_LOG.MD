@@ -54,3 +54,65 @@ I prioritized **Interpretability** as a core architecture characteristic. Becaus
     *Avoiding Anti-patterns: I determined that artificially splitting sequentially dependent mathematical steps into separate networked services provides zero business value and introduces massive data integrity risks.
     
     *Enforcing Testability: I judged that strictly enforcing fast, isolated unit tests was the only way to mathematically guarantee the "OVERBUY" recommendation would be accurate before the business spent millions of dollars on inventory.
+
+## Foundation 3
+
+### Process description
+* Workflow: I will iterate in small MVPs: (1) Data Acquisition, (2) Data Transformation, (3) Pipeline Integration. I invoke AI for design suggestions, short code snippets (2-10 lines), and for checklist/review tasks. I avoid asking AI to write entire assignment solutions; I use it to accelerate repetitive tasks and clarify errors.
+* When I invoke AI: design questions, API usage, debugging hints, and small helper functions. When I work independently: core algorithm design, test assertions, final acceptance criteria.
+
+### Decision log (selected entries)
+* What I asked: "Propose a robust acquisition pattern for monthly FRED series, with retries and file output."
+* What it suggested: A fetch-all function that saves per-series CSVs and a combined CSV, with basic error handling.
+* What I did: Implemented `Foundation3/acquire.py`, adding retries and clear error messages; wrote a unit test that mocks `get_fred_series`.
+* Why: To ensure reproducible, testable acquisition without relying on external network access during CI.
+
+### AI failures
+* Example: An earlier AI suggestion attempted to call the FRED API without checking for `FRED_API_KEY`. I rejected that and added an explicit env check and clearer error guidance.
+
+### Verification practices
+* Unit tests: mock external calls (e.g., `get_fred_series`) and assert files and combined outputs are produced.
+* Manual run: run the pipeline locally with a valid `FRED_API_KEY` in `.env` and inspect `Foundation3/results/`.
+
+### Judgment patterns
+* I override AI suggestions that perform network I/O in tests; instead I prefer dependency injection or mocking.
+* I accept AI suggestions for small helper functions, logging patterns, and README scaffolding.
+
+---
+
+### Foundation 3 — Implementation log (ongoing)
+
+Recent work completed:
+
+* Added a robust acquisition module: `Foundation3/acquire.py` with retries, per-series CSV output, and combined CSV output.
+* Added transformation logic in `Foundation3/transform.py` that computes month-over-month percent change, a 3-month rolling mean, a weighted `S_score`, and an automatic `Recommendation` field.
+* Integrated pipeline runner `run_pipeline.py` that runs in demo mode (synthetic data) when `FRED_API_KEY` is not present, or performs real acquisition when the key is available.
+* Created `Foundation3/generate_sample.py` to produce deterministic sample outputs and `Foundation3/results/transformed.json` for deliverables and inspection.
+* Added unit tests: acquisition test (`Foundation3/tests/test_acquire.py`), transform tests (`test_transform.py`, `test_transform_weights.py`) to validate core logic and weights behavior. All tests pass locally.
+* Improved logging: `Foundation3/pipeline.py` and `Foundation3/acquire.py` now emit informative run logs and record shapes/counts for observability; demo runs write `Foundation3/results/pipeline.log`.
+
+How I validated changes:
+
+* Tests were executed locally using the repository virtual environment (`pytest`).
+* Demo pipeline run created `Foundation3/results/transformed.json` and `pipeline.log` confirming end-to-end flow without network access.
+
+Next verification steps I recommend:
+
+1. Add GitHub Actions CI to run `pytest` on push/PR (keeps tests green).
+2. Manually run `python run_pipeline.py` with a valid `FRED_API_KEY` in `.env` to verify real acquisition.
+3. Expand transformation tests to match final scoring formula as it evolves.
+
+Notes on AI collaboration during this work:
+
+* What I asked the AI: Suggested small, testable code patterns, logging formats, and a file-based demo mode to avoid exposing API keys in CI.
+* What I accepted: Short code snippets, test patterns, and the plan to iterate in MVPs.
+* What I rejected or changed: Replaced any AI-suggested direct network calls in tests with mocking; required explicit env-key checks before live runs.
+
+### CI and Docs updates
+* What I asked: "Add CI that runs tests on push/PR and does not require API keys."
+* What it suggested: A GitHub Actions workflow that installs dev requirements and runs `pytest`.
+* What I did: Added `.github/workflows/ci.yml` which installs `requirements-dev.txt` (if present) and runs tests. Updated `Foundation3/README.md` with CLI usage and CI notes. Added `ARCHITECTURE.md` summarizing architecture decisions.
+
+### Reflection
+* The AI helped accelerate small, repeatable edits (README snippets, CLI examples). I reviewed and adapted suggestions to meet course constraints (no secrets in CI, small focused tests).
+

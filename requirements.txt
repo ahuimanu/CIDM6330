@@ -84,7 +84,7 @@ SQLAlchemy==2.0.38
 sqlparse==0.5.3
 starlette==0.45.0
 Twisted==24.11.0
-twisted-iocpsupport==1.0.4
+twisted-iocpsupport==1.0.4; platform_system == "Windows"
 txaio==23.1.1
 typing_extensions==4.12.2
 tzdata==2025.1
