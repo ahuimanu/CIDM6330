@@ -1,0 +1,1 @@
+This PR adds mocked unit tests for `fetch_fred_data_with_retry` (unittest.mock + responses), moves runtime behavior into `main()` to avoid side effects on import, and adds README documentation for the tests.
