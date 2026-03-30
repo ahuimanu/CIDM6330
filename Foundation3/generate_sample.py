@@ -11,7 +11,9 @@ from Foundation3.transform import transform_combined
 
 def make_synthetic_data(out_dir: Path):
     out_dir.mkdir(parents=True, exist_ok=True)
-    idx = pd.to_datetime(["2021-01-31", "2021-02-28", "2021-03-31", "2021-04-30", "2021-05-31"])
+    idx = pd.to_datetime(
+        ["2021-01-31", "2021-02-28", "2021-03-31", "2021-04-30", "2021-05-31"]
+    )
     data = {
         "IPG3344S": [100.0, 105.0, 110.25, 115.7625, 121.5506],
         "CAPUTLG3344SQ": [70.0, 71.4, 72.828, 74.28456, 75.7732512],
@@ -29,8 +31,12 @@ def main():
     log_file = out / "pipeline.log"
     out.mkdir(parents=True, exist_ok=True)
 
-    logging.basicConfig(level=logging.INFO, filename=log_file, filemode="w",
-                        format="%(asctime)s %(levelname)s %(message)s")
+    logging.basicConfig(
+        level=logging.INFO,
+        filename=log_file,
+        filemode="w",
+        format="%(asctime)s %(levelname)s %(message)s",
+    )
     logger = logging.getLogger("foundation3.sample")
 
     logger.info("Generating synthetic data and running transform")

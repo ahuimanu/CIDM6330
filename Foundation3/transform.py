@@ -3,9 +3,11 @@ import pandas as pd
 from typing import Dict, Optional
 
 
-def transform_combined(combined: pd.DataFrame,
-                       weights: Optional[Dict[str, float]] = None,
-                       threshold: float = 0.0) -> pd.DataFrame:
+def transform_combined(
+    combined: pd.DataFrame,
+    weights: Optional[Dict[str, float]] = None,
+    threshold: float = 0.0,
+) -> pd.DataFrame:
     """Transform combined raw series into rolling metrics and an `S_score`.
 
     Steps:
@@ -50,5 +52,7 @@ def transform_combined(combined: pd.DataFrame,
 
     out = rolling.copy()
     out["S_score"] = s
-    out["Recommendation"] = out["S_score"].apply(lambda v: "OVERBUY" if v > threshold else "HOLD")
+    out["Recommendation"] = out["S_score"].apply(
+        lambda v: "OVERBUY" if v > threshold else "HOLD"
+    )
     return out

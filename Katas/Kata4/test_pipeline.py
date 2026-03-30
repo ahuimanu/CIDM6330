@@ -17,11 +17,7 @@ def make_raw_rows(rows):
 
 
 def test_transform_skips_empty_rows():
-    raw = list(make_raw_rows([
-        ("2020-01-01", "1.0"),
-        ("", "2.0"),
-        ("2020-01-02", "")
-    ]))
+    raw = list(make_raw_rows([("2020-01-01", "1.0"), ("", "2.0"), ("2020-01-02", "")]))
 
     transformed = list(pipeline.transform(raw))
     assert len(transformed) == 1

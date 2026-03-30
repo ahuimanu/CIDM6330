@@ -14,6 +14,7 @@ SERIES = [
     "DSPIC96",
 ]
 
+
 def fetch_all(start_date="2000-01-01", end_date=None):
     frames = {}
     for s in SERIES:
@@ -30,6 +31,7 @@ def fetch_all(start_date="2000-01-01", end_date=None):
     combined = pd.concat(frames.values(), axis=1)
     combined.to_csv(OUT / "combined.csv")
     print("Saved files to", OUT)
+
 
 if __name__ == "__main__":
     fetch_all()

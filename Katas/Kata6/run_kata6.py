@@ -1,4 +1,5 @@
 """Small runner for Kata6 to allow quick manual tests."""
+
 from kata6 import run
 
 

@@ -20,6 +20,7 @@ def run_pipeline(series_list, out_dir: Path, start_date=None, end_date=None):
 
     combined = out_dir / "combined.csv"
     import pandas as pd
+
     df = pd.read_csv(combined, parse_dates=[0], index_col=0)
     logger.info("Read combined CSV with shape %s", df.shape)
 
@@ -30,7 +31,12 @@ def run_pipeline(series_list, out_dir: Path, start_date=None, end_date=None):
 
     out_json = out_dir / "transformed.json"
     transformed.reset_index().to_json(out_json, orient="records", date_format="iso")
-    logger.info("Wrote transformed artifacts to %s (rows=%d, cols=%d)", out_json, transformed.shape[0], transformed.shape[1])
+    logger.info(
+        "Wrote transformed artifacts to %s (rows=%d, cols=%d)",
+        out_json,
+        transformed.shape[0],
+        transformed.shape[1],
+    )
     return out_json
 
 

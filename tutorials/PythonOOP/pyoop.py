@@ -23,7 +23,7 @@ from typing import Protocol, runtime_checkable
 @runtime_checkable
 class Summarizable(Protocol):
     """Protocol for any object that can produce a summary string.
-    
+
     Unlike ABCs, protocols use structural subtyping - any class with
     a matching get_summary() method satisfies this protocol without
     explicitly inheriting from it.
@@ -40,7 +40,7 @@ class Summarizable(Protocol):
 @dataclass(frozen=True)
 class Coordinates:
     """Immutable geographic coordinates.
-    
+
     Frozen dataclasses are ideal for value objects - they're hashable,
     comparable, and can be used as dictionary keys or set members.
     """
@@ -66,7 +66,7 @@ class Coordinates:
 @dataclass
 class WeatherReport:
     """Weather report data container.
-    
+
     Regular dataclass (not frozen) since weather reports are mutable -
     they get updated with new data over time.
     """
@@ -98,7 +98,7 @@ class WeatherReport:
 
 class ReportingStation(ABC):
     """Abstract base class for weather reporting stations.
-    
+
     This defines the interface that all reporting stations must implement.
     You cannot instantiate this class directly - you must create a subclass
     that implements all abstract methods.
@@ -106,7 +106,7 @@ class ReportingStation(ABC):
 
     def __init__(self, stationid: str, name: str) -> None:
         """Initialize base station attributes.
-        
+
         Args:
             stationid: ICAO identifier (e.g., 'KAMA')
             name: Human-readable station name
@@ -152,7 +152,7 @@ class ReportingStation(ABC):
     @abstractmethod
     def get_summary(self) -> str:
         """Return a summary string describing this station.
-        
+
         Each station type must provide its own implementation.
         """
         pass
@@ -211,7 +211,7 @@ class ReportingStation(ABC):
 @dataclass
 class Runway:
     """Represents an airport runway.
-    
+
     Demonstrates composition - Airport HAS runways rather than
     inheriting from a runway class.
     """
@@ -236,7 +236,7 @@ class Runway:
 
 class Airport(ReportingStation):
     """An airport with runway information.
-    
+
     Demonstrates:
     - Inheritance from abstract base class
     - Class attributes vs instance attributes
@@ -254,7 +254,7 @@ class Airport(ReportingStation):
         coordinates: Coordinates | None = None,
     ) -> None:
         """Initialize an airport.
-        
+
         Args:
             stationid: ICAO identifier
             name: Airport name
@@ -269,7 +269,9 @@ class Airport(ReportingStation):
     # -------------------------------------------------------------------------
 
     def get_summary(self) -> str:
-        runway_info = f"{self.longest_runway}ft runway" if self._runways else "no runways"
+        runway_info = (
+            f"{self.longest_runway}ft runway" if self._runways else "no runways"
+        )
         return f"Airport {self.stationid}: {self.name} ({runway_info})"
 
     def is_operational(self) -> bool:
@@ -312,7 +314,7 @@ class Airport(ReportingStation):
     @classmethod
     def from_icao(cls, icao_code: str) -> "Airport":
         """Create an airport from just an ICAO code.
-        
+
         In a real application, this would look up the airport details.
         """
         return cls(icao_code, f"Airport {icao_code}")
@@ -324,7 +326,7 @@ class Airport(ReportingStation):
     @staticmethod
     def validate_icao_code(code: str) -> bool:
         """Validate an ICAO airport code.
-        
+
         ICAO codes are 4 uppercase letters.
         """
         return len(code) == 4 and code.isalpha() and code.isupper()
@@ -332,7 +334,7 @@ class Airport(ReportingStation):
 
 class Heliport(ReportingStation):
     """A heliport reporting station.
-    
+
     Demonstrates a simpler subclass with different capabilities
     than Airport.
     """
@@ -364,7 +366,7 @@ class Heliport(ReportingStation):
 
 class JSONMixin:
     """Mixin that adds JSON serialization capability.
-    
+
     Mixins are small classes that provide specific functionality
     without being standalone. They're combined with other classes
     via multiple inheritance.
@@ -435,7 +437,9 @@ class WeatherService(Protocol):
 class MockWeatherService:
     """Mock implementation for testing."""
 
-    def __init__(self, metar: str = "VFR conditions", taf: str = "No significant change"):
+    def __init__(
+        self, metar: str = "VFR conditions", taf: str = "No significant change"
+    ):
         self._metar = metar
         self._taf = taf
 
@@ -448,7 +452,7 @@ class MockWeatherService:
 
 class StationManager:
     """Manages weather updates for stations.
-    
+
     Demonstrates dependency injection - the weather service
     is injected, allowing for easy testing and flexibility.
     """
@@ -480,7 +484,7 @@ class StationManager:
 
 def print_station_summary(station: Summarizable) -> None:
     """Print summary for any summarizable object.
-    
+
     This function works with ANY object that has a get_summary() method,
     thanks to structural subtyping via Protocol.
     """

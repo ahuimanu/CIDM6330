@@ -14,11 +14,18 @@ OUT = HERE / "fred_data"
 OUT.mkdir(exist_ok=True)
 
 
-def compute_lag_correlation(lead_series: str, target_series: str, start_date: str = "2000-01-01", max_lag: int = 12) -> Tuple[Dict[int,float], int, float]:
+def compute_lag_correlation(
+    lead_series: str,
+    target_series: str,
+    start_date: str = "2000-01-01",
+    max_lag: int = 12,
+) -> Tuple[Dict[int, float], int, float]:
     a = get_fred_series(lead_series, start_date=start_date)
     b = get_fred_series(target_series, start_date=start_date)
     if a.empty or b.empty:
-        raise RuntimeError("One of the series returned no data; check your FRED API key and network")
+        raise RuntimeError(
+            "One of the series returned no data; check your FRED API key and network"
+        )
     sa = a["value"].rename(lead_series)
     sb = b["value"].rename(target_series)
     df = pd.concat([sa, sb], axis=1).dropna()

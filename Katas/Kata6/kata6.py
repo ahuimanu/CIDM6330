@@ -8,6 +8,7 @@ Implements:
 
 Run via the runner `run_kata6.py`.
 """
+
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from typing import List, Dict
 import argparse
@@ -20,7 +21,7 @@ def generate_data(n: int) -> List[int]:
 
 def chunked(data: List[int], chunk_size: int):
     for i in range(0, len(data), chunk_size):
-        yield data[i:i + chunk_size]
+        yield data[i : i + chunk_size]
 
 
 def process_chunk(chunk: List[int]) -> Dict[str, int]:

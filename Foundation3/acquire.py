@@ -11,8 +11,14 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-def fetch_all(series_list: List[str], out_dir: Path, start_date: Optional[str] = None, end_date: Optional[str] = None,
-              retries: int = 2, backoff: float = 1.5) -> Dict[str, pd.Series]:
+def fetch_all(
+    series_list: List[str],
+    out_dir: Path,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+    retries: int = 2,
+    backoff: float = 1.5,
+) -> Dict[str, pd.Series]:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -40,7 +46,9 @@ def fetch_all(series_list: List[str], out_dir: Path, start_date: Optional[str] =
                 logger.debug("Exception details", exc_info=e)
                 time.sleep(backoff * attempt)
         else:
-            logger.error("Failed to fetch %s after %d attempts: %s", s, retries + 1, last_exc)
+            logger.error(
+                "Failed to fetch %s after %d attempts: %s", s, retries + 1, last_exc
+            )
             logger.debug("Final exception for %s", s, exc_info=last_exc)
 
     if not frames:

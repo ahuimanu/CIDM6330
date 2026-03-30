@@ -1,4 +1,5 @@
 """Example usage for Kata2.sqlite_kata using the new repository API."""
+
 from pathlib import Path
 from Kata2 import sqlite_kata
 
@@ -22,10 +23,16 @@ def demo(db_path: str = "Kata2/output/kata2_demo.db"):
 
     # Demonstrate explain plan before/after recreating the index
     conn.execute("DROP INDEX IF EXISTS idx_flights_src")
-    before = repo.explain_query_plan("SELECT * FROM flights WHERE src_airport_id = ?", (1,))
+    before = repo.explain_query_plan(
+        "SELECT * FROM flights WHERE src_airport_id = ?", (1,)
+    )
 
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_flights_src ON flights(src_airport_id)")
-    after = repo.explain_query_plan("SELECT * FROM flights WHERE src_airport_id = ?", (1,))
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_flights_src ON flights(src_airport_id)"
+    )
+    after = repo.explain_query_plan(
+        "SELECT * FROM flights WHERE src_airport_id = ?", (1,)
+    )
 
     rows = repo.flights_with_airports()
     conn.close()

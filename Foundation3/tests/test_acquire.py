@@ -12,6 +12,7 @@ def fake_get_fred_series(series_id, **kwargs):
 def test_fetch_all_writes_files(tmp_path, monkeypatch):
     # monkeypatch the helper to avoid network calls
     import Foundation1.FRED_helper as fh
+
     monkeypatch.setattr(fh, "get_fred_series", fake_get_fred_series)
 
     from Foundation3.acquire import fetch_all

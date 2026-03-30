@@ -12,6 +12,7 @@ load_dotenv(dotenv_path=dotenv_path)
 FRED_BASE = "https://api.stlouisfed.org/fred/series/observations"
 DEFAULT_TIMEOUT = 20
 
+
 def get_api_key() -> str:
     key = os.getenv("FRED_API_KEY")
     if key:
@@ -20,12 +21,15 @@ def get_api_key() -> str:
         raise RuntimeError("FRED_API_KEY not set in env or .env")
     return key
 
-def get_fred_series(series_id: str,
-                    api_key: Optional[str] = None,
-                    start_date: Optional[str] = None,
-                    end_date: Optional[str] = None,
-                    file_type: str = "json",
-                    extra: Optional[Dict] = None) -> pd.DataFrame:
+
+def get_fred_series(
+    series_id: str,
+    api_key: Optional[str] = None,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+    file_type: str = "json",
+    extra: Optional[Dict] = None,
+) -> pd.DataFrame:
     api_key = api_key or get_api_key()
     params = {
         "series_id": series_id,
@@ -54,4 +58,5 @@ def get_fred_series(series_id: str,
         return df.set_index("date").sort_index()
     else:
         from io import StringIO
+
         return pd.read_csv(StringIO(r.text), parse_dates=["date"]).set_index("date")
