@@ -2,8 +2,6 @@
 
 This repository contains supplemental materials and code for CIDM 6330, Spring 2026.
 
-[![CI](https://github.com/ryanperez11/CIDM6330-Spring2026-Patrick-Perez/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanperez11/CIDM6330-Spring2026-Patrick-Perez/actions/workflows/ci.yml)
-
 ## Primary Text
 
 We are using *Fundamentals of Software Architecture, 2nd Edition* as our guide.
