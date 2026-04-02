@@ -1,27 +1,59 @@
 flowchart LR
+    title[Title: Foundation 4 GDP/FRED Pipeline Architecture Diagram]
     user[Technical Colleague]
-    cli[Run Command<br/>python -m pipeline.run_pipeline]
-    acquire[Acquire Module<br/>sample or live FRED observations]
-    raw[(Raw JSON Artifact)]
-    transform[Transform Module<br/>clean + derive GDP indicators]
-    transformed[(Transformed JSON Artifact)]
-    report[Reporting Module<br/>markdown run summary]
-    summary[[Pipeline Summary Report]]
-    fred[(FRED API<br/>optional live source)]
 
-    user --> cli
-    cli --> acquire
-    acquire -->|solid: required data flow| raw
-    acquire -.dotted: optional live call.-> fred
-    raw -->|solid: required handoff| transform
-    transform -->|solid: required output| transformed
-    transform -->|solid: metrics + flags| report
-    report -->|solid: required output| summary
+    subgraph runtime[Pipeline Runtime]
+        direction LR
+        cli[Run Command<br/>python -m pipeline.run_pipeline]
+
+        subgraph acquire_stage[Acquisition Stage]
+            direction TB
+            acquire[Acquire Module<br/>sample payload or live FRED observations]
+            raw[(Raw JSON Artifact<br/>gdp_raw.json)]
+        end
+
+        subgraph transform_stage[Transformation Stage]
+            direction TB
+            transform[Transform Module<br/>clean data + derive GDP indicators]
+            transformed[(Transformed JSON Artifact<br/>gdp_transformed.json)]
+        end
+
+        subgraph report_stage[Reporting Stage]
+            direction TB
+            report[Reporting Module<br/>build markdown run summary]
+            summary[[Pipeline Summary Report<br/>pipeline_run_summary.md]]
+        end
+    end
+
+    fred[(Optional External Source<br/>FRED API)]
+
+    title --> user
+    user -->|evaluates structure and outputs| cli
+    cli -->|starts pipeline execution| acquire
+    acquire -->|writes raw observations| raw
+    acquire -.->|optional live API call| fred
+    raw -->|feeds cleaned input| transform
+    transform -->|writes derived metrics| transformed
+    transform -->|passes metrics and flags| report
+    report -->|writes human-readable summary| summary
 
     subgraph legend[Legend]
+        direction TB
         l1[Rectangle = executable module]
-        l2[(Cylinder = persisted artifact or external store)]
-        l3[[Rounded box = generated document]]
+        l2[(Cylinder = persisted artifact or external source)]
+        l3[[Rounded box = generated report]]
         l4[Solid arrow = required synchronous flow]
         l5[Dotted arrow = optional external dependency]
     end
+
+    classDef titleStyle fill:#f4efe6,stroke:#6b5b45,color:#2b241c,stroke-width:1px;
+    classDef actorStyle fill:#e7f0dd,stroke:#567a46,color:#20301a,stroke-width:1px;
+    classDef moduleStyle fill:#f7f7f7,stroke:#355c7d,color:#1a1a1a,stroke-width:1.2px;
+    classDef artifactStyle fill:#fff4db,stroke:#9a6b00,color:#3b2a00,stroke-width:1.2px;
+    classDef reportStyle fill:#e8f1fb,stroke:#3f6ea8,color:#12263f,stroke-width:1.2px;
+
+    class title titleStyle;
+    class user actorStyle;
+    class cli,acquire,transform,report moduleStyle;
+    class raw,transformed,fred artifactStyle;
+    class summary reportStyle;
