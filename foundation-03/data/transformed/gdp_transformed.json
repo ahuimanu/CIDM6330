@@ -1,0 +1,51 @@
+[
+  {
+    "date": "2020-01-01",
+    "gdp_level": 21439.453,
+    "qoq_pct_change": null,
+    "yoy_pct_change": null,
+    "rolling_4q_change": null,
+    "signal_flag": false,
+    "signal_reasons": []
+  },
+  {
+    "date": "2020-04-01",
+    "gdp_level": 19477.444,
+    "qoq_pct_change": -9.1514,
+    "yoy_pct_change": null,
+    "rolling_4q_change": null,
+    "signal_flag": true,
+    "signal_reasons": [
+      "negative_qoq_growth"
+    ]
+  },
+  {
+    "date": "2020-07-01",
+    "gdp_level": 21138.574,
+    "qoq_pct_change": 8.5285,
+    "yoy_pct_change": null,
+    "rolling_4q_change": null,
+    "signal_flag": false,
+    "signal_reasons": []
+  },
+  {
+    "date": "2020-10-01",
+    "gdp_level": 21477.597,
+    "qoq_pct_change": 1.6038,
+    "yoy_pct_change": null,
+    "rolling_4q_change": null,
+    "signal_flag": true,
+    "signal_reasons": [
+      "growth_slowdown"
+    ]
+  },
+  {
+    "date": "2021-01-01",
+    "gdp_level": 22038.226,
+    "qoq_pct_change": 2.6103,
+    "yoy_pct_change": 2.7929,
+    "rolling_4q_change": 598.773,
+    "signal_flag": false,
+    "signal_reasons": []
+  }
+]

@@ -1,0 +1,27 @@
+flowchart LR
+    user[Technical Colleague]
+    cli[Run Command<br/>python -m pipeline.run_pipeline]
+    acquire[Acquire Module<br/>sample or live FRED observations]
+    raw[(Raw JSON Artifact)]
+    transform[Transform Module<br/>clean + derive GDP indicators]
+    transformed[(Transformed JSON Artifact)]
+    report[Reporting Module<br/>markdown run summary]
+    summary[[Pipeline Summary Report]]
+    fred[(FRED API<br/>optional live source)]
+
+    user --> cli
+    cli --> acquire
+    acquire -->|solid: required data flow| raw
+    acquire -.dotted: optional live call.-> fred
+    raw -->|solid: required handoff| transform
+    transform -->|solid: required output| transformed
+    transform -->|solid: metrics + flags| report
+    report -->|solid: required output| summary
+
+    subgraph legend[Legend]
+        l1[Rectangle = executable module]
+        l2[(Cylinder = persisted artifact or external store)]
+        l3[[Rounded box = generated document]]
+        l4[Solid arrow = required synchronous flow]
+        l5[Dotted arrow = optional external dependency]
+    end
