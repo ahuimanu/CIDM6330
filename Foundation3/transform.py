@@ -5,11 +5,13 @@ def transform_combined(
     combined: pd.DataFrame,
     weights: dict[str, float] | None = None,
     threshold: float = 0.0,
+    strict: bool = False,
 ) -> pd.DataFrame:
     """Transform combined raw series into rolling metrics and an `S_score`.
 
     Steps:
     - compute month-over-month percent change for each series
+    - validate that all percent-change values are within [-1.0, 1.0] (Risk 9)
     - compute 3-month rolling mean of percent changes
     - compute `S_score` as weighted average of rolling metrics (equal weights default)
     - add `Recommendation`: 'OVERBUY' when `S_score` < `threshold`, else 'HOLD'
@@ -18,6 +20,8 @@ def transform_combined(
         combined: wide DataFrame of raw series (columns=series ids, index=datetime)
         weights: optional mapping of column -> weight (missing keys treated as 0)
         threshold: numeric threshold to decide recommendation
+        strict: when True, drop rows where *any* series is NaN instead of *all*
+            (Risk 6 — enforces complete-row-only scoring at month boundaries)
 
     Returns:
         DataFrame containing the rolling metrics, `S_score`, and `Recommendation`.
@@ -26,10 +30,24 @@ def transform_combined(
         return pd.DataFrame()
 
     pct = combined.pct_change()
-    pct = pct.dropna(how="all")
+    dropna_how = "any" if strict else "all"
+    pct = pct.dropna(how=dropna_how)
+
+    # Risk 9: validation filter — pct_change() on monthly macro data must produce
+    # values in [-1.0, 1.0].  Values outside this range indicate raw (non-normalized)
+    # inputs slipped through, which would make the S_score mathematically fraudulent.
+    non_null = pct.stack(future_stack=True).dropna()
+    if not non_null.empty:
+        out_of_range = non_null[(non_null < -1.0) | (non_null > 1.0)]
+        if not out_of_range.empty:
+            raise ValueError(
+                f"Validation filter: {len(out_of_range)} pct_change values outside "
+                f"[-1.0, 1.0] — inputs may not be in raw-level form. "
+                f"Worst offenders:\n{out_of_range.head()}"
+            )
 
     rolling = pct.rolling(3).mean()
-    rolling = rolling.dropna(how="all")
+    rolling = rolling.dropna(how=dropna_how)
 
     if rolling.empty:
         return pd.DataFrame()

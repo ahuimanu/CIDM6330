@@ -1,10 +1,12 @@
+import json
 import logging
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
 
-from Foundation1.FRED_helper import get_fred_series
+from Foundation1.FRED_helper import get_fred_series_with_payload
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -29,11 +31,19 @@ def fetch_all(
         last_exc = None
         while attempt <= retries:
             try:
-                df = get_fred_series(s, start_date=start_date, end_date=end_date)
+                df, payload = get_fred_series_with_payload(
+                    s, start_date=start_date, end_date=end_date
+                )
                 if df.empty:
                     logger.warning("No data returned for %s", s)
                     break
                 (out_dir / f"{s}.csv").write_text(df.to_csv())
+                # Archive raw JSON payload (incl. per-observation vintage dates)
+                # so point-in-time auditability is preserved (Risk 4).
+                vintage_ts = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+                raw_path = out_dir / f"{s}_{vintage_ts}.json"
+                raw_path.write_text(json.dumps(payload, indent=2))
+                logger.info("Archived raw payload for %s → %s", s, raw_path.name)
                 frames[s] = df["value"].rename(s)
                 logger.info("Fetched %s (%d rows)", s, len(df))
                 break

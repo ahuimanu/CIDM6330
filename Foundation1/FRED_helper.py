@@ -59,3 +59,47 @@ def get_fred_series(
         return df.set_index("date").sort_index()
     else:
         return pd.read_csv(StringIO(r.text), parse_dates=["date"]).set_index("date")
+
+
+def get_fred_series_with_payload(
+    series_id: str,
+    api_key: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    extra: dict | None = None,
+) -> tuple[pd.DataFrame, dict]:
+    """Like get_fred_series but also returns the raw JSON payload.
+
+    The payload includes vintage metadata (realtime_start, realtime_end per
+    observation) needed for point-in-time auditability (Risk 4).
+
+    Returns:
+        (df, payload) — df is the processed DataFrame; payload is the full
+        FRED JSON response including observation-level vintage dates.
+    """
+    api_key = api_key or get_api_key()
+    params = {
+        "series_id": series_id,
+        "api_key": api_key,
+        "file_type": "json",
+    }
+    if start_date:
+        params["start_date"] = start_date
+    if end_date:
+        params["end_date"] = end_date
+    if extra:
+        params.update(extra)
+
+    with requests.Session() as s:
+        r = s.get(FRED_BASE, params=params, timeout=DEFAULT_TIMEOUT)
+        r.raise_for_status()
+
+    payload = r.json()
+    obs = payload.get("observations", [])
+    if not obs:
+        return pd.DataFrame(), payload
+
+    df = pd.DataFrame(obs)
+    df["value"] = pd.to_numeric(df["value"].replace(".", pd.NA))
+    df["date"] = pd.to_datetime(df["date"])
+    return df.set_index("date").sort_index(), payload
