@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/patry/OneDrive/Documents/GitHub/CIDM6330-Spring2026-Patrick-Perez/Foundation3/tests//**)",
+      "Read(//c/Users/patry/OneDrive/Documents/GitHub/CIDM6330-Spring2026-Patrick-Perez/Foundation3/results//**)"
+    ]
+  }
+}
