@@ -1,6 +1,7 @@
-from pathlib import Path
-import json
 import logging
+from pathlib import Path
+
+import pandas as pd
 
 from Foundation3.acquire import fetch_all
 from Foundation3.transform import transform_combined
@@ -19,8 +20,6 @@ def run_pipeline(series_list, out_dir: Path, start_date=None, end_date=None):
         return
 
     combined = out_dir / "combined.csv"
-    import pandas as pd
-
     df = pd.read_csv(combined, parse_dates=[0], index_col=0)
     logger.info("Read combined CSV with shape %s", df.shape)
 

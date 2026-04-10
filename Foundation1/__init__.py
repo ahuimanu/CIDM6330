@@ -3,6 +3,6 @@
 Contains FRED helper utilities.
 """
 
-from .FRED_helper import get_fred_series, get_api_key
+from .FRED_helper import get_api_key, get_fred_series
 
-__all__ = ["get_fred_series", "get_api_key"]
+__all__ = ["get_api_key", "get_fred_series"]

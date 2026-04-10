@@ -1,9 +1,9 @@
 import pandas as pd
 
+from Foundation3.transform import transform_combined
+
 
 def test_weighted_s_score():
-    from Foundation3.transform import transform_combined
-
     idx = pd.to_datetime(["2020-01-31", "2020-02-29", "2020-03-31", "2020-04-30"])
     a = [100.0, 110.0, 121.0, 133.1]
     b = [100.0, 100.0, 100.0, 100.0]

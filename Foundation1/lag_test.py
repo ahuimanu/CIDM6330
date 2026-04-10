@@ -1,14 +1,13 @@
-from pathlib import Path
-import sys
 import json
-from typing import Tuple, Dict
+import sys
+from pathlib import Path
 
 # Ensure local package imports work when running from repo root
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-from FRED_helper import get_fred_series
-import pandas as pd
+import pandas as pd  # noqa: E402
+from FRED_helper import get_fred_series  # noqa: E402
 
 OUT = HERE / "fred_data"
 OUT.mkdir(exist_ok=True)
@@ -19,7 +18,7 @@ def compute_lag_correlation(
     target_series: str,
     start_date: str = "2000-01-01",
     max_lag: int = 12,
-) -> Tuple[Dict[int, float], int, float]:
+) -> tuple[dict[int, float], int, float]:
     a = get_fred_series(lead_series, start_date=start_date)
     b = get_fred_series(target_series, start_date=start_date)
     if a.empty or b.empty:

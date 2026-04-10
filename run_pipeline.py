@@ -1,7 +1,7 @@
-from pathlib import Path
+import argparse
 import os
 import sys
-import argparse
+from pathlib import Path
 
 # ensure repo root on path
 sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
@@ -38,13 +38,13 @@ def main(argv=None):
             print(
                 "FRED_API_KEY not found — running demo pipeline using synthetic data."
             )
-        from Foundation3.generate_sample import main as demo_main
+        from Foundation3.generate_sample import main as demo_main  # noqa: PLC0415
 
         demo_main()
         return
 
     # run real pipeline
-    from Foundation3.pipeline import run_pipeline
+    from Foundation3.pipeline import run_pipeline  # noqa: PLC0415
 
     SERIES = ["IPG3344S", "CAPUTLG3344SQ", "A34STI", "PCU334413334413"]
     out = Path("Foundation3/results")

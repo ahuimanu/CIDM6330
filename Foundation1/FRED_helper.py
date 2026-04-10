@@ -1,8 +1,9 @@
-from pathlib import Path
 import os
-from typing import Optional, Dict
-import requests
+from io import StringIO
+from pathlib import Path
+
 import pandas as pd
+import requests
 from dotenv import load_dotenv
 
 # explicitly load .env from repo root (two levels up from this file)
@@ -24,11 +25,11 @@ def get_api_key() -> str:
 
 def get_fred_series(
     series_id: str,
-    api_key: Optional[str] = None,
-    start_date: Optional[str] = None,
-    end_date: Optional[str] = None,
+    api_key: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
     file_type: str = "json",
-    extra: Optional[Dict] = None,
+    extra: dict | None = None,
 ) -> pd.DataFrame:
     api_key = api_key or get_api_key()
     params = {
@@ -57,6 +58,4 @@ def get_fred_series(
         df["date"] = pd.to_datetime(df["date"])
         return df.set_index("date").sort_index()
     else:
-        from io import StringIO
-
         return pd.read_csv(StringIO(r.text), parse_dates=["date"]).set_index("date")

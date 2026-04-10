@@ -17,7 +17,9 @@ repos:
       # Linter (replaces flake8, isort, pylint, etc.)
       - id: ruff
         args: [--fix]
+        files: ^Foundation
       # Formatter (replaces black)
       - id: ruff-format
+        files: ^Foundation
 
   # ty pre-commit hook not yet available - run manually with: uv run ty check .

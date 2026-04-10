@@ -1,11 +1,9 @@
-from pathlib import Path
 import pandas as pd
-from typing import Dict, Optional
 
 
 def transform_combined(
     combined: pd.DataFrame,
-    weights: Optional[Dict[str, float]] = None,
+    weights: dict[str, float] | None = None,
     threshold: float = 0.0,
 ) -> pd.DataFrame:
     """Transform combined raw series into rolling metrics and an `S_score`.
@@ -13,11 +11,11 @@ def transform_combined(
     Steps:
     - compute month-over-month percent change for each series
     - compute 3-month rolling mean of percent changes
-    - compute `S_score` as a weighted average of rolling metrics (equal weights by default)
-    - add `Recommendation`: 'OVERBUY' when `S_score` > `threshold`, else 'HOLD'
+    - compute `S_score` as weighted average of rolling metrics (equal weights default)
+    - add `Recommendation`: 'OVERBUY' when `S_score` < `threshold`, else 'HOLD'
 
     Args:
-        combined: wide DataFrame of raw series (columns are series ids, index is datetime)
+        combined: wide DataFrame of raw series (columns=series ids, index=datetime)
         weights: optional mapping of column -> weight (missing keys treated as 0)
         threshold: numeric threshold to decide recommendation
 
@@ -42,17 +40,15 @@ def transform_combined(
         # build weight Series aligned to columns
         w = pd.Series({c: float(weights.get(c, 0.0)) for c in cols})
         total = w.sum()
-        if total == 0:
-            # fallback to equal weights
-            s = rolling.mean(axis=1)
-        else:
-            s = (rolling * w).sum(axis=1) / total
+        s = rolling.mean(axis=1) if total == 0 else (rolling * w).sum(axis=1) / total
     else:
         s = rolling.mean(axis=1)
 
     out = rolling.copy()
     out["S_score"] = s
+    # OVERBUY when S_score falls below threshold — a declining supply health score
+    # (negative rolling average) signals a contraction that warrants stockpiling.
     out["Recommendation"] = out["S_score"].apply(
-        lambda v: "OVERBUY" if v > threshold else "HOLD"
+        lambda v: "OVERBUY" if v < threshold else "HOLD"
     )
     return out

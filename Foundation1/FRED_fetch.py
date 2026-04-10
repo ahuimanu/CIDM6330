@@ -1,6 +1,7 @@
 from pathlib import Path
-from FRED_helper import get_fred_series
+
 import pandas as pd
+from FRED_helper import get_fred_series
 
 OUT = Path(__file__).parent / "fred_data"
 OUT.mkdir(exist_ok=True)

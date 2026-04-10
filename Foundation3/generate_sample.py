@@ -1,6 +1,7 @@
-from pathlib import Path
-import sys
 import logging
+import sys
+from pathlib import Path
+
 import pandas as pd
 
 # ensure repository root is on sys.path so package imports work when running script
@@ -11,14 +12,16 @@ from Foundation3.transform import transform_combined
 
 def make_synthetic_data(out_dir: Path):
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Scenario: production and capacity decline while inventories fall and prices
+    # rise — a contraction pattern that should trigger an OVERBUY recommendation.
     idx = pd.to_datetime(
         ["2021-01-31", "2021-02-28", "2021-03-31", "2021-04-30", "2021-05-31"]
     )
     data = {
-        "IPG3344S": [100.0, 105.0, 110.25, 115.7625, 121.5506],
-        "CAPUTLG3344SQ": [70.0, 71.4, 72.828, 74.28456, 75.7732512],
-        "A34STI": [50.0, 52.5, 55.125, 57.88125, 60.7753125],
-        "PCU334413334413": [200.0, 198.0, 197.01, 196.0399, 195.079501],
+        "IPG3344S": [100.0, 97.0, 94.09, 91.27, 88.53],  # -3% per month
+        "CAPUTLG3344SQ": [70.0, 68.6, 67.23, 65.88, 64.56],  # -2% per month
+        "A34STI": [50.0, 48.5, 47.05, 45.63, 44.26],  # -3% (inventories draining)
+        "PCU334413334413": [200.0, 204.0, 208.08, 212.24, 216.48],  # +2% (prices up)
     }
     df = pd.DataFrame(data, index=idx)
     combined_csv = out_dir / "combined.csv"

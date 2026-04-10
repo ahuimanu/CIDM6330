@@ -1,7 +1,6 @@
-from pathlib import Path
 import logging
 import time
-from typing import List, Dict, Optional
+from pathlib import Path
 
 import pandas as pd
 
@@ -12,17 +11,17 @@ logging.basicConfig(level=logging.INFO)
 
 
 def fetch_all(
-    series_list: List[str],
+    series_list: list[str],
     out_dir: Path,
-    start_date: Optional[str] = None,
-    end_date: Optional[str] = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
     retries: int = 2,
     backoff: float = 1.5,
-) -> Dict[str, pd.Series]:
+) -> dict[str, pd.Series]:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    frames: Dict[str, pd.Series] = {}
+    frames: dict[str, pd.Series] = {}
 
     for s in series_list:
         logger.info("Fetching %s", s)
