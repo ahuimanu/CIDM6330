@@ -2,39 +2,34 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, SPRING2026 ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, SPRING2026 ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11]
+        python-version: ["3.13"]
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies (non-Windows)
-        if: runner.os != 'Windows'
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-
-      - name: Install dependencies (Windows only)
-        if: runner.os == 'Windows'
-        shell: powershell
-        run: |
-          python -m pip install --upgrade pip
-          if (Test-Path requirements.txt) { pip install -r requirements.txt }
-          if (Test-Path requirements-dev.txt) { pip install -r requirements-dev.txt }
+          pip install -r requirements-dev.txt
 
       - name: Run Foundation3 tests
         run: |
           python -m pytest -q Foundation3/tests
+
+      - name: Run Kata9 integration tests
+        run: |
+          python -m pytest -v Katas/Kata9/test_integration.py
