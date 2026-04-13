@@ -47,3 +47,17 @@ def test_filter_by_station_returns_matching_records():
     result = wf.filter_by_station(SAMPLE_RECORDS, "B")
     assert len(result) == 1
     assert result[0]["station"] == "B"
+
+
+# ---------------------------------------------------------------------------
+# Cycle 3 — count unique stations
+# ---------------------------------------------------------------------------
+
+def test_get_station_count_returns_number_of_unique_stations():
+    wf = make_filter()
+    records = [
+        {"station": "A", "temperature": "10.0"},
+        {"station": "B", "temperature": "20.0"},
+        {"station": "A", "temperature": "15.0"},  # duplicate
+    ]
+    assert wf.get_station_count(records) == 2
