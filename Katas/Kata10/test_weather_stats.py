@@ -36,3 +36,14 @@ def test_stats_returns_correct_average():
     wf = make_filter()
     stats = wf.get_temperature_stats(SAMPLE_RECORDS)
     assert stats["average"] == 20.0
+
+
+# ---------------------------------------------------------------------------
+# Cycle 2 — filter by station name
+# ---------------------------------------------------------------------------
+
+def test_filter_by_station_returns_matching_records():
+    wf = make_filter()
+    result = wf.filter_by_station(SAMPLE_RECORDS, "B")
+    assert len(result) == 1
+    assert result[0]["station"] == "B"
