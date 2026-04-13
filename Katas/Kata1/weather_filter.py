@@ -234,6 +234,32 @@ class WeatherFilter:
 
         logging.info(f"Wrote {self.records_written} records to {output_file.name}")
 
+    def get_temperature_stats(self, records: List[Dict]) -> Dict:
+        """Return basic temperature statistics for a list of records.
+
+        Args:
+            records: List of data records with a 'temperature' key
+
+        Returns:
+            Dict with keys: average, min, max, count
+        """
+        temps = []
+        for record in records:
+            try:
+                temps.append(float(record["temperature"]))
+            except (KeyError, ValueError, TypeError):
+                continue
+
+        if not temps:
+            return {"average": None, "min": None, "max": None, "count": 0}
+
+        return {
+            "average": sum(temps) / len(temps),
+            "min": min(temps),
+            "max": max(temps),
+            "count": len(temps),
+        }
+
     def log_summary(self) -> None:
         """Log summary of operation."""
         logging.info(
