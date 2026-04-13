@@ -1,8 +1,4 @@
-"""Foundation3 package marker.
+"""Test package marker.
 
-Contains higher-level data acquisition scripts.
+Do not import application modules here; pytest will import this file during collection.
 """
-
-from .acquire import fetch_all
-
-__all__ = ["fetch_all"]
