@@ -10,7 +10,7 @@ This will serve as a generalized guide to testing which brings together a few ke
     * Domain-Driven Design/Development: [DDD](Domain-Driven Design is an approach to software development that centers the development on programming a domain model that has a rich understanding of the processes and rules of a domain)
 
 ## Paradigms
-These paradigms matter as the represent key thinking in the pre-automation era.  [DevOps](https://resources.github.com/devops/) is the leading edge of the automation era where the balance between human design and algorithmic/statistical design are in flux.  I don't pretend to have the answers or a prediction on outcomes here, but the need to understand the human element remains as that is the audience for this information.  
+These paradigms matter as the represent key thinking in the pre-automation era.  [DevOps](https://resources.github.com/devops/) is the leading edge of the automation era where the balance between human design and algorithmic/statistical design are in flux.  I don't pretend to have the answers or a prediction on outcomes here, but the need to understand the human element remains as that is the audience for this information.
 
 ### Human Element
 I'll use stories, alliteration, and metaphor as is my common wont.
@@ -30,7 +30,7 @@ In this sense, you write programs to validate and check the code you write for y
 ## Additional Levels of Testing
 While we will start with **unit testing**, I will mention breifly here that as we compound and combine code modules to get work done, there will be ensemble effects whereby the interaction and orchestration of these modules will also need to be checked.  Testing multiple components is known as **integration testing.**  An additional step would be the degree to which a system facilitates full transactions where that level of testing is commonly called **end-to-end** testing.  Components, abstractions, and modularity are key to understanding software engineering and architecture, where systems and applications are the sum of components comprised of the classes, functions, and modules that have been tested at lower levels.  Testing is VITAL to functioning systems and software and often becomes the basis of proving and validating the outputs and benefits of a system.
 
-## Python and unittest  
+## Python and unittest
 There are many options to accomplish this in Python where several tools and libraries are available for automated testing.
 
 Here, we will mainly focus on the `unittest` library and how that is extended in Django.
@@ -59,9 +59,9 @@ There are many test runners, but I've largely just used these:
 * PyTest - 3rd party
 
 Since unittest comes with Python, let's focus there:
- 
+
  ## `unittest`
-`unittest` will assist as a sofware testing framework, with libraries and structures to assist across your applications, and more simply to run your tests. 
+`unittest` will assist as a sofware testing framework, with libraries and structures to assist across your applications, and more simply to run your tests.
 
 `unittest` has the following provisions for the development of your tests:
 
@@ -91,7 +91,7 @@ workspace/
     sum_thing/
         __init__.py
 ```
-**NOTE:** 
+**NOTE:**
 >The above example uses one of the many [Dunder Methods](https://www.geeksforgeeks.org/dunder-magic-methods-python/) provided out of the box in Python.  These are "global" methods that are also usually available for override when you create a new class.
 
 So, within the `__init__.py` file, which is evaluated anytime the `sum_thing` package is used, we can place a utility method that will do our summing:
@@ -252,7 +252,7 @@ If you open up to the concept that testing can shape design, then several additi
 ### Taking advantage of side effects
 As side effects are discovered, there are a vareity of opportunites to improve your code:
 
-* Can lead to a [refactor](https://refactoring.guru/refactoring) of code to become more in line with [Software Engineering best practices](https://en.wikipedia.org/wiki/SOLID). 
+* Can lead to a [refactor](https://refactoring.guru/refactoring) of code to become more in line with [Software Engineering best practices](https://en.wikipedia.org/wiki/SOLID).
 * [Using Mocks, Fakes, or Stubs](https://martinfowler.com/articles/mocksArentStubs.html) to simulate the functions that lead to side effects
 * Progress to integration testing as appropriate
 

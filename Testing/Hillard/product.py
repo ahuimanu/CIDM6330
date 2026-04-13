@@ -16,7 +16,10 @@ class Product:
         self.color = color
 
     def __str__(self) -> str:
-        return f"This shoe, {self.name}, has a size of {self.size} and is {self.color} in color"
+        return (
+            f"This shoe, {self.name}, has a size of {self.size} "
+            f"and is {self.color} in color"
+        )
 
     def __repr__(self) -> str:
         return f"REPR: name: {self.name} size:{self.size} color:{self.color}"

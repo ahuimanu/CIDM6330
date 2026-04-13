@@ -9,13 +9,11 @@ Run with: python -m unittest example.py -v
 Or:       python example.py
 """
 
+import asyncio
 import unittest
-from unittest.mock import Mock, MagicMock, patch, create_autospec, call
 from dataclasses import dataclass, field
 from typing import Protocol
-from abc import ABC, abstractmethod
-import asyncio
-
+from unittest.mock import MagicMock, Mock, call, create_autospec, patch
 
 # =============================================================================
 # DOMAIN MODEL (Code Under Test)
@@ -70,7 +68,10 @@ class Airport:
         return max(r.length_ft for r in self._runways)
 
     def add_runway(
-        self, identifier: str, length_ft: int, surface: str = "concrete"
+        self,
+        identifier: str,
+        length_ft: int,
+        surface: str = "concrete",
     ) -> None:
         self._runways.append(Runway(identifier, length_ft, surface))
 
@@ -288,9 +289,11 @@ class TestStationIdValidation(unittest.TestCase):
         ]
 
         for stationid, reason in invalid_ids:
-            with self.subTest(stationid=stationid, reason=reason):
-                with self.assertRaises(ValueError):
-                    Airport(stationid, "Test")
+            with (
+                self.subTest(stationid=stationid, reason=reason),
+                self.assertRaises(ValueError),
+            ):
+                Airport(stationid, "Test")
 
 
 # =============================================================================

@@ -8,11 +8,10 @@ Run with: python example.py
 """
 
 import sqlite3
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from abc import ABC, abstractmethod
 from pathlib import Path
-
 
 # =============================================================================
 # DOMAIN MODELS
@@ -200,8 +199,9 @@ class SQLiteAirportRepository(AirportRepository):
         else:
             self._conn.execute(
                 """
-                UPDATE airports 
-                SET stationid = ?, name = ?, city = ?, state = ?, latitude = ?, longitude = ?
+                UPDATE airports
+                SET stationid = ?, name = ?, city = ?, state = ?,
+                    latitude = ?, longitude = ?
                 WHERE id = ?
             """,
                 (
@@ -257,7 +257,9 @@ class SQLiteAirportRepository(AirportRepository):
         return weather
 
     def _row_to_airport(
-        self, row: sqlite3.Row, include_relations: bool = False
+        self,
+        row: sqlite3.Row,
+        include_relations: bool = False,
     ) -> Airport:
         airport = Airport(
             id=row["id"],
@@ -295,8 +297,8 @@ class SQLiteAirportRepository(AirportRepository):
     def _get_latest_weather(self, airport_id: int) -> WeatherReport | None:
         cursor = self._conn.execute(
             """
-            SELECT * FROM weather_reports 
-            WHERE airport_id = ? 
+            SELECT * FROM weather_reports
+            WHERE airport_id = ?
             ORDER BY fetched_at DESC LIMIT 1
         """,
             (airport_id,),
@@ -457,7 +459,7 @@ class AirportQuery:
 # =============================================================================
 
 
-def main() -> None:
+def main() -> None:  # noqa: PLR0915
     """Demonstrate SQLite database operations."""
 
     print("=" * 70)
@@ -480,7 +482,7 @@ def main() -> None:
     init_database(conn)
 
     cursor = conn.execute("""
-        SELECT name FROM sqlite_master 
+        SELECT name FROM sqlite_master
         WHERE type='table' AND name NOT LIKE 'sqlite_%'
         ORDER BY name
     """)
@@ -528,7 +530,7 @@ def main() -> None:
         (kama_id, "13/31", 7898, 150, "asphalt"),
     )
     conn.commit()
-    print(f"  INSERT: Added 2 runways to KAMA")
+    print("  INSERT: Added 2 runways to KAMA")
 
     # SELECT with JOIN
     cursor = conn.execute(
@@ -540,7 +542,7 @@ def main() -> None:
     """,
         ("KAMA",),
     )
-    print(f"  SELECT JOIN: Runways for KAMA:")
+    print("  SELECT JOIN: Runways for KAMA:")
     for row in cursor.fetchall():
         print(f"    {row['identifier']}: {row['length_ft']}ft")
 
@@ -550,7 +552,7 @@ def main() -> None:
         ("Amarillo International Airport", "KAMA"),
     )
     conn.commit()
-    print(f"  UPDATE: Updated KAMA name")
+    print("  UPDATE: Updated KAMA name")
 
     conn.close()
 
@@ -615,7 +617,7 @@ def main() -> None:
     # Query by stationid
     kama = repo.get_by_stationid("KAMA")
     if kama:
-        print(f"\n  Retrieved KAMA:")
+        print("\n  Retrieved KAMA:")
         print(f"    Name: {kama.name}")
         print(f"    Runways: {len(kama.runways)}")
         print(f"    Weather: {kama.weather.metar if kama.weather else 'None'}")
@@ -696,7 +698,7 @@ def main() -> None:
 
     cursor = conn.execute(sql, params)
     results = cursor.fetchall()
-    print(f"\n  Results (TX airports with runway >= 10000ft):")
+    print("\n  Results (TX airports with runway >= 10000ft):")
     for row in results:
         print(f"    {row['stationid']}: {row['name']}")
 
@@ -762,7 +764,7 @@ def main() -> None:
     test_repo.save(Airport(None, "TEST1", "Test Airport 1", "City", "ST"))
     test_repo.save(Airport(None, "TEST2", "Test Airport 2", "City", "ST"))
 
-    print(f"  Saved 2 test airports")
+    print("  Saved 2 test airports")
     print(f"  get_all() returns: {len(test_repo.get_all())} airports")
 
     found = test_repo.get_by_stationid("TEST1")

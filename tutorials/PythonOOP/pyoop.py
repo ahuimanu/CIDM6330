@@ -14,7 +14,6 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Protocol, runtime_checkable
 
-
 # =============================================================================
 # PROTOCOLS - Structural Subtyping (Duck Typing with Type Hints)
 # =============================================================================
@@ -226,7 +225,10 @@ class Runway:
         return self.length_ft >= min_runway_length
 
     def __str__(self) -> str:
-        return f"Runway {self.identifier}: {self.length_ft}x{self.width_ft}ft ({self.surface})"
+        return (
+            f"Runway {self.identifier}: {self.length_ft}x{self.width_ft}ft "
+            f"({self.surface})"
+        )
 
 
 # =============================================================================
@@ -438,7 +440,9 @@ class MockWeatherService:
     """Mock implementation for testing."""
 
     def __init__(
-        self, metar: str = "VFR conditions", taf: str = "No significant change"
+        self,
+        metar: str = "VFR conditions",
+        taf: str = "No significant change",
     ):
         self._metar = metar
         self._taf = taf
@@ -513,7 +517,7 @@ def find_nearest_airport(
 # =============================================================================
 
 
-def main() -> None:
+def main() -> None:  # noqa: PLR0915
     """Demonstrate Python OOP features."""
 
     print("=" * 70)
@@ -684,8 +688,8 @@ def main() -> None:
     print("\n10. DUNDER METHODS")
     print("-" * 40)
 
-    print(f"  str(kama): {str(kama)}")
-    print(f"  repr(kama): {repr(kama)}")
+    print(f"  str(kama): {kama!s}")
+    print(f"  repr(kama): {kama!r}")
     print(f"  kama == klbb: {kama == klbb}")
     print(f"  hash(kama): {hash(kama)}")
 
@@ -705,7 +709,7 @@ def main() -> None:
 
     # Modify on one instance
     kama.flight_rules = "ICAO"
-    print(f"  After kama.flight_rules = 'ICAO':")
+    print("  After kama.flight_rules = 'ICAO':")
     print(f"    kama.flight_rules: {kama.flight_rules}")
     print(f"    klbb.flight_rules: {klbb.flight_rules}")  # Still FAA
     print(f"    Airport.flight_rules: {Airport.flight_rules}")  # Still FAA

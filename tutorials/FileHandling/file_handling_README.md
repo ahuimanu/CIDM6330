@@ -227,7 +227,7 @@ airports = [
 with open("airports.csv", "w", encoding="utf-8", newline="") as f:
     fieldnames = ["stationid", "name", "runway_ft"]
     writer = csv.DictWriter(f, fieldnames=fieldnames)
-    
+
     writer.writeheader()
     writer.writerows(airports)
 
@@ -356,7 +356,7 @@ json.dumps(data, default=str)  # Converts anything unknown to string
 class Airport:
     stationid: str
     name: str
-    
+
     def to_dict(self) -> dict:
         return asdict(self)
 
@@ -485,7 +485,7 @@ class WeatherReport:
     stationid: str
     metar: str
     timestamp: datetime
-    
+
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
         return {
@@ -493,7 +493,7 @@ class WeatherReport:
             "metar": self.metar,
             "timestamp": self.timestamp.isoformat(),
         }
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> "WeatherReport":
         """Deserialize from dictionary."""
@@ -502,11 +502,11 @@ class WeatherReport:
             metar=data["metar"],
             timestamp=datetime.fromisoformat(data["timestamp"]),
         )
-    
+
     def to_json(self) -> str:
         """Serialize to JSON string."""
         return json.dumps(self.to_dict())
-    
+
     @classmethod
     def from_json(cls, json_str: str) -> "WeatherReport":
         """Deserialize from JSON string."""
@@ -533,7 +533,7 @@ T = TypeVar("T")
 
 class Serializable(Protocol):
     def to_dict(self) -> dict: ...
-    
+
     @classmethod
     def from_dict(cls: Type[T], data: dict) -> T: ...
 
@@ -566,15 +566,15 @@ class Runway:
     length_ft: int
     surface: str
 
-@dataclass 
+@dataclass
 class Airport:
     stationid: str
     name: str
     runways: list[Runway]
-    
+
     def to_dict(self) -> dict:
         return asdict(self)
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> "Airport":
         # Handle nested dataclasses
@@ -582,7 +582,7 @@ class Airport:
         return cls(**data, runways=runways)
 
 airport = Airport(
-    "KAMA", 
+    "KAMA",
     "Amarillo International",
     [Runway("04/22", 13502, "concrete")]
 )
@@ -768,7 +768,7 @@ def load_config(path: Path) -> dict:
     """Load config, returning defaults if file doesn't exist."""
     if not path.exists():
         return {"default": True}
-    
+
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
@@ -797,7 +797,7 @@ def load_json_as(cls: Type[T], path: str) -> T:
 class Airport:
     stationid: str
     name: str
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> "Airport":
         # Validate required fields
@@ -805,11 +805,11 @@ class Airport:
             raise ValueError("Missing required field: stationid")
         if "name" not in data:
             raise ValueError("Missing required field: name")
-        
+
         # Validate data types/formats
         if not data["stationid"].isupper():
             raise ValueError(f"Invalid stationid: {data['stationid']}")
-        
+
         return cls(
             stationid=data["stationid"],
             name=data["name"],

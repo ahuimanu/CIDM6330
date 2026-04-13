@@ -85,7 +85,7 @@ class Airport:
         print(f"Creating instance of {cls.__name__}")
         instance = super().__new__(cls)
         return instance
-    
+
     def __init__(self, stationid: str, name: str) -> None:
         """Initializes the instance with data."""
         print(f"Initializing {stationid}")
@@ -111,7 +111,7 @@ class Airport:
     # Class attribute - shared by ALL instances
     flight_rules = "FAA"
     all_airports: list["Airport"] = []  # Careful: mutable class attributes are shared!
-    
+
     def __init__(self, stationid: str, name: str) -> None:
         # Instance attributes - unique to each instance
         self.stationid = stationid
@@ -142,15 +142,15 @@ Python supports three types of methods, each with different binding behavior.
 ```python
 class Airport:
     flight_rules = "FAA"
-    
+
     def __init__(self, stationid: str, name: str) -> None:
         self.stationid = stationid
         self.name = name
-    
+
     # Instance method: receives `self`, operates on instance data
     def get_summary(self) -> str:
         return f"{self.stationid}: {self.name}"
-    
+
     # Class method: receives `cls`, operates on class-level data
     # Commonly used as alternative constructors
     @classmethod
@@ -158,11 +158,11 @@ class Airport:
         """Alternative constructor using ICAO code lookup."""
         # In reality, you'd look this up
         return cls(icao_code, f"Airport {icao_code}")
-    
+
     @classmethod
     def get_flight_rules(cls) -> str:
         return cls.flight_rules
-    
+
     # Static method: no implicit first argument
     # Essentially a regular function namespaced to the class
     @staticmethod
@@ -201,49 +201,49 @@ class Airport:
         self.name = name
         self.longest_runway = longest_runway
         self._created_at = datetime.now()
-    
+
     # String representations
     def __str__(self) -> str:
         """Human-readable string (used by print, str())."""
         return f"{self.stationid} - {self.name}"
-    
+
     def __repr__(self) -> str:
         """Unambiguous representation (used in debugger, repr())."""
         return f"Airport({self.stationid!r}, {self.name!r}, {self.longest_runway!r})"
-    
+
     # Comparison operators
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Airport):
             return NotImplemented
         return self.stationid == other.stationid
-    
+
     def __lt__(self, other: "Airport") -> bool:
         """Enables sorting by runway length."""
         return self.longest_runway < other.longest_runway
-    
+
     def __hash__(self) -> int:
         """Required if __eq__ is defined and you want to use in sets/dicts."""
         return hash(self.stationid)
-    
+
     # Container behavior
     def __len__(self) -> int:
         """Could represent number of runways, gates, etc."""
         return self.longest_runway
-    
+
     def __bool__(self) -> bool:
         """Truthiness - an airport is 'truthy' if it has a valid station ID."""
         return bool(self.stationid)
-    
+
     # Attribute access
     def __getattr__(self, name: str):
         """Called when attribute is not found normally."""
         raise AttributeError(f"'{type(self).__name__}' has no attribute '{name}'")
-    
+
     # Context manager protocol
     def __enter__(self):
         print(f"Opening connection to {self.stationid}")
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         print(f"Closing connection to {self.stationid}")
         return False  # Don't suppress exceptions
@@ -296,23 +296,23 @@ class Airport:
     def __init__(self, stationid: str, name: str) -> None:
         self._stationid = stationid  # "Private" backing field
         self._name = name
-    
+
     @property
     def stationid(self) -> str:
         """Read-only property."""
         return self._stationid
-    
+
     @property
     def name(self) -> str:
         """Managed property with validation."""
         return self._name
-    
+
     @name.setter
     def name(self, value: str) -> None:
         if not value or not value.strip():
             raise ValueError("Name cannot be empty")
         self._name = value.strip()
-    
+
     @name.deleter
     def name(self) -> None:
         raise AttributeError("Cannot delete airport name")
@@ -335,21 +335,21 @@ Properties are implemented using the descriptor protocol. Understanding descript
 ```python
 class ValidatedString:
     """A descriptor that validates string values."""
-    
+
     def __init__(self, min_length: int = 1, max_length: int = 100):
         self.min_length = min_length
         self.max_length = max_length
-    
+
     def __set_name__(self, owner, name):
         """Called when descriptor is assigned to a class attribute."""
         self.name = name
         self.private_name = f"_{name}"
-    
+
     def __get__(self, obj, objtype=None):
         if obj is None:
             return self
         return getattr(obj, self.private_name, None)
-    
+
     def __set__(self, obj, value):
         if not isinstance(value, str):
             raise TypeError(f"{self.name} must be a string")
@@ -362,7 +362,7 @@ class ValidatedString:
 class Airport:
     stationid = ValidatedString(min_length=3, max_length=4)
     name = ValidatedString(min_length=5, max_length=100)
-    
+
     def __init__(self, stationid: str, name: str) -> None:
         self.stationid = stationid  # Validated by descriptor
         self.name = name
@@ -383,7 +383,7 @@ class Airport:
         self.stationid = stationid      # Public
         self._internal = "internal"      # Protected (convention)
         self.__private = "private"       # Name-mangled
-    
+
     def get_private(self) -> str:
         return self.__private
 
@@ -431,45 +431,45 @@ class WeatherReport:
 
 class ReportingStation:
     """Base class for any station that reports weather."""
-    
+
     def __init__(self, stationid: str, name: str) -> None:
         self.stationid = stationid
         self.name = name
         self.weather_report = WeatherReport()
-    
+
     def get_weather(self) -> WeatherReport:
         return self.weather_report
-    
+
     def __str__(self) -> str:
         return f"{self.stationid} - {self.name}"
 
 class Airport(ReportingStation):
     """An airport extends ReportingStation with runway information."""
-    
+
     flight_rules = "FAA"
-    
+
     def __init__(
-        self, 
-        stationid: str, 
-        name: str, 
+        self,
+        stationid: str,
+        name: str,
         longest_runway: int,
         timestamp: datetime | None = None
     ) -> None:
         super().__init__(stationid, name)  # Call parent constructor
         self.longest_runway = longest_runway
         self.timestamp = timestamp or datetime.now()
-    
+
     def can_land(self, aircraft_min_runway: int) -> bool:
         """Airport-specific method."""
         return self.longest_runway >= aircraft_min_runway
 
 class Heliport(ReportingStation):
     """A heliport is a reporting station with beacon information."""
-    
+
     def __init__(self, stationid: str, name: str, has_beacon: bool) -> None:
         super().__init__(stationid, name)
         self.has_beacon = has_beacon
-    
+
     def is_night_capable(self) -> bool:
         """Heliport-specific method."""
         return self.has_beacon
@@ -573,10 +573,10 @@ from datetime import datetime
 
 class JSONMixin:
     """Mixin that adds JSON serialization capability."""
-    
+
     def to_json(self) -> str:
         return json.dumps(self.__dict__, default=str)
-    
+
     @classmethod
     def from_json(cls, json_str: str):
         data = json.loads(json_str)
@@ -584,12 +584,12 @@ class JSONMixin:
 
 class TimestampMixin:
     """Mixin that adds timestamp tracking."""
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
-    
+
     def touch(self):
         self.updated_at = datetime.now()
 
@@ -616,21 +616,21 @@ from datetime import datetime
 
 class ReportingStation(ABC):
     """Abstract base class for all reporting stations."""
-    
+
     def __init__(self, stationid: str, name: str) -> None:
         self.stationid = stationid
         self.name = name
-    
+
     @abstractmethod
     def get_summary(self) -> str:
         """Subclasses must implement this."""
         pass
-    
+
     @abstractmethod
     def is_operational(self) -> bool:
         """Subclasses must implement this."""
         pass
-    
+
     # Concrete method - inherited as-is
     def __str__(self) -> str:
         return f"{self.stationid} - {self.name}"
@@ -639,10 +639,10 @@ class Airport(ReportingStation):
     def __init__(self, stationid: str, name: str, longest_runway: int) -> None:
         super().__init__(stationid, name)
         self.longest_runway = longest_runway
-    
+
     def get_summary(self) -> str:
         return f"Airport {self.stationid} with {self.longest_runway}ft runway"
-    
+
     def is_operational(self) -> bool:
         return self.longest_runway > 0
 
@@ -681,7 +681,7 @@ from typing import Protocol, runtime_checkable
 @runtime_checkable
 class Summarizable(Protocol):
     """Any object with a get_summary method."""
-    
+
     def get_summary(self) -> str:
         ...
 
@@ -689,14 +689,14 @@ class Airport:
     def __init__(self, stationid: str, name: str) -> None:
         self.stationid = stationid
         self.name = name
-    
+
     def get_summary(self) -> str:
         return f"Airport: {self.stationid}"
 
 class WeatherReport:
     def __init__(self, metar: str) -> None:
         self.metar = metar
-    
+
     def get_summary(self) -> str:
         return f"Weather: {self.metar}"
 
@@ -731,7 +731,7 @@ class WeatherReport:
     metar: str
     taf: str | None = None
     timestamp: datetime = field(default_factory=datetime.now)
-    
+
     # Post-init processing
     def __post_init__(self):
         self.metar = self.metar.upper()
@@ -749,7 +749,7 @@ class Airport:
     name: str
     longest_runway: int
     coordinates: Coordinates | None = None
-    
+
     def __post_init__(self):
         self.sort_index = self.longest_runway
 
@@ -793,7 +793,7 @@ class WeatherReport:
     metar: str | None = None
     taf: str | None = None
     fetched_at: datetime = field(default_factory=datetime.now)
-    
+
     def is_current(self, max_age_minutes: int = 60) -> bool:
         age = datetime.now() - self.fetched_at
         return age.total_seconds() < max_age_minutes * 60
@@ -803,7 +803,7 @@ class Runway:
     identifier: str
     length_ft: int
     surface: str
-    
+
     def can_support(self, aircraft_min_runway: int) -> bool:
         return self.length_ft >= aircraft_min_runway
 
@@ -813,13 +813,13 @@ class Airport:
     name: str
     runways: list[Runway] = field(default_factory=list)
     weather: WeatherReport = field(default_factory=WeatherReport)
-    
+
     @property
     def longest_runway(self) -> int:
         if not self.runways:
             return 0
         return max(r.length_ft for r in self.runways)
-    
+
     def add_runway(self, identifier: str, length_ft: int, surface: str) -> None:
         self.runways.append(Runway(identifier, length_ft, surface))
 
@@ -856,7 +856,7 @@ A class should have one reason to change.
 class Airport:
     def __init__(self, stationid: str):
         self.stationid = stationid
-    
+
     def fetch_weather(self): ...
     def save_to_database(self): ...
     def render_html(self): ...
@@ -972,7 +972,7 @@ class Airport:
     def __init__(self, stationid: str, weather_service: WeatherService) -> None:
         self.stationid = stationid
         self._weather_service = weather_service  # Injected dependency
-    
+
     def get_weather(self) -> str:
         return self._weather_service.fetch(self.stationid)
 
@@ -1017,29 +1017,29 @@ class ReportingStation(ABC):
         self.stationid = stationid
         self.name = name
         self.weather = WeatherReport()
-    
+
     @abstractmethod
     def get_summary(self) -> str:
         pass
-    
+
     def __str__(self) -> str:
         return f"{self.stationid} - {self.name}"
-    
+
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.stationid!r}, {self.name!r})"
-    
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, ReportingStation):
             return NotImplemented
         return self.stationid == other.stationid
-    
+
     def __hash__(self) -> int:
         return hash(self.stationid)
 
 # Concrete implementations
 class Airport(ReportingStation):
     flight_rules: str = "FAA"
-    
+
     def __init__(
         self,
         stationid: str,
@@ -1050,7 +1050,7 @@ class Airport(ReportingStation):
         super().__init__(stationid, name)
         self.longest_runway = longest_runway
         self.coordinates = coordinates
-    
+
     def get_summary(self) -> str:
         return f"Airport {self.stationid}: {self.name} ({self.longest_runway}ft runway)"
 
@@ -1058,7 +1058,7 @@ class Heliport(ReportingStation):
     def __init__(self, stationid: str, name: str, has_beacon: bool) -> None:
         super().__init__(stationid, name)
         self.has_beacon = has_beacon
-    
+
     def get_summary(self) -> str:
         beacon = "with beacon" if self.has_beacon else "no beacon"
         return f"Heliport {self.stationid}: {self.name} ({beacon})"
@@ -1087,7 +1087,7 @@ if __name__ == "__main__":
             True
         ),
     ]
-    
+
     for station in stations:
         print_station_summary(station)
 ```

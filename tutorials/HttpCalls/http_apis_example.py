@@ -13,15 +13,13 @@ Run with: python example.py
 """
 
 import json
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Iterator
-from urllib.request import urlopen, Request
-from urllib.parse import urlencode
-from urllib.error import HTTPError, URLError
-from http.server import HTTPServer, BaseHTTPRequestHandler
 import threading
 import time
+from dataclasses import dataclass
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 # Optional imports - demo works without them
 try:
@@ -109,7 +107,12 @@ MOCK_AIRPORTS = {
         -102.2019,
     ),
     "KDFW": Airport(
-        "KDFW", "Dallas/Fort Worth International", "Dallas", "TX", 32.8998, -97.0403
+        "KDFW",
+        "Dallas/Fort Worth International",
+        "Dallas",
+        "TX",
+        32.8998,
+        -97.0403,
     ),
 }
 
@@ -485,7 +488,7 @@ def compare_libraries(base_url: str) -> None:
 # =============================================================================
 
 
-def main() -> None:
+def main() -> None:  # noqa: PLR0915
     """Demonstrate HTTP client libraries."""
 
     print("=" * 70)
@@ -579,7 +582,7 @@ def main() -> None:
   | Sessions/Clients  |        |    ✓     |   ✓   |
   | Async support     |        |          |   ✓   |
   | HTTP/2 support    |        |          |   ✓   |
-  
+
   Recommendations:
   - urllib:   When you can't add dependencies
   - requests: Great for synchronous code, huge ecosystem

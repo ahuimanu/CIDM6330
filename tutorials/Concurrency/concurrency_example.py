@@ -10,15 +10,13 @@ This module demonstrates Python's concurrency options:
 Run with: python example.py
 """
 
-import threading
-import multiprocessing
 import asyncio
+import multiprocessing
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from queue import Queue
-from typing import Callable
-
 
 # =============================================================================
 # DOMAIN MODEL
@@ -180,7 +178,7 @@ def threading_lock_example() -> None:
         t.join()
 
     print(f"    Final counter value: {counter.value}")
-    print(f"    Expected: 10000")
+    print("    Expected: 10000")
 
 
 # =============================================================================
@@ -201,13 +199,13 @@ def multiprocessing_pool_example() -> None:
 
     # Sequential baseline
     start = time.perf_counter()
-    sequential_results = [_cpu_worker(n) for n in data_sizes]
+    _ = [_cpu_worker(n) for n in data_sizes]
     sequential_time = time.perf_counter() - start
 
     # Parallel with Pool
     start = time.perf_counter()
     with multiprocessing.Pool(processes=4) as pool:
-        parallel_results = pool.map(_cpu_worker, data_sizes)
+        _ = pool.map(_cpu_worker, data_sizes)
     parallel_time = time.perf_counter() - start
 
     print(f"    Sequential: {sequential_time:.2f}s")
@@ -294,7 +292,7 @@ def executor_error_handling_example() -> None:
         for future in as_completed(futures):
             airport = futures[future]
             try:
-                result = future.result()
+                future.result()
                 successes += 1
             except Exception as e:
                 failures += 1
@@ -372,7 +370,7 @@ async def asyncio_timeout_example() -> None:
     try:
         result = await asyncio.wait_for(slow_operation(), timeout=1.0)
         print(f"    Result: {result}")
-    except asyncio.TimeoutError:
+    except TimeoutError:
         print("    Operation timed out (as expected)")
 
 
@@ -387,7 +385,7 @@ async def asyncio_taskgroup_example() -> None:
     results = []
     async with asyncio.TaskGroup() as tg:
         for airport in AIRPORTS[:4]:
-            task = tg.create_task(fetch(airport.stationid))
+            tg.create_task(fetch(airport.stationid))
             # Can't easily collect results here, but all complete together
 
     print("    All tasks completed successfully")
@@ -508,7 +506,7 @@ def main() -> None:
   | ThreadPoolExecutor | Simple I/O parallel  | Releases   |
   | ProcessPoolExecutor| Simple CPU parallel  | Bypasses   |
   | Asyncio            | Many concurrent I/O  | N/A        |
-  
+
   Quick Guide:
   - Network/file I/O → asyncio or ThreadPoolExecutor
   - CPU computation → ProcessPoolExecutor

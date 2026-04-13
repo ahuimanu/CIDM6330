@@ -10,11 +10,11 @@ Run with: python example.py
 import csv
 import json
 import tempfile
-from dataclasses import dataclass, field, asdict
+from contextlib import contextmanager
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Protocol, TypeVar, Type
-from contextlib import contextmanager
+from typing import Protocol, TypeVar
 
 # Optional: YAML support (install with: uv add pyyaml)
 try:
@@ -182,7 +182,7 @@ class Serializable(Protocol):
     def to_dict(self) -> dict: ...
 
     @classmethod
-    def from_dict(cls: Type[T], data: dict) -> T: ...
+    def from_dict(cls: type[T], data: dict) -> T: ...
 
 
 def save_as_json(obj: Serializable, path: Path) -> None:
@@ -190,7 +190,7 @@ def save_as_json(obj: Serializable, path: Path) -> None:
     path.write_text(json.dumps(obj.to_dict(), indent=2), encoding="utf-8")
 
 
-def load_from_json(cls: Type[T], path: Path) -> T:
+def load_from_json(cls: type[T], path: Path) -> T:
     """Load a serializable object from JSON file."""
     data = json.loads(path.read_text(encoding="utf-8"))
     return cls.from_dict(data)
@@ -216,7 +216,7 @@ def save_airports_csv(airports: list[Airport], path: Path) -> None:
         "metar",
     ]
 
-    with open(path, "w", encoding="utf-8", newline="") as f:
+    with path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for airport in airports:
@@ -227,7 +227,7 @@ def load_airports_csv(path: Path) -> list[Airport]:
     """Load airports from CSV file."""
     airports = []
 
-    with open(path, "r", encoding="utf-8", newline="") as f:
+    with path.open(encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             airports.append(Airport.from_csv_row(row))
@@ -247,7 +247,7 @@ def save_airports_yaml(airports: list[Airport], path: Path) -> None:
 
     data = {"airports": [a.to_dict() for a in airports]}
 
-    with open(path, "w", encoding="utf-8") as f:
+    with path.open("w", encoding="utf-8") as f:
         yaml.dump(data, f, default_flow_style=False, sort_keys=False)
 
 
@@ -256,7 +256,7 @@ def load_airports_yaml(path: Path) -> list[Airport]:
     if not YAML_AVAILABLE:
         raise ImportError("PyYAML not installed. Run: uv add pyyaml")
 
-    with open(path, "r", encoding="utf-8") as f:
+    with path.open(encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
     return [Airport.from_dict(a) for a in data.get("airports", [])]
@@ -274,7 +274,7 @@ def temporary_workspace():
         workspace = Path(temp_dir)
         print(f"  Created temporary workspace: {workspace}")
         yield workspace
-        print(f"  Cleaned up temporary workspace")
+        print("  Cleaned up temporary workspace")
 
 
 # =============================================================================
@@ -290,7 +290,11 @@ class AppConfig:
     cache_ttl_seconds: int = 3600
     log_level: str = "INFO"
     enabled_stations: list[str] = field(
-        default_factory=lambda: ["KAMA", "KLBB", "KMAF"]
+        default_factory=lambda: [
+            "KAMA",
+            "KLBB",
+            "KMAF",
+        ]
     )
 
     def to_dict(self) -> dict:
@@ -339,7 +343,7 @@ class AppConfig:
 # =============================================================================
 
 
-def main() -> None:
+def main() -> None:  # noqa: PLR0915
     """Demonstrate file handling and serialization features."""
 
     print("=" * 70)
@@ -395,7 +399,7 @@ def main() -> None:
         json_dir = data_dir / "json"
         json_dir.mkdir(exist_ok=True)
 
-        print(f"  Created directory structure:")
+        print("  Created directory structure:")
         print(f"    {data_dir}")
         print(f"    {json_dir}")
 
@@ -423,7 +427,7 @@ def main() -> None:
 
         # Read and display
         content = text_file.read_text(encoding="utf-8")
-        print(f"  Content:")
+        print("  Content:")
         for line in content.strip().split("\n"):
             print(f"    {line}")
 
@@ -441,7 +445,7 @@ def main() -> None:
         print(f"  Saved {len(airports)} airports to {csv_file.name}")
 
         # Show CSV content
-        print(f"  CSV content:")
+        print("  CSV content:")
         csv_content = csv_file.read_text(encoding="utf-8")
         for line in csv_content.strip().split("\n")[:4]:  # Header + 3 rows
             print(f"    {line[:70]}...")
@@ -463,7 +467,7 @@ def main() -> None:
         print(f"  Saved KAMA to {kama_file.name}")
 
         # Show JSON content
-        print(f"  JSON content (truncated):")
+        print("  JSON content (truncated):")
         json_content = kama_file.read_text(encoding="utf-8")
         for line in json_content.split("\n")[:10]:
             print(f"    {line}")
@@ -496,7 +500,7 @@ def main() -> None:
             print(f"  Saved {len(airports)} airports to {yaml_file.name}")
 
             # Show YAML content
-            print(f"  YAML content (truncated):")
+            print("  YAML content (truncated):")
             yaml_content = yaml_file.read_text(encoding="utf-8")
             for line in yaml_content.split("\n")[:15]:
                 print(f"    {line}")
@@ -527,13 +531,13 @@ def main() -> None:
         config_json = workspace / "config.json"
         config.save(config_json)
         print(f"  Saved config to {config_json.name}")
-        print(f"  Content:")
+        print("  Content:")
         for line in config_json.read_text().split("\n"):
             print(f"    {line}")
 
         # Load config
         loaded_config = AppConfig.load(config_json)
-        print(f"\n  Loaded config:")
+        print("\n  Loaded config:")
         print(f"    database_path: {loaded_config.database_path}")
         print(f"    cache_ttl_seconds: {loaded_config.cache_ttl_seconds}")
         print(f"    log_level: {loaded_config.log_level}")
@@ -541,7 +545,7 @@ def main() -> None:
 
         # Load missing config (returns defaults)
         missing_config = AppConfig.load(workspace / "missing.json")
-        print(f"\n  Missing config returns defaults:")
+        print("\n  Missing config returns defaults:")
         print(f"    database_path: {missing_config.database_path}")
 
         # ---------------------------------------------------------------------
@@ -558,7 +562,7 @@ def main() -> None:
             print(f"    {item.name:<20} ({item_type}, {size} bytes)")
 
         # Glob for JSON files
-        print(f"\n  All JSON files (recursive glob):")
+        print("\n  All JSON files (recursive glob):")
         for json_file in sorted(workspace.glob("**/*.json")):
             relative = json_file.relative_to(workspace)
             print(f"    {relative}")
@@ -583,9 +587,8 @@ def main() -> None:
             f"  From JSON:  {from_json.stationid} with {len(from_json.runways)} runways"
         )
         print(f"  Match: {original.stationid == from_json.stationid}")
-        print(
-            f"  Runway match: {original.runways[0].length_ft == from_json.runways[0].length_ft}"
-        )
+        runway_match = original.runways[0].length_ft == from_json.runways[0].length_ft
+        print(f"  Runway match: {runway_match}")
 
         # Verify datetime round-trip
         original_time = original.weather.fetched_at

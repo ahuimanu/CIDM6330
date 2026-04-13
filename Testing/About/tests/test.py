@@ -1,5 +1,6 @@
 # https://realpython.com/python-testing/#more-advanced-testing-scenarios
 import unittest
+
 from sum_thing import sum
 
 

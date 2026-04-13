@@ -1,7 +1,7 @@
 # CIDM 6330 Documentation
 Some of the subject matter reasoning attached to the academic aims of this course are outlined and discussed here. Here is the Spring 2024 Schedule mapped to the contents of this README.
 
-|Schedule           | Topic                                             | Readme Section Heading    |    
+|Schedule           | Topic                                             | Readme Section Heading    |
 |-------------------|---------------------------------------------------|---------------------------|
 |00: 01/16 – 01/20  | Design Orientation                                | [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)    |
 |01: 01/21 – 01/27  | Design Orientation                                | [Design Foundations - Orientation to the Subject](#orientation-to-the-subject)    |
@@ -29,7 +29,7 @@ Some of the subject matter reasoning attached to the academic aims of this cours
 5. The Empirics of Implementation
     1. Components, Modularity
     2. Abstractions, Details, and Implementation
-5. [The Software Architect](#the-software-architect)    
+5. [The Software Architect](#the-software-architect)
 7. Continuous Improvement and the Mastery Path
 
 # Orientation to the Subject
@@ -117,16 +117,16 @@ There are a variety of approaches to this in the Python Language, including not 
 [Back to Contents](#contents)
 
 ### Abstractions (in programming and python)
-We still write programs that govern the execution of systems and the direciton of the data and logic flows that reside within them.  This is the case despite advances in AI and assistive tools meant to curate and accelerate the development of computer code artifacts.  At this time, while many of these concepts could easily be learned without getting our "hands dirty" with code, that would be a mistake.  We must make ourselves available to conversations and realizations with the materials of our design and these materials are code and data.  
+We still write programs that govern the execution of systems and the direciton of the data and logic flows that reside within them.  This is the case despite advances in AI and assistive tools meant to curate and accelerate the development of computer code artifacts.  At this time, while many of these concepts could easily be learned without getting our "hands dirty" with code, that would be a mistake.  We must make ourselves available to conversations and realizations with the materials of our design and these materials are code and data.
 
 At its heart, writing an API allows other systems to utilize the outputs of a system without understanding **how** these results are obtined. While available actions outcomes are necessarily exposed to others (like a menu of options) without revealing the complexities of the operation; this is a simplification and simplification is a key aspect of using abstractions for modeling.
 
 An answer regarding a fact or expression of system state are common responses provided by an API:
 
 * expressions of fact (functional): output is commonly related to, and a function of inputs (e.g. conversion formulae).
-* expressions of state (emphatic or emphemeral): State can vary with time and may not be purely deterministic (e.g. time-based lookups).  
+* expressions of state (emphatic or emphemeral): State can vary with time and may not be purely deterministic (e.g. time-based lookups).
 
-APIs should provide clearn intentions and expections for both inputs and outputs so that the API provides a clear and understandable contract. 
+APIs should provide clearn intentions and expections for both inputs and outputs so that the API provides a clear and understandable contract.
 
 [Back to Contents](#contents)
 
@@ -135,7 +135,7 @@ Abstractions present scope and scale from which a system's outputs and benefits 
 
 When the process happens organically, the abstractions are decided mostly on the go. There is an initial idea, acknowledged as an understanding of the problem, that then gets tweaked.
 
-Since all models are abstractions, our instincts and inclinations that pervade our understanding of the underlying phemena to which the system attends to will change (and perhaps mature).  
+Since all models are abstractions, our instincts and inclinations that pervade our understanding of the underlying phemena to which the system attends to will change (and perhaps mature).
 
 In designing an API you explicitly describe the abstractions that the API will use clarify what the system will provide.  The objective   when modeling is to keep the viewpoint of a user of the system in mind; the purpose of the system is to meet the needs of users.
 
@@ -155,7 +155,7 @@ When designing an API, it is important to account for leakiness:
 [Back to Contents](#contents)
 
 #### Patterns for Abstractions
-A dictionary or key-value-pairing concept is useful for API design as communication can be described as API accessing resources that can perform actions. 
+A dictionary or key-value-pairing concept is useful for API design as communication can be described as API accessing resources that can perform actions.
 
 * *Resources* are referenced entities or values.
 * *Actions* are performed on resources.
@@ -178,7 +178,7 @@ A datum or data will always indicate whether a system is alive and can present a
 The short version, which is presented here, says that there are relational databases, and then the rest:
 
 * **Relational databases**: Leverages the relational model and the Structured Query Language to define and manipulate data and schemas.
-* **Non-relational databases**: Functionally, this means other data management paradigms beyond the relational model - [document](https://db-engines.com/en/article/Document+Stores), [key-value](https://db-engines.com/en/article/Key-value+Stores), [object](https://db-engines.com/en/article/Object+oriented+DBMS), [graph](https://db-engines.com/en/article/Graph+DBMS), and [wide column](https://db-engines.com/en/article/Wide+Column+Stores) data stores. 
+* **Non-relational databases**: Functionally, this means other data management paradigms beyond the relational model - [document](https://db-engines.com/en/article/Document+Stores), [key-value](https://db-engines.com/en/article/Key-value+Stores), [object](https://db-engines.com/en/article/Object+oriented+DBMS), [graph](https://db-engines.com/en/article/Graph+DBMS), and [wide column](https://db-engines.com/en/article/Wide+Column+Stores) data stores.
 * **Small or flat databases**: Single file datastores meant to emphasize portability or simplicity. File-based such as XML, JSON, CSV, or even SQLite.
 
 **Note:** Python has rich support for any of these database approaches.
@@ -432,7 +432,7 @@ I hope I’ve shown that the common misconception of “includes are always, ext
 
 # Software Architecture and Patterns
 
-Software architecture will have a fleeting definitive expression as it bridges organizational, aesthetic, and technical realms.  As such, software achitecture focuses and intersects a number of abilities within those who will design.  Thus, we can characterize software architecture in what it will "attend to."  I like Richards and Ford's model: 
+Software architecture will have a fleeting definitive expression as it bridges organizational, aesthetic, and technical realms.  As such, software achitecture focuses and intersects a number of abilities within those who will design.  Thus, we can characterize software architecture in what it will "attend to."  I like Richards and Ford's model:
 
 >software architecture consists of the structure of a system, the design intensions the system must support, architecture-influenced design decisions, and design principles.
 
@@ -444,12 +444,12 @@ Software architecture will have a fleeting definitive expression as it bridges o
 Like "Engineering", claiming to be an architect, or to develop architecture, is subjective despite the degree to which both the engineering and architecture disciplines and professionals have tried to protect these.
 
 Therefore, it would be most useful to understand these:
-1. What is the difference between achitecture and design? 
+1. What is the difference between achitecture and design?
 2. How to maintain technical depth and breadth.
 3. How to recognize and evaluate design tradeoffs inherent in solution technologies and patterns.
 4. Understand how the business and problem domains drive architectural decisions.
 
-I like Richards and Ford's Technical depth and breadth model here: 
+I like Richards and Ford's Technical depth and breadth model here:
 
 <img src="img/technical_depth_and_breadth.png" alt="Technical Depth and Breadth" height="400">
 
@@ -596,7 +596,7 @@ Application systems ideally behave consistently under a range of demand loads. T
 * **Vertical scalability**: Increase resources at each system node.
 * **Horizontal scalability**: Increase the number of system nodes at the same resource level.
 
-![Scalability Types](./img/VERTICAL-AND-HORIZONTAL.png)   
+![Scalability Types](./img/VERTICAL-AND-HORIZONTAL.png)
 
 ### 12-Factor Concepts: Configuration
 
@@ -606,12 +606,12 @@ The concept of configuration and code being equal assets is readily visible in t
 
 Here is a way to think of these configuration parameters:
 
-* **Operational configuration**: These parameters connect different parts of the system or that are related to monitoring: 
+* **Operational configuration**: These parameters connect different parts of the system or that are related to monitoring:
     * credentials for the database
-    * service URLs 
+    * service URLs
     * Log and system settings
 * **Feature configuration**: These parameters change external behavior, enable features or change the behaviors of the system:
-    * UI settings 
+    * UI settings
     * Enabled app behaviors
     * Defining constants or macros
 
@@ -625,14 +625,14 @@ In general, the Twelve-Factor App suggests using Environment Variables as a resu
 
 We can group the 12-factor practices to better understand their practical implementations:
 
-* *Portability*: Code base, Build, release, run, and Dev/prod parity. 
+* *Portability*: Code base, Build, release, run, and Dev/prod parity.
     * Git and GitHub/GitHub Actions
     * VMs, VPSs, Containers
     * PaaS, IaaS, SaaS
 * *Service configuration and connectivity*: Config, Dependencies, Port binding, and Backing services
     * Favor the use of Environment Variables and similar strategies (dot env)
     * Map services to TCP/IP ports
-* *scalability*: Processes, Disposability, and Concurrency 
+* *scalability*: Processes, Disposability, and Concurrency
     * Processes represent conceptual/semantic areas of responsibility
     * Work with operating system-level features to manage processes (Windows/Linux)
 * *monitoring*: Logs and Admin processes
@@ -648,12 +648,12 @@ The 12-factor can be restarted, within the groups above, as supporting the follo
 * **Monitoring and admin** - Manage the operation of the software and system.
 
 ### Web Application Architectures
-It is almost redundant to speak of application architecures and then speak of the architecture of Web/HTTP server architectures as the Web is the primary application/protocol delivery "stack." As any distributed system architecture will require remote access, Web services based on HTTP are ubiquitous and will be our sole focus.  
+It is almost redundant to speak of application architecures and then speak of the architecture of Web/HTTP server architectures as the Web is the primary application/protocol delivery "stack." As any distributed system architecture will require remote access, Web services based on HTTP are ubiquitous and will be our sole focus.
 
 __*Our principle points of study will be*__:
 * The structure of HTTP servers
-* The HTTP request-response paradigm  
-* three-layer application design: 
+* The HTTP request-response paradigm
+* three-layer application design:
     * web server - HTTP
     * worker processes - Work that you design, independent of HTTP
     * service layers that direct worker processes and interact with the web server - and Application server to coordinate between HTTP and your worker processes.
@@ -716,7 +716,7 @@ Using packet sniffers such as wireshark, the payload of these messages can be ex
 3. The `response body` forms the essence of the request-response chain as the answer contains the "value" of the transaction.  Again we have a few categories for the response body:
     * Single-resource bodies: `Content-Type` and `Content-Length`
     * Single-resource bodies with follow-on data: consists of a single file of unknown length, encoded by chunks with `Transfer-Encoding` set to `chunked`.
-    * Multiple-resource bodies: a multipart body with each part containing a different section of information. 
+    * Multiple-resource bodies: a multipart body with each part containing a different section of information.
 
 ### Typical FOSS Web Achitecture
 
@@ -774,7 +774,7 @@ Events act as a notification signal which will commonly travel within elements o
 
 ![message bus](./img/message_bus.png)
 
-Clients subscribing to the message bus listen to the event queue and extract relevant events. Any client on the message bus doesn't communicate directly with the sender of the event but can react and respond back into the message bus.  Processes that put and pull into and from the event bus are called the `publisher` and the `subscriber`. Systems that provides a message bus [RabbitMQ](https://www.rabbitmq.com/), [Redis](https://redis.io/), and [Apache Kafka](https://kafka.apache.org/). 
+Clients subscribing to the message bus listen to the event queue and extract relevant events. Any client on the message bus doesn't communicate directly with the sender of the event but can react and respond back into the message bus.  Processes that put and pull into and from the event bus are called the `publisher` and the `subscriber`. Systems that provides a message bus [RabbitMQ](https://www.rabbitmq.com/), [Redis](https://redis.io/), and [Apache Kafka](https://kafka.apache.org/).
 
 #### Streamed Events
 Events are important empirical evidence and are often the basis of logged information that is typical for instrumentation and monitoring. Such events contain metadata and information about error conditions. In these cases, such error events are typically non-blocking where the system or application continues after the error.  It is also possible to capture more than just error conditions where other aspects of performance and instrumentation are needed and can be captured in an event for later querying, aggregation, and reporting.  Commonly called logs and metrics these events often simply textual representations generated according to some business logic.
@@ -795,8 +795,8 @@ An event pipeline introduces the concepts of an event/messaging bus extending co
 We can consider how a video service like Youtube provides this sort of triggered processing when a video is rescaled as it is uploaded. Youtube will commonly (and automatically) converted the video into different versions - commonly to accommodate different resolutions. The same process could be called upon to generate the thumbnail for the uploaded video.
 
 The steps could included:
-* A queue that receives an upload triggered event to start the processing. 
-* A queues to process rescaling 
+* A queue that receives an upload triggered event to start the processing.
+* A queues to process rescaling
 * A queue to generate the thumbnail
 * Coordination with external storage such as AWS S3.
 
@@ -850,7 +850,7 @@ Such a message structure could be expressed as XML, YAML, JSON, or other similar
 }
 
 ```
-In the given example, the **type** field identifies the event type such that a system scanning this event could determine if it was relevant. In an airline context, a FUEL event may be ignored by a crew scheduling module, whereas a CREW event might garner notice. 
+In the given example, the **type** field identifies the event type such that a system scanning this event could determine if it was relevant. In an airline context, a FUEL event may be ignored by a crew scheduling module, whereas a CREW event might garner notice.
 
 #### Testing Event-Driven Systems
 Whereas this discussion has promoted the flexibility of event-driven systems, this flexibility makes software testing more challenging.
@@ -896,7 +896,7 @@ In the case of a web application framework, a monolithic application can run acr
 These monolithic architectures are simpler to manage as all code resides within the same structure and in the same code management repository.  In nearly all cases, web application monoliths provide a means for the developers and designers to extend the framework as a part of the application effort.
 
 #### Microservices
-A microservices architecture is an alternative the single block and extends patterns of reuse and modularity within the monolith such that modules and components do not commonly share the same execution context.  The major attraction of microservices architecture is its foundation on the use of very loosely coupled and distributed services that work in together as a comprehensive service. 
+A microservices architecture is an alternative the single block and extends patterns of reuse and modularity within the monolith such that modules and components do not commonly share the same execution context.  The major attraction of microservices architecture is its foundation on the use of very loosely coupled and distributed services that work in together as a comprehensive service.
 
 There are some key concepts in this definition that may not be immediately distint from the monolith and require further elaboration.
 
@@ -916,16 +916,16 @@ Regardless of being an advanced system architecture the microservices architectu
 
 * Most applications will start as monolithic.
 * Microservices require careful planning and prior experience.
-* There are no silver bullets and no design is future-proof. 
+* There are no silver bullets and no design is future-proof.
 * The proper balance is a constant challenge and art.
 * Mature monoliths often suffer from unpaid [technical and design debt](https://www.agilealliance.org/introduction-to-the-technical-debt-concept/)
 * [Refactoring](https://refactoring.guru/refactoring) to manage complexity and technical debt is [its own art](https://scholarspace.manoa.hawaii.edu/items/855fccea-ca56-44ec-9033-3226325ec481) \
 * The redevelopent of clear and strict boundaries can often be accomplished by extracting out of the monolith
 * Microservices encourages flavor-the-month and look-squirrel technical innovation tail chasing (although all innovations typically have their own merit)
 
-A reasonable justification for microservices lies within the fact that their modularization may accommodate different domain-specific knowledge such that expertise can concentrate on a component in isolation. The modules themselves can now evolve organically where they only have to respect clear communication expectaions into and out of the module.  However, code standards, programming languages choice, technology stack selection, and deployment can be tailored for the nature of the task. 
+A reasonable justification for microservices lies within the fact that their modularization may accommodate different domain-specific knowledge such that expertise can concentrate on a component in isolation. The modules themselves can now evolve organically where they only have to respect clear communication expectaions into and out of the module.  However, code standards, programming languages choice, technology stack selection, and deployment can be tailored for the nature of the task.
 
-Monoliths can also be a bit heavy on resources as the execution context is combined.  The system resources to run the monoligth will often assume worst-case and high-load scenarios, which is only compounded as more instances are run in parallel. 
+Monoliths can also be a bit heavy on resources as the execution context is combined.  The system resources to run the monoligth will often assume worst-case and high-load scenarios, which is only compounded as more instances are run in parallel.
 
 Microservices are, by contrast, able to require a minimally feasible footprint where high-demand and worst-case scenarios can evolved and their own pace.
 
@@ -1035,7 +1035,7 @@ Testing can be a matter of philosophy as there is no universal imperative for wh
 
 Questions of worth have to do with how time and effort are valued and can only be addressed if the costs of software defects are appraised.  These defects can be distinguished from "bugs" in software. Whereas a "bug" is a kind of defect where the software behaves in a way that it's not expected to, a defect could be something that behaves correctly but provides the wrong answer - this is a flaw of design. Test are generally better at detecting bugs than design assumption defects.
 
-Arguably more insidious, deployed defects can be more expensive to repair as their damage has already impacted real users. Deployed applications are active with users which will make defect/error detection more challenging as it will be an end-user who will likely detect the defect but may not communicate the error and may simply abandon the system and/or deem it unreliable. This may also cause regression errors where the cycle between detection and fix happens in parallel with the introduction and fixing of features.   Thus, the objective of softare testing is to improve system quality by fixing defects earlier. 
+Arguably more insidious, deployed defects can be more expensive to repair as their damage has already impacted real users. Deployed applications are active with users which will make defect/error detection more challenging as it will be an end-user who will likely detect the defect but may not communicate the error and may simply abandon the system and/or deem it unreliable. This may also cause regression errors where the cycle between detection and fix happens in parallel with the introduction and fixing of features.   Thus, the objective of softare testing is to improve system quality by fixing defects earlier.
 
 The levels of testing meantioner earlier each have a different impact on the cost of defects: defects detected by unit testing presents an earier, and cheaper fix. Generally, a unit test is cheaper than an integration test, and an integration test is cheaper than a system test.  The cost of fixing defects increases the farther away it is from what can be controlled during development.
 
@@ -1060,11 +1060,11 @@ Here is an example:.
 def the_test():
     # Arrange
     # Create object to test
-    test_object = TestClass(arg1='val', 
+    test_object = TestClass(arg1='val',
                             arg2='val')
     # Act step
     answer = test_object.work_method(arg1='val')
-    
+
     # Assert step
     assert answer == 'expected value'
 ```
@@ -1077,7 +1077,7 @@ Test-Driven Development (TDD) is a philosophy on software testing where tests ar
 3. Tests are run resulting in the new test(s) failing.
 4. New functionality is then added to the main code intended to make the test pass.
 5. Tests are run to show that the new feature work.
-6. With passing tests, new functionality is ready for use! 
+6. With passing tests, new functionality is ready for use!
 7. Repeat the process for any new functionality.
 
 TDD is based on three main principles:
