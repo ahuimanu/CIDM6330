@@ -260,6 +260,18 @@ class WeatherFilter:
             "count": len(temps),
         }
 
+    def filter_by_station(self, records: List[Dict], station_name: str) -> List[Dict]:
+        """Filter records to only those from a specific station.
+
+        Args:
+            records: List of data records
+            station_name: Station name to match (case-sensitive)
+
+        Returns:
+            Filtered list of records whose 'station' field equals station_name
+        """
+        return [r for r in records if r.get("station") == station_name]
+
     def log_summary(self) -> None:
         """Log summary of operation."""
         logging.info(
