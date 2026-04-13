@@ -5,7 +5,7 @@ def transform_combined(
     combined: pd.DataFrame,
     weights: dict[str, float] | None = None,
     threshold: float = 0.0,
-    strict: bool = False,
+    strict: bool = True,
 ) -> pd.DataFrame:
     """Transform combined raw series into rolling metrics and an `S_score`.
 

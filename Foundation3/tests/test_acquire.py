@@ -4,16 +4,19 @@ import Foundation3.acquire as acq
 from Foundation3.acquire import fetch_all
 
 
-def fake_get_fred_series(_series_id, **_kwargs):
+def fake_get_fred_series_with_payload(_series_id, **_kwargs):
     dates = pd.to_datetime(["2020-01-31", "2020-02-29", "2020-03-31"])
     df = pd.DataFrame({"value": [1.0, 2.0, 3.0]}, index=dates)
     df.index.name = "date"
-    return df
+    payload = {"observations": []}
+    return df, payload
 
 
 def test_fetch_all_writes_files(tmp_path, monkeypatch):
     # patch in the acquire module's namespace — that's where the name is bound
-    monkeypatch.setattr(acq, "get_fred_series", fake_get_fred_series)
+    monkeypatch.setattr(
+        acq, "get_fred_series_with_payload", fake_get_fred_series_with_payload
+    )
 
     series = ["S1", "S2"]
     out = tmp_path / "results"

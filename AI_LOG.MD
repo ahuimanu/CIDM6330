@@ -116,3 +116,31 @@ Notes on AI collaboration during this work:
 ### Reflection
 * The AI helped accelerate small, repeatable edits (README snippets, CLI examples). I reviewed and adapted suggestions to meet course constraints (no secrets in CI, small focused tests).
 
+---
+
+## Foundation 4
+
+### What I Asked
+* To help me formalize seven Architecture Decision Records (ADRs) covering the key design choices made across the project: series selection, pipeline style, file-based output, fail-fast error policy, NaN handling, asymmetric PPI weighting, and raw-payload archiving.
+* Asked the AI to help me structure an Architecture Reflection that honestly traced how the F2 design changed through F4 implementation — what gaps were corrected, what was learned, and what I would do differently.
+* Asked the AI to help me diagnose a broken test: `test_acquire.py` was monkeypatching `get_fred_series`, a name that no longer existed in `acquire.py` after the module was upgraded to use `get_fred_series_with_payload`.
+* Asked to help me assemble the two milestone deliverables — `MVP_Completion.md` and `Test_Coverage.md` — by organizing working code evidence, data samples, error handling documentation, and an honest coverage map into a coherent format.
+
+### What I Got
+* A template-driven ADR structure (frontmatter, Intent, Decision, Consequences, Alternatives Considered, Requirements Checklist) that I used to document all seven decisions consistently.
+* A four-section reflection outline — what changed, what was learned, trade-offs revisited, and "if I started over" — that gave me a scaffold for turning raw observations into a structured retrospective.
+* A precise diagnosis of the test failure: the monkeypatch target needed to be `acq.get_fred_series_with_payload`, and the fake's return type needed to change from a bare `df` to a `(df, payload)` tuple to match the upgraded interface.
+* Drafts of `MVP_Completion.md` and `Test_Coverage.md` organized around the actual module structure, which I reviewed and corrected against the live codebase.
+
+### What I Used, Modified, or Rejected
+* **Used:** The ADR structure as provided. The decisions themselves — especially ADR-006 on asymmetric PPI weight and ADR-007 on raw JSON archiving — were my own, grounded in the F3 risk log; the AI helped me articulate them in a consistent, reviewable format.
+* **Used:** The test fix exactly as diagnosed. The root cause (wrong monkeypatch namespace) was real, the correction was minimal, and I verified it against the actual module before accepting it.
+* **Used:** The Architecture Reflection structure. I wrote the content of each section myself; the AI helped me organize and sharpen the language.
+* **Modified:** `MVP_Completion.md` and `Test_Coverage.md` were adjusted to reference the actual file paths, test names, and assertion text from the live codebase rather than generic stand-ins the AI produced.
+* **Rejected:** Any AI suggestions to expand test coverage or add features as part of Foundation 4 — this milestone was a documentation and retrospective checkpoint, not a feature sprint.
+
+### My Judgment Calls
+* I treated the three "if I started over" corrections in the Architecture Reflection as the most important deliverable of the entire milestone. All three are traceable to concrete failures (Risk 4, Risk 7, Risk 9 from F3): raw archiving was deferred too long, the PPI weight was written correctly in F2 but never enforced in code, and the validation filter sat in the design document for two milestones before it was built. I made the deliberate choice to present these gaps honestly rather than retrospectively frame them as planned iterations.
+* I confirmed that the logical five-filter architecture and the physical three-file implementation are not a contradiction — they are a deliberate consolidation. Forcing one file per conceptual filter would have made the code harder to test without making the architecture more correct.
+* I kept the test coverage section's "not covered" table honest. Retry/back-off, the strict NaN path, and the range-validation guard are real gaps. I judged that acknowledging them is more architecturally useful than closing them with shallow tests to inflate a coverage number.
+
