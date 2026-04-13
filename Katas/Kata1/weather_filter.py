@@ -260,6 +260,17 @@ class WeatherFilter:
             "count": len(temps),
         }
 
+    def get_station_count(self, records: List[Dict]) -> int:
+        """Return the number of unique station names in records.
+
+        Args:
+            records: List of data records with a 'station' key
+
+        Returns:
+            Count of distinct station names
+        """
+        return len({r.get("station") for r in records if r.get("station") is not None})
+
     def filter_by_station(self, records: List[Dict], station_name: str) -> List[Dict]:
         """Filter records to only those from a specific station.
 
