@@ -260,6 +260,10 @@ class WeatherFilter:
             "count": len(temps),
         }
 
+    def _station_names(self, records: List[Dict]) -> List[str]:
+        """Return list of non-None station names from records."""
+        return [r.get("station") for r in records if r.get("station") is not None]
+
     def get_station_count(self, records: List[Dict]) -> int:
         """Return the number of unique station names in records.
 
@@ -269,7 +273,7 @@ class WeatherFilter:
         Returns:
             Count of distinct station names
         """
-        return len({r.get("station") for r in records if r.get("station") is not None})
+        return len(set(self._station_names(records)))
 
     def filter_by_station(self, records: List[Dict], station_name: str) -> List[Dict]:
         """Filter records to only those from a specific station.
