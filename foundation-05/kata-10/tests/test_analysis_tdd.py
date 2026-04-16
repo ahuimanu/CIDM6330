@@ -8,7 +8,7 @@ The commit history reflects this: every cycle has three commits labelled
 
 import pytest
 
-from analysis import compute_peak_trough, detect_contractions
+from analysis import compute_peak_trough, detect_contractions, generate_summary_report
 
 # =============================================================================
 # TDD CYCLE 1 -- detect_contractions
@@ -66,3 +66,44 @@ def test_compute_peak_trough_peak_above_trough(db_with_known_data):
     """Sanity check: peak value must always exceed trough value."""
     result = compute_peak_trough(db_with_known_data)
     assert result.peak_value > result.trough_value
+
+
+# =============================================================================
+# TDD CYCLE 3 -- generate_summary_report
+# =============================================================================
+
+
+def test_generate_summary_report_creates_file(db_with_known_data, tmp_path):
+    """Report file must be written to the given path."""
+    report_path = tmp_path / "summary.md"
+    generate_summary_report(db_with_known_data, report_path)
+    assert report_path.exists()
+
+
+def test_generate_summary_report_contains_required_sections(db_with_known_data, tmp_path):
+    """Report must include a title, Contractions section, Peak, and Trough."""
+    report_path = tmp_path / "summary.md"
+    generate_summary_report(db_with_known_data, report_path)
+    text = report_path.read_text(encoding="utf-8")
+    assert "# GDP Analysis Summary" in text
+    assert "## Contractions" in text
+    assert "## Peak" in text
+    assert "## Trough" in text
+
+
+def test_generate_summary_report_contraction_dates_in_report(db_with_known_data, tmp_path):
+    """Both known contraction dates must appear in the report body."""
+    report_path = tmp_path / "summary.md"
+    generate_summary_report(db_with_known_data, report_path)
+    text = report_path.read_text(encoding="utf-8")
+    assert "2020-07-01" in text
+    assert "2021-01-01" in text
+
+
+def test_generate_summary_report_peak_trough_values_in_report(db_with_known_data, tmp_path):
+    """Peak (1188.00) and trough (990.00) values must appear formatted in the report."""
+    report_path = tmp_path / "summary.md"
+    generate_summary_report(db_with_known_data, report_path)
+    text = report_path.read_text(encoding="utf-8")
+    assert "1188.00" in text
+    assert "990.00" in text
