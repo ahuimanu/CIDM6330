@@ -6,9 +6,12 @@ The commit history reflects this: every cycle has three commits labelled
 [RED], [GREEN], and [REFACTOR] in that order.
 """
 
+import sqlite3
+
 import pytest
 
 from analysis import compute_peak_trough, detect_contractions, generate_summary_report
+from pipeline import generate_report, init_db
 
 # =============================================================================
 # TDD CYCLE 1 -- detect_contractions
@@ -107,3 +110,22 @@ def test_generate_summary_report_peak_trough_values_in_report(db_with_known_data
     text = report_path.read_text(encoding="utf-8")
     assert "1188.00" in text
     assert "990.00" in text
+
+
+# =============================================================================
+# STRETCH -- Bug-fix TDD: pipeline.generate_report crashes on empty database
+#
+# Bug: when the gdp_observations table has zero rows, SQLite's aggregate
+# functions (MIN/MAX/AVG) return NULL.  Python receives None for each, and
+# the f-string formatter `:.2f` raises TypeError on None.
+# =============================================================================
+
+
+def test_generate_report_does_not_crash_on_empty_database(tmp_path, schema_path):
+    """[RED] generate_report must not raise TypeError when the DB is empty."""
+    db_path = tmp_path / "empty.db"
+    init_db(db_path, schema_path)  # creates table, inserts nothing
+    report_path = tmp_path / "report.md"
+    generate_report(db_path, report_path)  # must not raise
+    text = report_path.read_text(encoding="utf-8")
+    assert "**0**" in text  # zero rows reported
