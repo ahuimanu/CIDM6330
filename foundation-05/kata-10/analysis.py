@@ -52,3 +52,16 @@ def compute_peak_trough(db_path: Path) -> PeakTrough:
         trough_date=trough_date,
         trough_value=trough_value,
     )
+
+
+def generate_summary_report(db_path: Path, report_path: Path) -> None:
+    contractions = detect_contractions(db_path)
+    pt = compute_peak_trough(db_path)
+    lines = ["# GDP Analysis Summary\n", "\n## Contractions\n"]
+    for d in contractions:
+        lines.append(f"- {d}\n")
+    if not contractions:
+        lines.append("- None detected\n")
+    lines.append(f"\n## Peak\n- **{pt.peak_date}**: {pt.peak_value:.2f}\n")
+    lines.append(f"\n## Trough\n- **{pt.trough_date}**: {pt.trough_value:.2f}\n")
+    report_path.write_text("".join(lines), encoding="utf-8")
