@@ -6,7 +6,9 @@ The commit history reflects this: every cycle has three commits labelled
 [RED], [GREEN], and [REFACTOR] in that order.
 """
 
-from analysis import detect_contractions  # noqa: E402 (added after RED commit)
+import pytest
+
+from analysis import compute_peak_trough, detect_contractions
 
 # =============================================================================
 # TDD CYCLE 1 -- detect_contractions
@@ -39,3 +41,28 @@ def test_detect_contractions_result_is_sorted(db_with_known_data):
     """Contraction dates must be in ascending chronological order."""
     result = detect_contractions(db_with_known_data)
     assert result == sorted(result)
+
+
+# =============================================================================
+# TDD CYCLE 2 -- compute_peak_trough
+# =============================================================================
+
+
+def test_compute_peak_trough_peak_values(db_with_known_data):
+    """Peak must be the date + value of the highest GDP observation."""
+    result = compute_peak_trough(db_with_known_data)
+    assert result.peak_date == "2020-10-01"
+    assert result.peak_value == pytest.approx(1188.0)
+
+
+def test_compute_peak_trough_trough_values(db_with_known_data):
+    """Trough must be the date + value of the lowest GDP observation."""
+    result = compute_peak_trough(db_with_known_data)
+    assert result.trough_date == "2020-07-01"
+    assert result.trough_value == pytest.approx(990.0)
+
+
+def test_compute_peak_trough_peak_above_trough(db_with_known_data):
+    """Sanity check: peak value must always exceed trough value."""
+    result = compute_peak_trough(db_with_known_data)
+    assert result.peak_value > result.trough_value
