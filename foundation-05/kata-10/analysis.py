@@ -8,7 +8,18 @@ Functions are added one TDD cycle at a time:
 """
 
 import sqlite3
+from dataclasses import dataclass
 from pathlib import Path
+
+
+@dataclass(frozen=True)
+class PeakTrough:
+    """Immutable container for the peak and trough of a GDP series."""
+
+    peak_date: str
+    peak_value: float
+    trough_date: str
+    trough_value: float
 
 
 _CONTRACTIONS_SQL = (
@@ -26,14 +37,18 @@ def detect_contractions(db_path: Path) -> list[str]:
         rows = conn.execute(_CONTRACTIONS_SQL).fetchall()
     return [r[0] for r in rows]
 
-def compute_peak_trough(db_path: Path):  # type: ignore[return]
+def compute_peak_trough(db_path: Path) -> PeakTrough:
+    """Return the date and value of the highest and lowest GDP observations."""
     with sqlite3.connect(db_path) as conn:
-        peak = conn.execute(
+        peak_date, peak_value = conn.execute(
             "SELECT date, value FROM gdp_observations ORDER BY value DESC LIMIT 1"
         ).fetchone()
-        trough = conn.execute(
+        trough_date, trough_value = conn.execute(
             "SELECT date, value FROM gdp_observations ORDER BY value ASC LIMIT 1"
         ).fetchone()
-    from collections import namedtuple
-    PT = namedtuple("PeakTrough", ["peak_date", "peak_value", "trough_date", "trough_value"])
-    return PT(peak[0], peak[1], trough[0], trough[1])
+    return PeakTrough(
+        peak_date=peak_date,
+        peak_value=peak_value,
+        trough_date=trough_date,
+        trough_value=trough_value,
+    )
