@@ -1,0 +1,50 @@
+# Kata 9 — Integration Tests CI
+#
+# Runs the full integration test suite for the GDP data pipeline whenever
+# code under foundation-05/kata-09/ (or this workflow file) is changed.
+
+name: Kata 9 Integration Tests
+
+on:
+  push:
+    paths:
+      - "foundation-05/kata-09/**"
+      - ".github/workflows/integration-tests.yml"
+  pull_request:
+    paths:
+      - "foundation-05/kata-09/**"
+      - ".github/workflows/integration-tests.yml"
+
+jobs:
+  test:
+    name: Run integration tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Run Kata 9 integration tests
+        working-directory: foundation-05/kata-09
+        run: pytest tests/ -v --tb=short
+
+      - name: Upload test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: |
+            foundation-05/kata-09/output/
+          retention-days: 7
