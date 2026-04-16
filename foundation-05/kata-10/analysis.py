@@ -25,3 +25,4 @@ def detect_contractions(db_path: Path) -> list[str]:
     with sqlite3.connect(db_path) as conn:
         rows = conn.execute(_CONTRACTIONS_SQL).fetchall()
     return [r[0] for r in rows]
+# Stash practice note — added during Kata 10 context switch
