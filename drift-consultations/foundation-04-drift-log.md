@@ -15,6 +15,12 @@
 
 ---
 
+**Instructor:** Foundation 4 also included kata-07 and kata-08. Where do those fit in the Deliver story?
+
+**Student:** Kata-07 was unit testing — writing isolated tests for individual functions without depending on the database or the filesystem. That discipline is what made kata-09 and kata-10 trustworthy: by the time I was doing TDD in kata-10, writing tests first was already a practiced habit, not a new skill. Kata-08 introduced test doubles — mocks and stubs — which let me test functions that call external systems without actually calling them. The specific lesson was knowing when a test double is appropriate versus when it hides real behavior. For the pipeline I avoided mocking the database because a real SQLite in-memory database is fast, simple, and tests the actual SQL. I only used doubles where the external call — like a network request — was genuinely outside the test boundary. Kata-07 and kata-08 were submitted via their own separate PRs; kata-09 and kata-10 are the delivery phase where those testing skills were applied end-to-end.
+
+---
+
 **Instructor:** Kata-09 is essentially the final form of the pipeline from kata-04. What changed between kata-04 and kata-09?
 
 **Student:** The core structure stayed the same — extract, validate, load, compute growth rates, report — but kata-09 consolidated and hardened it. The `generate_report` function in kata-09 is more defensive: it handles the case where the database is empty rather than crashing on `None` values when there is no data. The argument handling is more explicit, and the dry-run path is cleaner. Kata-04 was the sketch; kata-09 is the version I would actually hand to someone else to run.
