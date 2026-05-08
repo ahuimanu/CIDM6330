@@ -1,86 +1,243 @@
 # Drift Consultation Log — Foundation 4: Deliver
 **Student:** Francis Kelechi Njoku
 **Course:** CIDM 6330 — Software Architecture, Spring 2026
-**Foundation Theme:** Deliver — complete MVP, practice TDD, document AI process, write ADRs
+**Tool:** Drift Consultation CustomGPT (by Jeffry Babb)
+**Session URL:** https://chatgpt.com/g/g-69dabde1bbec8191896617ab0afb625e-drift-consultation
+**Date:** 2026-05-07
+**Topic:** Governance through tests, test doubles, immutability, and explicit edge-case guards
 
 ---
 
-## Simulated Consultation Transcript
+## Full Consultation Transcript
 
 ---
 
-**Instructor:** Foundation 4 is the Deliver phase. What does "deliver" mean to you in this context, and how did kata-09 and kata-10 together serve that?
+**Student:**
+Foundation 4 — Deliver.
 
-**Student:** Deliver means the work is ready to be handed off — it is tested, it is documented, and the decisions behind it are defensible. Kata-09 completed the pipeline that had been evolving since Foundation 2. Kata-10 added an analysis layer on top of that pipeline using strict TDD and demonstrated that new features can be added without breaking existing behavior. Together they show not just a working artifact but a working process: the pipeline is correct by test, not just by inspection.
+My Foundation 3 commitment was to move from recognising invisible constraints to explicitly encoding them in governance artifacts, interfaces, and pipeline contracts at implementation time rather than after reflection. I want to test whether the work in Foundation 4 actually shows that, not just whether I can describe it now.
 
----
+Foundation 4 covered kata-07 (unit testing), kata-08 (test doubles), kata-09 (the complete hardened pipeline), and kata-10 (three TDD cycles plus a bug fix). I will name where I believe constraints were encoded before implementation, and where they were not.
 
-**Instructor:** Foundation 4 also included kata-07 and kata-08. Where do those fit in the Deliver story?
+The clearest example of encoding at implementation time is the TDD discipline in kata-10. The RED test for detecting contractions existed before the function existed. That test is a contract — it specifies exactly what the function must return for a known dataset, what it must return when there are no negative growth rates, and that rows with a `None` growth rate must be excluded. The constraint was written before the mechanism, which is the opposite of what I did in Foundations 1 through 3.
 
-**Student:** Kata-07 was unit testing — writing isolated tests for individual functions without depending on the database or the filesystem. That discipline is what made kata-09 and kata-10 trustworthy: by the time I was doing TDD in kata-10, writing tests first was already a practiced habit, not a new skill. Kata-08 introduced test doubles — mocks and stubs — which let me test functions that call external systems without actually calling them. The specific lesson was knowing when a test double is appropriate versus when it hides real behavior. For the pipeline I avoided mocking the database because a real SQLite in-memory database is fast, simple, and tests the actual SQL. I only used doubles where the external call — like a network request — was genuinely outside the test boundary. Kata-07 and kata-08 were submitted via their own separate PRs; kata-09 and kata-10 are the delivery phase where those testing skills were applied end-to-end.
+The `PeakTrough` dataclass uses `frozen=True`. That is a governing constraint encoded in the interface, not left as a convention. A mutable `PeakTrough` would be technically possible; `frozen=True` makes the immutability rule structural. I applied the same reasoning that was already in `GdpRow` in `pipeline.py` — consistency as a form of governance.
 
----
+The bug fix in kata-10 is the most direct application of the F3 priority. `generate_report` was crashing on an empty database because `SELECT MIN(value)` returns `NULL` when no rows exist, and formatting `None` with `:.2f` raises `TypeError`. The fix — `if count == 0 or min_v is None` — made a scope assumption visible that had been invisible since kata-04: the pipeline assumed the database would always have rows. That assumption now exists in the code as an explicit guard rather than an implicit expectation.
 
-**Instructor:** Kata-09 is essentially the final form of the pipeline from kata-04. What changed between kata-04 and kata-09?
-
-**Student:** The core structure stayed the same — extract, validate, load, compute growth rates, report — but kata-09 consolidated and hardened it. The `generate_report` function in kata-09 is more defensive: it handles the case where the database is empty rather than crashing on `None` values when there is no data. The argument handling is more explicit, and the dry-run path is cleaner. Kata-04 was the sketch; kata-09 is the version I would actually hand to someone else to run.
-
----
-
-**Instructor:** In kata-10, why contraction detection rather than rolling averages or year-over-year growth?
-
-**Student:** I evaluated all three options against one criterion: do the TDD cycles stay genuinely independent? Rolling averages require adding a new column to the schema first, so the test for computing the average depends on the test for storing it — the cycles would be tangled. Year-over-year growth depends on having exactly four prior quarters of data in the test fixtures, which creates brittle test data. Contraction detection, peak/trough identification, and summary report are genuinely orthogonal: each queries the existing table in a different way, and the tests for each can be written without any dependency on the others passing first.
+Where I am less certain is the kata-08 test doubles. I chose not to mock the SQLite database in kata-10 because an in-memory SQLite database is fast and tests the actual SQL. I used test doubles only where the external boundary was genuine — network calls. I believe that was the right discipline, but I want that tested: was that a constraint properly encoded, or was it a judgment call I made without naming the governing rule?
 
 ---
 
-**Instructor:** Walk me through one full TDD cycle from kata-10 — RED, GREEN, REFACTOR.
+**CustomGPT:**
+Good. Your framing is already different from Foundation 1.
 
-**Student:** I will use Cycle 1, `detect_contractions`. RED: I wrote three tests first — one asserting that two contractions are returned in date order for a known dataset, one asserting that an empty list is returned when there are no negative growth rates, and one asserting that rows with `None` growth rate are excluded. All three failed because the function did not exist yet. GREEN: I wrote the minimal implementation — a single SQL query selecting dates where `growth_rate < 0` ordered by date, returning them as a plain list. All three tests passed. REFACTOR: I extracted the SQL string to a module-level constant so it could be read in one place, and added a docstring describing the empty-list contract. No new tests — refactor must not change behavior, only clarity.
+You are no longer just identifying hidden assumptions after the fact. You are actively asking:
 
----
+- where was the constraint encoded?
+- where does the rule live?
+- is the enforcement structural or conventional?
 
-**Instructor:** The test data uses values like 1000, 1100, 990, 1188. Why those specific numbers?
+That's a real shift.
 
-**Student:** I asked AI to generate a six-row dataset where all growth rates are exact multiples of 10% or 20%. The reason is that floating-point arithmetic on arbitrary values often produces results like -10.000000000001 instead of -10.0, which causes assert statements to fail even when the logic is correct. With clean multiples I could write `assert growth == -10.0` without needing `pytest.approx`. I manually verified every calculation in the AI log to confirm the math held before using the dataset.
+Now let's probe the database testing decision.
 
----
+You said: "I chose not to mock SQLite because an in-memory SQLite database is fast and tests the actual SQL."
 
-**Instructor:** The `PeakTrough` dataclass uses `frozen=True`. You also used `frozen=True` on `GdpRow` in the pipeline. Is that a coincidence?
+That may be correct. But I want the governing rule, not the implementation preference.
 
-**Student:** No. `GdpRow` uses `frozen=True` in `pipeline.py` because a row read from a source should not change after it is created. When I designed `PeakTrough` I applied the same reasoning: peak and trough are computed results derived from the database state at a point in time. Once computed they should not be mutated. Consistency in the codebase also matters — a reader who sees `frozen=True` in one dataclass and expects it elsewhere will find it. I called that out explicitly in the AI log.
+**Question:** What is the architectural rule that determines when a dependency should be replaced with a test double versus exercised directly in tests?
 
----
-
-**Instructor:** The bug fix in kata-10 addressed `generate_report` crashing on an empty database. How did you find that bug?
-
-**Student:** AI identified it. The `generate_report` function calls `f"{min_v:.2f}"` where `min_v` comes from `SELECT MIN(value) FROM gdp_observations`. When the table is empty, SQLite returns `NULL` for aggregate functions, which Python receives as `None`. Formatting `None` with `:.2f` raises `TypeError`. I confirmed the bug by running the failing test and seeing the exact traceback before writing the fix.
-
----
-
-**Instructor:** AI suggested `if min_v is None` as the guard. You used `if count == 0 or min_v is None`. Why add the count check?
-
-**Student:** Because `count == 0` expresses the intent more directly. A reader immediately understands "zero rows means no data." The `min_v is None` guard requires knowing that SQLite aggregates return NULL on empty tables — that is a SQL-specific detail, not obvious from the Python. I kept both conditions because `min_v is None` catches a theoretical edge case where count is nonzero but the aggregate still returns NULL, which should not happen given the schema constraints but costs nothing to guard against.
+Answer the rule first. Then explain how SQLite and the FRED API fall on opposite sides of it.
 
 ---
 
-**Instructor:** You practiced `git stash` in kata-10. What is stash actually solving?
+**Student:**
+The rule is: replace a dependency with a test double when the dependency's behaviour is outside the test boundary; exercise it directly when the dependency's behaviour is part of what the test is verifying.
 
-**Student:** Stash solves the context-switching problem. Mid-cycle I had RED tests in my working tree that could not be committed — they were failing by design. But I needed to make an unrelated housekeeping commit on the same branch. Without stash, I would have to either commit broken tests or discard them. Stash saves the working-tree state, lets me make the clean commit, and then restores the tests with `git stash pop`. The key insight is that stash is not a backup mechanism — it is a temporary shelf for work in progress so you can shift context without losing state.
+That is the complete rule. Everything else follows from it.
+
+The test boundary is the line between what the test is responsible for proving and what it is not. A test double is appropriate when crossing the boundary would make the test non-deterministic, slow, or dependent on external state that the test cannot control. It is inappropriate when using a double would hide the very behaviour the test is supposed to catch.
+
+SQLite and the FRED API fall on opposite sides of that line.
+
+For the FRED API, the behaviour being tested is how my acquisition code handles a response — whether it correctly parses the JSON, applies the fallback when the call fails, and returns the right structure. The network itself is not what I am testing. Whether the FRED service is up at the moment the test runs is outside the boundary. A test that requires a live API call is non-deterministic — it passes when the service is available and fails when it is not, regardless of whether my code is correct. A test double for the FRED API keeps the boundary where it belongs: at my code, not at the external service.
+
+For SQLite, the situation is different. The SQL queries are the behaviour being tested. `detect_contractions` runs `SELECT date FROM gdp_observations WHERE growth_rate < 0 ORDER BY date`. If that query is wrong — wrong column name, wrong condition, wrong ordering — the test should fail. If I mock the database and tell the mock to return two dates, the test passes even if the SQL is syntactically broken. The mock would be hiding the actual behaviour I need to verify. An in-memory SQLite database is fast enough that the cost is negligible, and it exercises the real SQL. There is no reason to introduce a double here because the dependency is deterministic, local, and its behaviour is exactly what the test should be checking.
+
+What I did not do was write that rule down before the tests. I applied the judgment correctly, but it remained an unstated convention rather than a documented constraint. That is the F3 gap still present in kata-08: the rule governed the decisions, but was not encoded anywhere visible. The right place for it would have been a short note in the test module or an ADR section on testing strategy — something that makes the boundary explicit for anyone adding tests later.
 
 ---
 
-**Instructor:** What did you learn about working with AI across all four foundations that you did not know at the start?
+**CustomGPT:**
+Good. That is a defensible rule.
 
-**Student:** At the start I treated AI as a code generator — ask a question, get code, use it. By Foundation 4 I was using AI differently: for option analysis first, code generation second. The most valuable contribution in kata-10 was AI pointing out that rolling averages would tangle the TDD cycles — that was an architectural insight, not code. I would have discovered the tangle only after wasting time implementing the wrong feature. Asking AI "what are the trade-offs of these four options?" before asking "write this function" consistently produced better results than going straight to implementation.
+But you caught the weakness yourself: "I applied the judgment correctly, but it remained an unstated convention."
+
+That means Foundation 4 is not asking whether your testing decision was good. It is asking whether the decision **survives you**.
+
+**Question:** If another developer later mocks SQLite "for consistency," what would break in your test suite's ability to govern the architecture?
 
 ---
 
-**Instructor:** If I asked you to add a new feature to the analysis module right now, how confident are you that your tests would catch regressions?
+**Student:**
+What breaks is the test suite's ability to catch the class of bugs that actually matter in a data pipeline: wrong SQL, schema drift, and unhandled database edge cases.
 
-**Student:** Confident for the functions that are tested, less confident for edge cases that are not covered. The current tests verify the happy path and the empty-database path for each function. They do not cover, for example, a database with exactly one row — where `detect_contractions` should return an empty list because there is no previous row to compare against. That gap exists and I know it exists. If I were adding a feature, I would write tests for those boundary cases first before touching the implementation, following the same RED-GREEN-REFACTOR discipline.
+Here is the specific damage, in order of severity.
+
+The most direct break is SQL correctness. Right now, if I write `SELECT date FROM gdp_observations WHERE growth_rate < 0` and the column is named `gdp_growth_rate`, the test fails. With a mocked database, the mock returns whatever was hardcoded in the test setup, regardless of what SQL was passed. The test passes. The bug ships. The test suite is now proving that the Python logic is correct for given inputs — it is no longer proving that the function correctly retrieves those inputs from the database.
+
+The second break is schema drift detection. If the `gdp_observations` table schema changes and a column is renamed or removed, a real SQLite test fails at the query. A mock test does not know the schema exists. The contract between the analysis functions and their data source becomes invisible to the test suite. Changes to the database layer stop being caught before they reach production.
+
+The third break is the most direct connection to kata-10. The bug that was found — `generate_report` crashing on an empty database because `SELECT MIN(value)` returns `NULL` for empty tables — would never have been discovered if SQLite were mocked. A mock would have returned a number. The `count == 0 or min_v is None` guard would never have been written. That guard is now in the code because the test exercised real SQLite behaviour. Mock it, and the entire class of edge cases involving aggregate functions on empty tables becomes invisible to the test suite.
+
+That is what "governs the architecture" means in this context. The test suite currently enforces a contract: these functions correctly query this database, including in edge cases. If SQLite is mocked for consistency, the suite no longer governs the database layer at all. It governs only the Python logic sitting above it. The architecture has a gap where the data access layer used to be tested, and that gap has no structural signal — the tests still pass, the coverage numbers still look fine, and the governance is gone.
+
+This is the exact consequence of an unstated convention. Another developer mocking SQLite for consistency would not be making a reckless decision — they would be applying a reasonable-sounding rule without knowing the governing reason behind the original choice. The rule needs to be written down so that they will find it before making that change.
 
 ---
 
-*Log completed: 2026-05-05*
-*Foundation: 4 — Deliver*
-*Katas covered: kata-09 (complete pipeline, hardening), kata-10 (TDD — 3 cycles + bug fix, git stash, PeakTrough dataclass, detect_contractions, compute_peak_trough, generate_summary_report)*
+**CustomGPT:**
+Good. You tied the test-double decision to architectural governance, not test style.
+
+A mocked SQLite would preserve coverage while removing the suite's ability to detect database-contract failures. That is exactly the kind of "looks governed, isn't governed" failure Foundation 4 is about.
+
+**Question:** Where should this testing rule live so it survives another developer's reasonable-but-wrong "mock everything for consistency" instinct?
+
+---
+
+**Student:**
+It should live in two places, for the same reason I identified in Foundation 2 with the `RuntimeError` threshold — different audiences need the governance signal at different moments.
+
+The first is an ADR. The decision to exercise real SQLite rather than mock it is an architectural decision: it determines what class of failures the test suite can detect. An ADR would record the rule itself, the reasoning behind it — SQL correctness, schema drift detection, NULL aggregate behaviour — and the exact threshold where the decision would need to be revisited. That threshold is not "when another developer prefers mocks." It is something measurable: if the in-memory SQLite tests became slow enough to block the test run, or if the analysis module required a database feature that in-memory SQLite does not support. An ADR captures the why and the invalidation condition, not just the what.
+
+The second is a comment at the top of the test module or the `conftest.py` where the in-memory database fixture is defined. Not a docstring explaining what the fixture does — that is already visible from the code. A short note explaining why it is real SQLite and what would be lost by substituting a mock: the suite would no longer verify SQL correctness, schema changes would stop being caught, and the class of bugs involving NULL aggregates on empty tables would become invisible. That note is at the threshold. A developer adding tests encounters it before making the substitution, not after reading an ADR they may not know exists.
+
+Those two places serve different purposes. The ADR is the governance record — it exists for someone making an architectural decision about the testing strategy. The call-site note is the implementation warning — it exists for someone touching the test code who may never think to look for an ADR.
+
+What I did not do in kata-10 is write either of them. The rule governed the decision, but was not encoded anywhere it would be found. The in-memory SQLite fixture exists in `conftest.py`, the tests pass, and nothing in the test files explains why a real database is used instead of a mock. That is the same gap Foundation 3 named: a constraint that exists only in the developer's head is not governance. It is memory. This session is the first time the rule has been written down, and it is written in a consultation log rather than in the codebase, where it would actually protect anything.
+
+---
+
+**CustomGPT:**
+Good. You've identified the exact Foundation 4 gap:
+
+The rule exists, but it does not yet **survive outside your memory**.
+
+Now let's test one more governance surface.
+
+You said `frozen=True` makes immutability structural.
+
+**Question:** What architectural risk does immutability reduce in your analysis/reporting module, and what does it sacrifice?
+
+---
+
+**Student:**
+Immutability reduces the risk of computed results being silently modified after they are created. What it sacrifices is the ability to build or enrich those results incrementally.
+
+Here is the specific risk it reduces in the analysis module.
+
+`PeakTrough` is a derived result — it is computed from the database state at a specific moment and passed downstream to `generate_summary_report`. Without `frozen=True`, any function that receives the object could modify its fields before the report is generated. The modification might be accidental — a developer adding enrichment logic who does not realise the object should be read-only — or it might be a future feature that mutates the object in place rather than creating a new one. Either way, the report would be generated from a `PeakTrough` that no longer represents what was computed from the database. The object would have drifted from its source.
+
+`frozen=True` makes that class of drift structurally impossible. A downstream function that tries to modify the peak or trough value raises a `FrozenInstanceError` at runtime. The constraint is enforced by the interface, not by developer discipline. That is the same principle as the SQLite testing decision: structural enforcement is more durable than convention.
+
+The connection to `GdpRow` in `pipeline.py` is deliberate. A row read from a CSV source should not change after it is created — the data it represents is fixed at the point of extraction. A `PeakTrough` computed from the database is the same: it represents a point-in-time calculation. Once computed, it should not be a mutable object that floats through the pipeline accumulating changes. Making both dataclasses frozen creates a consistent signal: objects of this type are snapshots, not working state.
+
+What `frozen=True` sacrifices is incremental construction. If I needed to build a `PeakTrough` in two passes — compute the peak in one step, compute the trough in a separate step, then attach them to the same object — I cannot do that with `frozen=True`. Every field must be valid at construction time, and the object is sealed at that point. For the current design, this costs nothing: `compute_peak_trough` produces both values in a single query and returns a complete object. But if a future version of the module needs to enrich `PeakTrough` with an additional computed field after creation, the frozen constraint means a new instance must be created rather than the existing one being updated in place.
+
+The trade is worth it for the current scope. The risk of silent mutation in a reporting pipeline is higher than the cost of constructing complete objects. That assessment changes if the analysis module grows to the point where incremental construction is genuinely needed, which is the threshold where `frozen=True` would need to be reconsidered.
+
+---
+
+**CustomGPT:**
+Good. You defended `frozen=True` as a constraint, not decoration.
+
+You also named its cost: no incremental enrichment without creating a new object. That is acceptable because the object represents a computed snapshot.
+
+Now final probe before closing:
+
+**Question:** Across TDD, real SQLite tests, `frozen=True`, and the empty-database guard, what changed from Foundation 3 to Foundation 4?
+
+Name the change in your architectural behavior, not the artifacts.
+
+---
+
+**Student:**
+What changed is where the constraint lives. In Foundations 1 through 3, constraints existed in my reasoning. In Foundation 4, they began existing in the code.
+
+In Foundation 3, the weakness was: I built correct structures, but left the governing rule implicit. The mechanism was right, the intent was right, and the constraint that kept it right was left for the reader to infer. The test suite, the fallback, the stage separation — all of them worked inside invisible boundaries.
+
+In Foundation 4, the sequence changed in at least three places.
+
+In the TDD cycles, the constraint was written before the mechanism existed. The RED test for `detect_contractions` specified the contract — what must be returned for known data, what must be returned for empty data, what must happen to `None` growth rates — before the function was written. That is not recognising a constraint after the fact. That is encoding it first and building the mechanism to satisfy it. The order of operations changed.
+
+With `frozen=True` on `PeakTrough`, the immutability rule is part of the interface. A developer receiving a `PeakTrough` object does not need to know that it should not be modified — the dataclass raises an error if they try. The constraint does not depend on the developer reading the code correctly. It enforces itself.
+
+With the empty-database guard, an invisible scope assumption that had been present since kata-04 became a visible condition in the code. The pipeline assumed non-empty rows. That assumption was never stated. The bug made it visible, and the fix encoded it explicitly: `if count == 0 or min_v is None`. The assumption is now in the code rather than in the developer's memory.
+
+What did not change is the documentation layer. The rule about SQLite versus test doubles was applied correctly, but not written into an ADR or a call-site note. The reasoning exists in this consultation and in my own understanding, but not in a place where another developer would encounter it before making the wrong choice. That is the part of the F4 commitment that was not met. The code-level encoding improved. The governance-artifact encoding did not.
+
+So the change in architectural behaviour is real but incomplete. I moved from constraints living only in reasoning to constraints living in code. I have not yet consistently moved to constraints living in governance artifacts. That gap is what this session has been naming.
+
+---
+
+## Drift Consultation Summary
+
+**Foundation:** 4
+**Date:** 2026-05-07
+**Topic:** Governance through tests, test doubles, immutability, and explicit edge-case guards
+
+### Demonstrated Strengths
+
+You showed real growth by moving constraints from reasoning into code. TDD made behaviour contracts exist before implementation, `frozen=True` encoded immutability structurally, and the empty-database guard made a hidden assumption explicit.
+
+### Areas Needing Development
+
+Your code-level governance improved, but documentation-level governance remains incomplete. The SQLite-versus-mock testing rule was applied correctly but not preserved in an ADR, fixture comment, or testing strategy note.
+
+### Unanswered Questions
+
+- When should testing strategy decisions become ADR-level decisions?
+- What other test-suite rules are currently conventions rather than governance?
+- Where should future developers encounter architectural testing constraints before violating them?
+
+### AI Collaboration Assessment
+
+Your AI collaboration appears mature. You are no longer just accepting mechanisms; you are evaluating whether constraints survive outside your memory.
+
+### Signals Observed
+
+- **Signal recognition** appeared when you identified which constraints were encoded in code and which remained only in memory.
+- **Trade-off awareness** appeared in your analysis of real SQLite tests versus mocks, immutability versus incremental enrichment, and fail-safe guards versus assumed valid data.
+- **Structural judgment** appeared when you distinguished structural enforcement from convention through TDD contracts, frozen dataclasses, and database-backed tests.
+- **Governance reasoning** appeared when you identified that the SQLite testing rule needed to live in both an ADR and a call-site note to serve different audiences.
+- **Intellectual honesty** appeared when you named the remaining documentation gap without defensiveness.
+
+### Commitments for Next Foundation
+
+Carry governance beyond code by documenting testing rules, invalidation thresholds, and architectural constraints where future maintainers will encounter them.
+
+**Dimensions Covered:** Signal Recognition, Trade-Off Awareness, Structural Judgment, Governance & Intent
+**Estimated Depth:** strong
+
+---
+
+## Drift Session Evaluation
+
+**Foundation:** 4
+**Date:** 2026-05-07
+
+| Dimension | Score (1–4) | Points | Evidence |
+|---|---|---|---|
+| Signal Recognition | 4 | 20/20 | You identified which constraints were encoded in code and which remained only in memory. |
+| Trade-Off Reasoning | 4 | 24/25 | You explained real SQLite tests versus mocks, immutability versus incremental enrichment, and fail-safe guards versus assumed valid data. |
+| Structural Judgment | 4 | 19/20 | You distinguished structural enforcement from convention through TDD contracts, frozen dataclasses, and database-backed tests. |
+| AI Collaboration | 4 | 19/20 | You demonstrated mature judgment by focusing on whether AI-assisted work produced durable constraints, not just working artifacts. |
+| Engagement Quality | 4 | 15/15 | You answered directly, self-corrected, and named the remaining governance gap without defensiveness. |
+
+**Total: 97/100**
+**Estimated Depth:** strong
+**Growth Trajectory:** mature
+
+**Priority for Next Foundation:**
+Move from code-enforced constraints to durable governance: write the ADRs and test-module notes that make your architectural rules survive another developer.
